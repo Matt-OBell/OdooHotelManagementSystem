@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/JayVora-SerpentCS/OdooHotelManagementSystem.svg?branch=10.0)](https://travis-ci.org/JayVora-SerpentCS/OdooHotelManagementSystem)
+[![Build Status](https://travis-ci.org/Matt-OBell/hotel_management.svg?branch=11.0)](https://travis-ci.org/Matt-OBell/hotel_management)
 
 OpenERP/Odoo Hotel Management System
 ====================================
