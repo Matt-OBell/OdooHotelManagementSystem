@@ -811,12 +811,12 @@
     </record>
 
     <!-- Binding Tree Click to Action -->
-    <record id="ir_hotel_room_open" model="ir.values">
+    <!-- <record id="ir_hotel_room_open" model="ir.values">
         <field eval="'tree_but_open'" name="key2" />
         <field eval="'hotel.menucard.type'" name="model" />
         <field name="name">Food Items by Category</field>
         <field eval="'ir.actions.act_window,%d'%action_hotel_food" name="value" />
-    </record>
+    </record> -->
 
     <record id="hotel_food_category_action" model="ir.actions.act_window">
         <field name="name">Food Items by Category</field>

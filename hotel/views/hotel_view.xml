@@ -288,13 +288,13 @@
     </record>
 
     <!-- Binding Tree Click to Action -->
-    <record id="ir_hotel_amenities_open" model="ir.values">
+ <!--    <record id="ir_hotel_amenities_open" model="ir.values">
         <field eval="'tree_but_open'" name="key2" />
         <field eval="'hotel.room.amenities.type'" name="model" />
         <field name="name">Amenities by Category</field>
         <field eval="'ir.actions.act_window,%d'%action_hotel_amenities"
             name="value" />
-    </record>
+    </record> -->
 
     <record id="hotel_amenities_category_action" model="ir.actions.act_window">
         <field name="name">Amenities by Category</field>
@@ -553,12 +553,12 @@
     </record>
 
     <!-- Binding Tree Click to Action -->
-    <record id="ir_hotel_room_open" model="ir.values">
+<!--     <record id="ir_hotel_room_open" model="ir.values">
         <field eval="'tree_but_open'" name="key2" />
         <field eval="'hotel.room.type'" name="model" />
         <field name="name">Rooms by Category</field>
         <field eval="'ir.actions.act_window,%d'%action_hotel_room" name="value" />
-    </record>
+    </record> -->
 
     <record id="hotel_room_category_action" model="ir.actions.act_window">
         <field name="name">Rooms by Category</field>
@@ -619,7 +619,7 @@
                                 <field name="partner_id" string="Guest Name" required="1" />
                                 <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
                                 <field name="pricelist_id" />
-                                <field name="project_id" />
+                                <!-- <field name="project_id" /> -->
                                 <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" />
                             </group>
                             <newline />
@@ -1028,13 +1028,13 @@
     </record>
 
     <!-- Binding Tree Click to Action -->
-    <record id="ir_hotel_service_open" model="ir.values">
+  <!--   <record id="ir_hotel_service_open" model="ir.values">
         <field eval="'tree_but_open'" name="key2" />
         <field eval="'hotel.service.type'" name="model" />
         <field name="name">Services by Category</field>
         <field eval="'ir.actions.act_window,%d'%action_hotel_service"
             name="value" />
-    </record>
+    </record> -->
 
     <record id="hotel_service_categ_action" model="ir.actions.act_window">
         <field name="name">Services by Category</field>

@@ -59,14 +59,14 @@ class HotelRestaurantReport(models.AbstractModel):
 
 class ReportKot(models.AbstractModel):
     _name = 'report.hotel_restaurant.report_hotel_order_kot'
-    _inherit = 'report.abstract_report'
+    # _inherit = 'web.abstract_report'
     _template = 'hotel_restaurant.report_hotel_order_kot'
     _wrapped_report_class = HotelRestaurantReport
 
 
 class ReportBill(models.AbstractModel):
     _name = 'report.hotel_restaurant.report_hotel_order_kot'
-    _inherit = 'report.abstract_report'
+    # _inherit = 'web.abstract_report'
     _template = 'hotel_restaurant.report_hotel_order_kot'
     _wrapped_report_class = HotelRestaurantReport
 

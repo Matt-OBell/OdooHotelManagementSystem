@@ -360,7 +360,6 @@ class HotelFolio(models.Model):
     _description = 'hotel folio new'
     _rec_name = 'order_id'
     _order = 'id'
-    _inherit = ['ir.needaction_mixin']
 
     name = fields.Char('Folio Number', readonly=True, index=True,
                        default='New')
