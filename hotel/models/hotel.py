@@ -784,7 +784,7 @@ class HotelFolioLine(models.Model):
         @return: raise warning depending on the validation
         """
         if self.checkin_date >= self.checkout_date:
-                raise ValidationError(_('Room line Check In Date Should be \
+            raise ValidationError(_('Room line Check In Date Should be \
                 less than the Check Out Date!'))
         if self.folio_id.date_order and self.checkin_date:
             if self.checkin_date <= self.folio_id.date_order:

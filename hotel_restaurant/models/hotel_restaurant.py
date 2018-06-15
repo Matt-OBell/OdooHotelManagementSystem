@@ -129,11 +129,11 @@ class HotelRestaurantReservation(models.Model):
 
     @api.onchange('cname')
     def onchange_partner_id(self):
-        '''
+        """
         When Customer name is changed respective adress will display
         in Adress field
         @param self: object pointer
-        '''
+        """
         if not self.cname:
             self.partner_address_id = False
         else:
@@ -142,12 +142,12 @@ class HotelRestaurantReservation(models.Model):
 
     @api.onchange('folio_id')
     def get_folio_id(self):
-        '''
+        """
         When you change folio_id, based on that it will update
         the cname and room_number as well
         ---------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for rec in self:
             self.cname = False
             self.room_no = False
@@ -273,12 +273,12 @@ class HotelRestaurantReservation(models.Model):
 
     @api.constrains('start_date', 'end_date')
     def check_start_dates(self):
-        '''
+        """
         This method is used to validate the start_date and end_date.
         -------------------------------------------------------------
         @param self: object pointer
         @return: raise a warning depending on the validation
-        '''
+        """
         if self.start_date >= self.end_date:
             raise ValidationError(_('Start Date Should be less \
             than the End Date!'))
@@ -315,11 +315,11 @@ class HotelRestaurantOrder(models.Model):
     @api.multi
     @api.depends('order_list')
     def _compute_amount_subtotal(self):
-        '''
+        """
         amount_subtotal will display on change of order_list
         ----------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for sale in self:
             sale.amount_subtotal = sum(line.price_subtotal for line
                                        in sale.order_list)
@@ -327,11 +327,11 @@ class HotelRestaurantOrder(models.Model):
     @api.multi
     @api.depends('amount_subtotal')
     def _compute_amount_total(self):
-        '''
+        """
         amount_total will display on change of amount_subtotal
         -------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for line in self:
             line.amount_total = line.amount_subtotal + (line.
                                                         amount_subtotal *
@@ -339,12 +339,12 @@ class HotelRestaurantOrder(models.Model):
 
     @api.onchange('folio_id')
     def get_folio_id(self):
-        '''
+        """
         When you change folio_id, based on that it will update
         the cname and room_number as well
         ---------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for rec in self:
             self.cname = False
             self.room_no = False
@@ -482,7 +482,7 @@ class HotelRestaurantOrder(models.Model):
                 'room_no': order.room_no.name,
                 'w_name': order.waiter_name.name,
                 'tableno': [(6, 0, table_ids)],
-                }
+            }
             kot_obj = order_tickets_obj.browse(self.kitchen_id)
             kot_obj.write(line_data)
             for order_line in order.order_list:
@@ -511,24 +511,24 @@ class HotelRestaurantOrder(models.Model):
         hsl_obj = self.env['hotel.service.line']
         so_line_obj = self.env['sale.order.line']
         for order_obj in self:
-                hotelfolio = order_obj.folio_id.order_id.id
-                if order_obj.folio_id:
-                    for order1 in order_obj.order_list:
-                        values = {'order_id': hotelfolio,
-                                  'name': order1.name.name,
-                                  'product_id': order1.name.product_id.id,
-                                  'product_uom': order1.name.uom_id.id,
-                                  'product_uom_qty': order1.item_qty,
-                                  'price_unit': order1.item_rate,
-                                  'price_subtotal': order1.price_subtotal,
-                                  }
-                        sol_rec = so_line_obj.create(values)
-                        hsl_obj.create({'folio_id': order_obj.folio_id.id,
-                                        'service_line_id': sol_rec.id})
-                        hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                        hf_rec.write({'hotel_restaurant_order_ids':
-                                      [(4, order_obj.id)]})
-                self.state = 'done'
+            hotelfolio = order_obj.folio_id.order_id.id
+            if order_obj.folio_id:
+                for order1 in order_obj.order_list:
+                    values = {'order_id': hotelfolio,
+                              'name': order1.name.name,
+                              'product_id': order1.name.product_id.id,
+                              'product_uom': order1.name.uom_id.id,
+                              'product_uom_qty': order1.item_qty,
+                              'price_unit': order1.item_rate,
+                              'price_subtotal': order1.price_subtotal,
+                              }
+                    sol_rec = so_line_obj.create(values)
+                    hsl_obj.create({'folio_id': order_obj.folio_id.id,
+                                    'service_line_id': sol_rec.id})
+                    hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
+                    hf_rec.write({'hotel_restaurant_order_ids':
+                                  [(4, order_obj.id)]})
+            self.state = 'done'
         return True
 
 
@@ -537,11 +537,11 @@ class HotelReservationOrder(models.Model):
     @api.multi
     @api.depends('order_list')
     def _compute_amount_subtotal(self):
-        '''
+        """
         amount_subtotal will display on change of order_list
         ----------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for sale in self:
             sale.amount_subtotal = sum(line.price_subtotal for line
                                        in sale.order_list)
@@ -549,11 +549,11 @@ class HotelReservationOrder(models.Model):
     @api.multi
     @api.depends('amount_subtotal')
     def _compute_amount_total(self):
-        '''
+        """
         amount_total will display on change of amount_subtotal
         -------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for line in self:
             line.amount_total = line.amount_subtotal + (line.amount_subtotal *
                                                         line.tax) / 100.0
@@ -580,7 +580,7 @@ class HotelReservationOrder(models.Model):
                 'kot_date': order.date1,
                 'w_name': order.waitername.name,
                 'tableno': [(6, 0, table_ids)],
-                }
+            }
             kot_data = order_tickets_obj.create(line_data)
             self.kitchen_id = kot_data.id
             for order_line in order.order_list:
@@ -614,7 +614,7 @@ class HotelReservationOrder(models.Model):
                 'kot_date': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 'w_name': order.waitername.name,
                 'tableno': [(6, 0, table_ids)],
-                }
+            }
             kot_obj = order_tickets_obj.browse(self.kitchen_id)
             kot_obj.write(line_data)
             for order_line in order.order_list:
@@ -643,24 +643,24 @@ class HotelReservationOrder(models.Model):
         hsl_obj = self.env['hotel.service.line']
         so_line_obj = self.env['sale.order.line']
         for order_obj in self:
-                hotelfolio = order_obj.folio_id.order_id.id
-                if order_obj.folio_id:
-                    for order1 in order_obj.order_list:
-                        values = {'order_id': hotelfolio,
-                                  'name': order1.name.name,
-                                  'product_id': order1.name.product_id.id,
-                                  'product_uom_qty': order1.item_qty,
-                                  'price_unit': order1.item_rate,
-                                  'price_subtotal': order1.price_subtotal,
-                                  }
-                        sol_rec = so_line_obj.create(values)
-                        hsl_obj.create({'folio_id': order_obj.folio_id.id,
-                                        'service_line_id': sol_rec.id})
-                        hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                        hf_rec.write({'hotel_reservation_order_ids':
-                                      [(4, order_obj.id)]})
-                if order_obj.reservationno:
-                    order_obj.reservationno.write({'state': 'done'})
+            hotelfolio = order_obj.folio_id.order_id.id
+            if order_obj.folio_id:
+                for order1 in order_obj.order_list:
+                    values = {'order_id': hotelfolio,
+                              'name': order1.name.name,
+                              'product_id': order1.name.product_id.id,
+                              'product_uom_qty': order1.item_qty,
+                              'price_unit': order1.item_rate,
+                              'price_subtotal': order1.price_subtotal,
+                              }
+                    sol_rec = so_line_obj.create(values)
+                    hsl_obj.create({'folio_id': order_obj.folio_id.id,
+                                    'service_line_id': sol_rec.id})
+                    hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
+                    hf_rec.write({'hotel_reservation_order_ids':
+                                  [(4, order_obj.id)]})
+            if order_obj.reservationno:
+                order_obj.reservationno.write({'state': 'done'})
         self.state = 'done'
         return True
 
@@ -719,21 +719,21 @@ class HotelRestaurantOrderList(models.Model):
     @api.multi
     @api.depends('item_qty', 'item_rate')
     def _compute_price_subtotal(self):
-        '''
+        """
         price_subtotal will display on change of item_rate
         --------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for line in self:
             line.price_subtotal = line.item_rate * int(line.item_qty)
 
     @api.onchange('name')
     def on_change_item_name(self):
-        '''
+        """
         item rate will display on change of item name
         ---------------------------------------------
         @param self: object pointer
-        '''
+        """
         if self.name:
             self.item_rate = self.name.list_price
 

@@ -32,8 +32,8 @@ class HotelRestaurantReport(models.AbstractModel):
                                                                 []))
         date_start = data.get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=1,
-                                                  day=1, days=1))[:10])
+                                                    relativedelta(months=1,
+                                                                  day=1, days=1))[:10])
         rm_act = self.with_context(data['form'].get('used_context', {}))
         reservation_res = rm_act.get_res_data(date_start, date_end)
         docargs = {
@@ -91,7 +91,7 @@ class FolioRestReport(models.AbstractModel):
                 data.append({'folio_name': record.name,
                              'customer_name': record.partner_id.name,
                              'checkin_date': parser.parse(record.checkin_date).
-                            strftime('%m/%d/%Y %H:%M:%S'),
+                             strftime('%m/%d/%Y %H:%M:%S'),
                              'checkout_date': parser.parse(record.
                                                            checkout_date).
                              strftime('%m/%d/%Y %H:%M:%S'),
@@ -129,8 +129,8 @@ class FolioRestReport(models.AbstractModel):
                                                                 []))
         date_start = data['form'].get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=1,
-                                                  day=1, days=1))[:10])
+                                                    relativedelta(months=1,
+                                                                  day=1, days=1))[:10])
         rm_act = self.with_context(data['form'].get('used_context', {}))
         get_data_res = rm_act.get_data(date_start, date_end)
         get_rest_res = rm_act.get_rest(date_start, date_end)
@@ -216,8 +216,8 @@ class FolioReservReport(models.AbstractModel):
                                                                 []))
         date_start = data.get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=1,
-                                                  day=1, days=1))[:10])
+                                                    relativedelta(months=1,
+                                                                  day=1, days=1))[:10])
         rm_act = self.with_context(data['form'].get('used_context', {}))
         get_data_res = rm_act.get_data(date_start, date_end)
         get_reserv_res = rm_act.get_reserv(date_start, date_end)

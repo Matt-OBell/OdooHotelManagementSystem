@@ -31,9 +31,9 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_cancel(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         for folio in self:
             for rec in folio.folio_pos_order_ids:
                 rec.write({'state': 'cancel'})

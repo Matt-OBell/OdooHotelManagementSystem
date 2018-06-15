@@ -192,12 +192,12 @@ class HotelReservation(models.Model):
 
     @api.constrains('reservation_line', 'adults', 'children')
     def check_reservation_rooms(self):
-        '''
+        """
         This method is used to validate the reservation_line.
         -----------------------------------------------------
         @param self: object pointer
         @return: raise a warning depending on the validation
-        '''
+        """
         for reservation in self:
             cap = 0
             for rec in reservation.reservation_line:
@@ -236,12 +236,12 @@ class HotelReservation(models.Model):
 
     @api.onchange('checkout', 'checkin')
     def on_change_checkout(self):
-        '''
+        """
         When you change checkout or checkin update dummy field
         -----------------------------------------------------------
         @param self: object pointer
         @return: raise warning depending on the validation
-        '''
+        """
         checkout_date = time.strftime(dt)
         checkin_date = time.strftime(dt)
         if not (checkout_date and checkin_date):
@@ -253,12 +253,12 @@ class HotelReservation(models.Model):
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
-        '''
+        """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel reservation as well
         ---------------------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         if not self.partner_id:
             self.partner_invoice_id = False
             self.partner_shipping_id = False
@@ -407,11 +407,11 @@ class HotelReservation(models.Model):
 
     @api.multi
     def send_reservation_maill(self):
-        '''
+        """
         This function opens a window to compose an email,
         template message loaded by default.
         @param self: object pointer
-        '''
+        """
         assert len(self._ids) == 1, 'This is for a single id at a time.'
         ir_model_data = self.env['ir.model.data']
         try:
@@ -509,7 +509,7 @@ class HotelReservation(models.Model):
     @api.multi
     def onchange_check_dates(self, checkin_date=False, checkout_date=False,
                              duration=False):
-        '''
+        """
         This method gives the duration between check in checkout if
         customer will leave only for some hour it would be considers
         as a whole day. If customer will checkin checkout for more or equal
@@ -518,7 +518,7 @@ class HotelReservation(models.Model):
         --------------------------------------------------------------------
         @param self: object pointer
         @return: Duration and checkout_date
-        '''
+        """
         value = {}
         configured_addition_hours = 0
         wc_id = self.warehouse_id
@@ -570,12 +570,12 @@ class HotelReservationLine(models.Model):
 
     @api.onchange('categ_id')
     def on_change_categ(self):
-        '''
+        """
         When you change categ_id it check checkin and checkout are
         filled or not if not then raise warning
         -----------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         hotel_room_obj = self.env['hotel.room']
         hotel_room_ids = hotel_room_obj.search([('categ_id', '=',
                                                  self.categ_id.id)])
@@ -763,9 +763,9 @@ class RoomReservationSummary(models.Model):
 
     @api.multi
     def room_reservation(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         mod_obj = self.env['ir.model.data']
         if self._context is None:
             self._context = {}
@@ -785,9 +785,9 @@ class RoomReservationSummary(models.Model):
 
     @api.onchange('date_from', 'date_to')
     def get_room_summary(self):
-        '''
+        """
         @param self: object pointer
-         '''
+         """
         res = {}
         all_detail = []
         room_obj = self.env['hotel.room']
@@ -954,14 +954,14 @@ class QuickRoomReservation(models.TransientModel):
 
     @api.onchange('check_out', 'check_in')
     def on_change_check_out(self):
-        '''
+        """
         When you change checkout or checkin it will check whether
         Checkout date should be greater than Checkin date
         and update dummy field
         -----------------------------------------------------------
         @param self: object pointer
         @return: raise warning depending on the validation
-        '''
+        """
         if self.check_out and self.check_in:
             if self.check_out < self.check_in:
                 raise except_orm(_('Warning'),
@@ -970,12 +970,12 @@ class QuickRoomReservation(models.TransientModel):
 
     @api.onchange('partner_id')
     def onchange_partner_id_res(self):
-        '''
+        """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel reservation as well
         ---------------------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         if not self.partner_id:
             self.partner_invoice_id = False
             self.partner_shipping_id = False

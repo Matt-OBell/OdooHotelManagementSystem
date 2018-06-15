@@ -10,7 +10,7 @@
         'board',
         'report_hotel_restaurant',
         'hotel_pos_restaurant'
-        ],
+    ],
     'license': 'AGPL-3',
     'data': [
         'views/board_frontdesk_view.xml'

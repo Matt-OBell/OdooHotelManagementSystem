@@ -208,13 +208,13 @@ class HotelHousekeepingActivities(models.Model):
 
     @api.constrains('clean_start_time', 'clean_end_time')
     def check_clean_start_time(self):
-        '''
+        """
         This method is used to validate the clean_start_time and
         clean_end_time.
         ---------------------------------------------------------
         @param self: object pointer
         @return: raise warning depending on the validation
-        '''
+        """
         if self.clean_start_time >= self.clean_end_time:
             raise ValidationError(_('Start Date Should be \
             less than the End Date!'))
