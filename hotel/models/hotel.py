@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 import time
 import datetime
-import urllib2
+from urllib.request import urlopen as urllib2
 from odoo.exceptions import except_orm, ValidationError
 from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
@@ -249,11 +248,11 @@ class HotelRoom(models.Model):
 
     @api.onchange('isroom')
     def isroom_change(self):
-        '''
+        """
         Based on isroom, status will be updated.
         ----------------------------------------
         @param self: object pointer
-        '''
+        """
         if self.isroom is False:
             self.status = 'occupied'
         if self.isroom is True:
@@ -351,10 +350,10 @@ class HotelFolio(models.Model):
 
     @api.multi
     def copy(self, default=None):
-        '''
+        """
         @param self: object pointer
         @param default: dict of default values to be set
-        '''
+        """
         return super(HotelFolio, self).copy(default=default)
 
     _name = 'hotel.folio'
@@ -404,11 +403,11 @@ class HotelFolio(models.Model):
 
     @api.multi
     def go_to_currency_exchange(self):
-        '''
+        """
          when Money Exchange button is clicked then this method is called.
         -------------------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         ctx = dict(self._context)
         for rec in self:
             if rec.partner_id.id and len(rec.room_lines) != 0:
@@ -433,12 +432,12 @@ class HotelFolio(models.Model):
 
     @api.constrains('room_lines')
     def folio_room_lines(self):
-        '''
+        """
         This method is used to validate the room_lines.
         ------------------------------------------------
         @param self: object pointer
         @return: raise warning depending on the validation
-        '''
+        """
         folio_rooms = []
         for room in self[0].room_lines:
             if room.product_id.id in folio_rooms:
@@ -447,7 +446,7 @@ class HotelFolio(models.Model):
 
     @api.onchange('checkout_date', 'checkin_date')
     def onchange_dates(self):
-        '''
+        """
         This method gives the duration between check in and checkout
         if customer will leave only for some hour it would be considers
         as a whole day.If customer will check in checkout for more or equal
@@ -456,7 +455,7 @@ class HotelFolio(models.Model):
         --------------------------------------------------------------------
         @param self: object pointer
         @return: Duration and checkout_date
-        '''
+        """
         configured_addition_hours = 0
         wid = self.warehouse_id
         whouse_com_id = wid or wid.company_id
@@ -589,22 +588,22 @@ class HotelFolio(models.Model):
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):
-        '''
+        """
         When you change warehouse it will update the warehouse of
         the hotel folio as well
         ----------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         return self.order_id._onchange_warehouse_id()
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
-        '''
+        """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel folio as well
         ---------------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         if self.partner_id:
             partner_rec = self.env['res.partner'].browse(self.partner_id.id)
             order_ids = [folio.order_id.id for folio in self]
@@ -620,9 +619,9 @@ class HotelFolio(models.Model):
 
     @api.multi
     def button_dummy(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         for folio in self:
             folio.order_id.button_dummy()
         return True
@@ -633,9 +632,9 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_invoice_create(self, grouped=False, final=False):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         room_lst = []
         invoice_id = (self.order_id.action_invoice_create(grouped=False,
                                                           final=False))
@@ -654,9 +653,9 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_invoice_cancel(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         if not self.order_id:
             raise except_orm(_('Warning'), _('Order id is not available'))
         for sale in self:
@@ -667,9 +666,9 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_cancel(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         if not self.order_id:
             raise except_orm(_('Warning'), _('Order id is not available'))
         for sale in self:
@@ -693,10 +692,10 @@ class HotelFolio(models.Model):
 
     @api.multi
     def test_state(self, mode):
-        '''
+        """
         @param self: object pointer
         @param mode: state of workflow
-        '''
+        """
         write_done_ids = []
         write_cancel_ids = []
         if write_done_ids:
@@ -708,9 +707,9 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_cancel_draft(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         if not len(self._ids):
             return False
         query = "select id from sale_order_line \
@@ -729,10 +728,10 @@ class HotelFolioLine(models.Model):
 
     @api.multi
     def copy(self, default=None):
-        '''
+        """
         @param self: object pointer
         @param default: dict of default values to be set
-        '''
+        """
         return super(HotelFolioLine, self).copy(default=default)
 
     @api.model
@@ -778,12 +777,12 @@ class HotelFolioLine(models.Model):
 
     @api.constrains('checkin_date', 'checkout_date')
     def check_dates(self):
-        '''
+        """
         This method is used to validate the checkin_date and checkout_date.
         -------------------------------------------------------------------
         @param self: object pointer
         @return: raise warning depending on the validation
-        '''
+        """
         if self.checkin_date >= self.checkout_date:
                 raise ValidationError(_('Room line Check In Date Should be \
                 less than the Check Out Date!'))
@@ -821,9 +820,9 @@ class HotelFolioLine(models.Model):
 
     @api.onchange('product_id')
     def product_id_change(self):
-        '''
+        """
  -        @param self: object pointer
- -        '''
+ -        """
         context = dict(self._context)
         if not context:
             context = {}
@@ -878,12 +877,12 @@ class HotelFolioLine(models.Model):
 
     @api.onchange('checkin_date', 'checkout_date')
     def on_change_checkout(self):
-        '''
+        """
         When you change checkin_date or checkout_date it will checked it
         and update the qty of hotel folio line
         -----------------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         configured_addition_hours = 0
         fwhouse_id = self.folio_id.warehouse_id
         fwc_id = fwhouse_id or fwhouse_id.company_id
@@ -936,9 +935,9 @@ class HotelFolioLine(models.Model):
 
     @api.multi
     def button_confirm(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         for folio in self:
             line = folio.order_line_id
             line.button_confirm()
@@ -946,9 +945,9 @@ class HotelFolioLine(models.Model):
 
     @api.multi
     def button_done(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         lines = [folio_line.order_line_id for folio_line in self]
         lines.button_done()
         self.state = 'done'
@@ -956,10 +955,10 @@ class HotelFolioLine(models.Model):
 
     @api.multi
     def copy_data(self, default=None):
-        '''
+        """
         @param self: object pointer
         @param default: dict of default values to be set
-        '''
+        """
         line_id = self.order_line_id.id
         sale_line_obj = self.env['sale.order.line'].browse(line_id)
         return sale_line_obj.copy_data(default=default)
@@ -969,10 +968,10 @@ class HotelServiceLine(models.Model):
 
     @api.multi
     def copy(self, default=None):
-        '''
+        """
         @param self: object pointer
         @param default: dict of default values to be set
-        '''
+        """
         return super(HotelServiceLine, self).copy(default=default)
 
     @api.model
@@ -1028,9 +1027,9 @@ class HotelServiceLine(models.Model):
 
     @api.onchange('product_id')
     def product_id_change(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         if self.product_id and self.folio_id.partner_id:
             self.name = self.product_id.name
             self.price_unit = self.product_id.list_price
@@ -1043,9 +1042,9 @@ class HotelServiceLine(models.Model):
 
     @api.onchange('product_uom')
     def product_uom_change(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         if not self.product_uom:
             self.price_unit = 0.0
             return
@@ -1066,12 +1065,12 @@ class HotelServiceLine(models.Model):
 
     @api.onchange('ser_checkin_date', 'ser_checkout_date')
     def on_change_checkout(self):
-        '''
+        """
         When you change checkin_date or checkout_date it will checked it
         and update the qty of hotel service line
         -----------------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         if not self.ser_checkin_date:
             time_a = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
             self.ser_checkin_date = time_a
@@ -1090,9 +1089,9 @@ class HotelServiceLine(models.Model):
 
     @api.multi
     def button_confirm(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         for folio in self:
             line = folio.service_line_id
             x = line.button_confirm()
@@ -1100,9 +1099,9 @@ class HotelServiceLine(models.Model):
 
     @api.multi
     def button_done(self):
-        '''
+        """
         @param self: object pointer
-        '''
+        """
         for folio in self:
             line = folio.service_line_id
             x = line.button_done()
@@ -1110,10 +1109,10 @@ class HotelServiceLine(models.Model):
 
     @api.multi
     def copy_data(self, default=None):
-        '''
+        """
         @param self: object pointer
         @param default: dict of default values to be set
-        '''
+        """
         sale_line_obj = self.env['sale.order.line'
                                  ].browse(self.service_line_id.id)
         return sale_line_obj.copy_data(default=default)
@@ -1205,12 +1204,12 @@ class CurrencyExchangeRate(models.Model):
 
     @api.depends('input_curr', 'out_curr', 'in_amount')
     def _compute_get_currency(self):
-        '''
+        """
         When you change input_curr, out_curr or in_amount
         it will update the out_amount of the currency exchange
         ------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for rec in self:
             rec.out_amount = 0.0
             if rec.input_curr:
@@ -1226,12 +1225,12 @@ class CurrencyExchangeRate(models.Model):
 
     @api.depends('out_amount', 'tax')
     def _compute_tax_change(self):
-        '''
+        """
         When you change out_amount or tax
         it will update the total of the currency exchange
         -------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for rec in self:
             if rec.out_amount:
                 ser_tax = ((rec.out_amount) * (float(rec.tax))) / 100
@@ -1239,11 +1238,11 @@ class CurrencyExchangeRate(models.Model):
 
     @api.model
     def get_rate(self, a, b):
-        '''
+        """
         Calculate rate between two currency
         -----------------------------------
         @param self: object pointer
-        '''
+        """
         try:
             url = 'http://finance.yahoo.com/d/quotes.csv?s=%s%s=X&f=l1' % (a,
                                                                            b)
@@ -1302,12 +1301,12 @@ class CurrencyExchangeRate(models.Model):
 
     @api.onchange('folio_no')
     def get_folio_no(self):
-        '''
+        """
         When you change folio_no, based on that it will update
         the guest_name,hotel_id and room_number as well
         ---------------------------------------------------------
         @param self: object pointer
-        '''
+        """
         for rec in self:
             self.guest_name = False
             self.hotel_id = False
