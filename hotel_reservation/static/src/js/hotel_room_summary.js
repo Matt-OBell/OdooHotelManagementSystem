@@ -7,6 +7,9 @@ var form_common = require('web.form_common');
 var time = require('web.time');
 var _t = core._t;
 var QWeb = core.qweb;
+// try
+var Widget= require('web.Widget');
+var widgetRegistry = require('web.widget_registry');
     
 var RoomSummary = form_common.FormWidget.extend(form_common.ReinitializeWidgetMixin, {
         display_name: _t('Form'),
@@ -96,5 +99,5 @@ var RoomSummary = form_common.FormWidget.extend(form_common.ReinitializeWidgetMi
         }     
     });
 
-core.form_custom_registry.add('Room_Reservation', RoomSummary);
+widgetRegistry.add('Room_Reservation', RoomSummary);
 });

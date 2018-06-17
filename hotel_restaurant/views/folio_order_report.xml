@@ -4,10 +4,10 @@
 
     <!--Template for hotel folio rest order -->
     <template id="report_rest_order">
-        <t t-call="report.html_container">
-            <t t-call="report.external_layout">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
                 <div class="page">
-                    <t t-name="report.external_layout_header">
+                    <t t-name="web.external_layout_header">
                         <div class="header">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -172,10 +172,10 @@
 
     <!--Template for hotel folio reserved order -->
     <template id="report_reserv_order">
-        <t t-call="report.html_container">
-            <t t-call="report.external_layout">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
                 <div class="page">
-                    <t t-name="report.external_layout_header">
+                    <t t-name="web.external_layout_header">
                         <div class="header">
                             <div class="row">
                                 <div class="col-xs-3">

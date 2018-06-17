@@ -4,8 +4,8 @@
 
     <!--Template for hotel folio -->
     <template id="report_hotel_folio">
-        <t t-call="report.html_container">
-            <t t-call="report.external_layout">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
                 <div class="page">
                     <br />
                     <br />
@@ -56,9 +56,9 @@
 
     <!--Template for currency exchange -->
     <template id="report_currency_exchange">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="report.external_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
                         <div class="row">
                             <br/>

@@ -4,9 +4,9 @@
 
     <!--Template for hotel restaurant -->
     <template id="report_order_bill">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="report.external_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
                         <div class="row">
                             <h2>
@@ -150,9 +150,9 @@
 
     <!--Template for hotel restaurant reservation -->
     <template id="report_res_order_bill">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="report.external_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
                         <div class="row">
                             <h2>
