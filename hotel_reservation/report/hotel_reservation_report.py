@@ -32,7 +32,7 @@ class ReportTestCheckin(models.AbstractModel):
         return res
 
     @api.multi
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         act_ids = self.env.context.get('active_ids', [])
         docs = self.env[self.model].browse(act_ids)
@@ -62,8 +62,7 @@ class ReportTestCheckin(models.AbstractModel):
                                 parser.parse(docargs.get('data').
                                              get('date_start')).
                                 strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_checkin_qweb'
-        return self.env['report'].render(render_model, docargs)
+        return docargs
 
 
 class ReportTestCheckout(models.AbstractModel):
@@ -88,7 +87,7 @@ class ReportTestCheckout(models.AbstractModel):
         return res
 
     @api.multi
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_ids',
                                                                 []))
@@ -118,8 +117,7 @@ class ReportTestCheckout(models.AbstractModel):
                                 parser.parse(docargs.get('data').
                                              get('date_start')).
                                 strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_checkout_qweb'
-        return self.env['report'].render(render_model, docargs)
+        return docargs
 
 
 class ReportTestMaxroom(models.AbstractModel):
@@ -164,7 +162,7 @@ class ReportTestMaxroom(models.AbstractModel):
         return room_used_details
 
     @api.multi
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         act_ids_rm = self.env.context.get('active_ids', [])
         docs = self.env[self.model].browse(act_ids_rm)
@@ -196,9 +194,7 @@ class ReportTestMaxroom(models.AbstractModel):
                                 parser.parse(docargs.get('data').
                                              get('date_start')).
                                 strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_maxroom_qweb'
-        return self.env['report'].render(render_model, docargs)
-
+        return docargs
 
 class ReportTestRoomres(models.AbstractModel):
     _name = "report.hotel_reservation.report_roomres_qweb"
@@ -224,7 +220,7 @@ class ReportTestRoomres(models.AbstractModel):
         return res
 
     @api.multi
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         act_rmrs = self.env.context.get('active_ids', [])
         docs = self.env[self.model].browse(act_rmrs)
@@ -255,5 +251,4 @@ class ReportTestRoomres(models.AbstractModel):
                                 parser.parse(docargs.get('data').
                                              get('date_start')).
                                 strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_roomres_qweb'
-        return self.env['report'].render(render_model, docargs)
+        return docargs

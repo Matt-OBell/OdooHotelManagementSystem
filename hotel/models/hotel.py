@@ -679,13 +679,13 @@ class HotelFolio(models.Model):
     def action_confirm(self):
         for order in self.order_id:
             order.state = 'sale'
-            order.order_line._action_procurement_create()
-            if not order.project_id:
-                for line in order.order_line:
-                    if line.product_id.invoice_policy == 'cost':
-                        order._create_analytic_account()
-                        break
-        if self.env['ir.values'].get_default('sale.config.settings',
+            # order.order_line._action_procurement_create() 
+            # This method _action_procurement_create is no more available in version 11.0
+            for line in order.order_line:
+                if line.product_id.invoice_policy == 'cost':
+                    order._create_analytic_account()
+                    break
+        if self.env['ir.default'].get('sale.config.settings',
                                              'auto_done_setting'):
             self.order_id.action_done()
 

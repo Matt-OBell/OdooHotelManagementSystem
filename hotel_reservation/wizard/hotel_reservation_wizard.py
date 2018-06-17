@@ -17,10 +17,12 @@ class HotelReservationWizard(models.TransientModel):
             'model': 'hotel.reservation',
             'form': self.read(['date_start', 'date_end'])[0]
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_reservation.report_roomres_qweb',
-                                     data=data)
+        # print(help(self.env.ref('hotel_reservation.hotel_roomres_details')))
+        return self.env.ref('hotel_reservation.hotel_roomres_details').report_action([], data=data, config=False)
+        # return self.env['report'
+        #                 ].get_action(self,
+        #                              'hotel_reservation.report_roomres_qweb',
+        #                              data=data)
 
     @api.multi
     def report_checkin_detail(self):
@@ -29,10 +31,11 @@ class HotelReservationWizard(models.TransientModel):
             'model': 'hotel.reservation',
             'form': self.read(['date_start', 'date_end'])[0],
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_reservation.report_checkin_qweb',
-                                     data=data)
+        return self.env.ref('hotel_reservation.hotel_checkin_details').report_action(self, data=data, config=False)
+        # return self.env['report'
+        #                 ].get_action(self,
+        #                              'hotel_reservation.report_checkin_qweb',
+        #                              data=data)
 
     @api.multi
     def report_checkout_detail(self):
@@ -41,10 +44,11 @@ class HotelReservationWizard(models.TransientModel):
             'model': 'hotel.reservation',
             'form': self.read(['date_start', 'date_end'])[0]
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_reservation.report_checkout_qweb',
-                                     data=data)
+        return self.env.ref('hotel_reservation.hotel_checkout_details').report_action(self, data=data, config=False)
+        # return self.env['report'
+        #                 ].get_action(self,
+        #                              'hotel_reservation.report_checkout_qweb',
+        #                              data=data)
 
     @api.multi
     def report_maxroom_detail(self):
@@ -53,10 +57,11 @@ class HotelReservationWizard(models.TransientModel):
             'model': 'hotel.reservation',
             'form': self.read(['date_start', 'date_end'])[0]
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_reservation.report_maxroom_qweb',
-                                     data=data)
+        return self.env.ref('hotel_reservation.hotel_maxroom_details').report_action(self, data=data, config=False)
+        # return self.env['report'
+        #                 ].get_action(self,
+        #                              'hotel_reservation.report_maxroom_qweb',
+        #                              data=data)
 
 
 class MakeFolioWizard(models.TransientModel):
