@@ -26,7 +26,7 @@ class HotelRestaurantReport(models.AbstractModel):
         return data
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_ids',
                                                                 []))
@@ -53,8 +53,7 @@ class HotelRestaurantReport(models.AbstractModel):
                                              get('date_start')).strftime('%m/\
                                                                           %d/\
                                                                          %Y')})
-        render_model = 'hotel_restaurant.report_res_table'
-        return self.env['report'].render(render_model, docargs)
+        return docargs
 
 
 class ReportKot(models.AbstractModel):
@@ -122,7 +121,7 @@ class FolioRestReport(models.AbstractModel):
         return data
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
 
         docs = self.env[self.model].browse(self.env.context.get('active_ids',
@@ -152,8 +151,7 @@ class FolioRestReport(models.AbstractModel):
                                              get('date_start')).strftime('%m/\
                                                                           %d/\
                                                                          %Y')})
-        render_model = 'hotel_restaurant.report_rest_order'
-        return self.env['report'].render(render_model, docargs)
+        return docargs
 
 
 class FolioReservReport(models.AbstractModel):
@@ -210,7 +208,7 @@ class FolioReservReport(models.AbstractModel):
         return data
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_ids',
                                                                 []))
@@ -236,5 +234,4 @@ class FolioReservReport(models.AbstractModel):
         dt_start = parser.parse(docargs.get('data').get('date_start'))
         date_start = dt_start.strftime('%m/%d/%Y')
         docargs['data'].update({'date_start': date_start})
-        render_model = 'hotel_restaurant.report_reserv_order'
-        return self.env['report'].render(render_model, docargs)
+        return docargs

@@ -31,7 +31,7 @@ class FolioReport(models.AbstractModel):
         return data_folio
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_ids',
                                                                 []))
@@ -57,5 +57,4 @@ class FolioReport(models.AbstractModel):
                                 parser.parse(docargs.get('data').
                                              get('date_start')).
                                 strftime('%m/%d/%Y')})
-        render_model = 'hotel.report_hotel_folio'
-        return self.env['report'].render(render_model, docargs)
+        return docargs

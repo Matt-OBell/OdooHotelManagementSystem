@@ -17,7 +17,4 @@ class HotelHousekeepingWizard(models.TransientModel):
             'model': 'hotel.housekeeping',
             'form': self.read(['date_start', 'date_end', 'room_no'])[0]
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_housekeeping.report_housekeeping',
-                                     data=data)
+        return self.env.ref('hotel_housekeeping.report_housekeeping_activity_detail').report_action([], data=data, config=False)

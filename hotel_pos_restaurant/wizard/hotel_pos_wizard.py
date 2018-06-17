@@ -18,7 +18,4 @@ class OrderReportWizard(models.TransientModel):
             'model': 'hotel.folio',
             'form': self.read(['date_start', 'date_end', 'check'])[0]
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_pos_restaurant.report_folio_pos',
-                                     data=data)
+        return self.env.ref('hotel_pos_restaurant.report_hotel_pos_order').report_action(self, data=data, config=False)

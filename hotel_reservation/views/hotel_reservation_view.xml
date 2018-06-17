@@ -248,7 +248,7 @@
                         <page string="Room Summary">
                             <field name="summary_header" colspan="4" invisible="1" />
                             <field name="room_summary" colspan="4" invisible="1" />
-                            <widget name="Room_Reservation"/>
+                            <!-- <widget name="Room_Reservation"/> -->
                         </page>
                     </notebook>
                 </sheet>

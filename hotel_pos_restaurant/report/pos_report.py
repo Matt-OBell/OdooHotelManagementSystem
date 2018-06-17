@@ -43,7 +43,7 @@ class ReportLunchorder1(models.AbstractModel):
         return self.temp
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_ids',
                                                                 []))
@@ -54,7 +54,6 @@ class ReportLunchorder1(models.AbstractModel):
         rm_act = self.with_context(data['form'].get('used_context', {}))
         get_data = rm_act.get_data(date_start, date_end)
         get_pos = rm_act.get_pos(date_start, date_end)
-#       gettotal = rm_act.gettotal(pos_order)
         getTotal = rm_act.getTotal()
         docargs = {
             'doc_ids': docids,
@@ -74,5 +73,4 @@ class ReportLunchorder1(models.AbstractModel):
                                 parser.parse(docargs.get('data').
                                              get('date_start')).
                                 strftime('%m/%d/%Y')})
-        render_model = 'hotel_pos_restaurant.report_folio_pos'
-        return self.env['report'].render(render_model, docargs)
+        return docargs
