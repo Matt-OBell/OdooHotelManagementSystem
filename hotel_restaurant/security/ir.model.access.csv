@@ -9,3 +9,4 @@ access_hotel_restaurant_kitchen_order_tickets,hotel.restaurant.kitchen.order.tic
 access_hotel_restaurant_order,hotel.restaurant.order,model_hotel_restaurant_order,hotel.group_hotel_user,1,1,1,1
 access_hotel_reservation_order,hotel.reservation.order,model_hotel_reservation_order,hotel.group_hotel_user,1,1,1,1
 access_hotel_restaurant_order_list,hotel.restaurant.order.list,model_hotel_restaurant_order_list,hotel.group_hotel_user,1,1,1,1
+access_hotel_restaurant__manager_tables,hotel.restaurant.tables,model_hotel_restaurant_tables,hotel.group_hotel_manager,1,1,1,1
