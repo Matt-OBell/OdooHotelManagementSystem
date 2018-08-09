@@ -83,7 +83,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
-                        <field name="categ_id" select="1" />
+                        <field name="categ_id" select="1" invisible="1"/>
                         <field name="child_id" invisible="1" />
                     </group>
                 </sheet>
@@ -296,7 +296,7 @@
             name="value" />
     </record> -->
 
-    <record id="hotel_amenities_category_action" model="ir.actions.act_window">
+<!--     <record id="hotel_amenities_category_action" model="ir.actions.act_window">
         <field name="name">Amenities by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.room.amenities.type</field>
@@ -306,7 +306,7 @@
     </record>
 
     <menuitem name="Amenities by Category" id="menu_hotel_ty_category_action"
-        action="hotel_amenities_category_action" sequence="4" parent="hotel.menu_amenity" />
+        action="hotel_amenities_category_action" sequence="4" parent="hotel.menu_amenity" /> -->
 
     <!-- ====== Rooms ====== -->
     <!-- Form view of hotel room -->
@@ -560,7 +560,7 @@
         <field eval="'ir.actions.act_window,%d'%action_hotel_room" name="value" />
     </record> -->
 
-    <record id="hotel_room_category_action" model="ir.actions.act_window">
+    <!-- <record id="hotel_room_category_action" model="ir.actions.act_window">
         <field name="name">Rooms by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.room.type</field>
@@ -570,7 +570,7 @@
     </record>
 
     <menuitem name="Room by Category" id="menu_hotel_room_category_action"
-        action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" />
+        action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" /> -->
 
     <!--=== Hotel Folio ==== -->
     <!-- Form view of hotel folio -->
@@ -866,8 +866,8 @@
                 <sheet>
                     <group>
                         <field name="name" string="Service Name" />
-                        <field name="service_id" />
-                        <field name="child_id" invisible="1" />
+                        <field name="service_id" invisible="1"/>
+                        <field name="child_id" invisible="1"/>
                     </group>
                 </sheet>
             </form>
@@ -1036,7 +1036,7 @@
             name="value" />
     </record> -->
 
-    <record id="hotel_service_categ_action" model="ir.actions.act_window">
+    <!-- <record id="hotel_service_categ_action" model="ir.actions.act_window">
         <field name="name">Services by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.service.type</field>
@@ -1047,7 +1047,7 @@
 
     <menuitem name="Services by Category" id="menu_hotel_services_categ_action"
         action="hotel_service_categ_action" sequence="10"
-        parent="hotel.menu_hotel_service" />
+        parent="hotel.menu_hotel_service" /> -->
 
     <!--======== Currency ======== -->
     <!-- Form view of currency exchange -->

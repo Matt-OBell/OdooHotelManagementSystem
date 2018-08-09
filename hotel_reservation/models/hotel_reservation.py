@@ -190,28 +190,26 @@ class HotelReservation(models.Model):
                 state.') % (reserv_rec.state))
         return super(HotelReservation, self).unlink()
 
-    @api.constrains('reservation_line', 'adults', 'children')
-    def check_reservation_rooms(self):
-        """
-        This method is used to validate the reservation_line.
-        -----------------------------------------------------
-        @param self: object pointer
-        @return: raise a warning depending on the validation
-        """
-        for reservation in self:
-            cap = 0
-            for rec in reservation.reservation_line:
-                if len(rec.reserve) == 0:
-                    raise ValidationError(_('Please Select Rooms \
-                    For Reservation.'))
-                for room in rec.reserve:
-                    cap += room.capacity
-            if (reservation.adults + reservation.children) > cap:
-                raise ValidationError(_('Room Capacity Exceeded \n Please \
-                                        Select Rooms According to Members \
-                                        Accomodation.'))
-            if reservation.adults <= 0:
-                raise ValidationError(_('Adults must be more than 0'))
+    # @api.constrains('reservation_line', 'adults', 'children')
+    # def check_reservation_rooms(self):
+    #     """
+    #     This method is used to validate the reservation_line.
+    #     -----------------------------------------------------
+    #     @param self: object pointer
+    #     @return: raise a warning depending on the validation
+    #     """
+    #     for reservation in self:
+    #         if reservation.state not in [None, 'draft']:
+    #             cap = 0
+    #             for rec in reservation.reservation_line:
+    #                 if len(rec.reserve) == 0:
+    #                     raise ValidationError(_('Please Select Rooms For Reservation.'))
+    #                 for room in rec.reserve:
+    #                     cap += room.capacity
+    #             if (reservation.adults + reservation.children) > cap:
+    #                 raise ValidationError(_('Room Capacity Exceeded Please Select Rooms According to Members Accomodation.'))
+    #             if reservation.adults <= 0:
+    #                 raise ValidationError(_('Adults must be more than 0'))
 
     @api.constrains('checkin', 'checkout')
     def check_in_out_dates(self):

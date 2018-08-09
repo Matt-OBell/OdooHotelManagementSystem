@@ -130,6 +130,7 @@ class ProductProduct(models.Model):
     isroom = fields.Boolean('Is Room')
     iscategid = fields.Boolean('Is categ id')
     isservice = fields.Boolean('Is Service id')
+    type = fields.Selection([('service', 'Service'), ('consu', 'Consumable'), ('product', 'Stockable')], default='service')
 
 
 class HotelRoomAmenitiesType(models.Model):
@@ -235,7 +236,7 @@ class HotelRoom(models.Model):
     status = fields.Selection([('available', 'Available'),
                                ('occupied', 'Occupied')],
                               'Status', default='available')
-    capacity = fields.Integer('Capacity', required=True)
+    capacity = fields.Integer('Capacity', required=True, default=1)
     room_line_ids = fields.One2many('folio.room.line', 'room_id',
                                     string='Room Reservation Line')
     product_manager = fields.Many2one('res.users', string='Product Manager')

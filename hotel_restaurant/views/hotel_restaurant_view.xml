@@ -594,7 +594,7 @@
                 <sheet>
                     <group>
                         <field name="name" string="Food Item Name" />
-                        <field name="menu_id" string="Food Item Type" />
+                        <field name="menu_id" string="Food Item Type" invisible="1"/>
                         <field name="child_id" invisible="1" />
                     </group>
                 </sheet>
@@ -787,7 +787,7 @@
         </field>
     </record>
 
-    <menuitem name="Food Items" id="menu_open_hotel_menucard_form"
+    <menuitem name="Food Items Todo:Fix:Error" id="menu_open_hotel_menucard_form"
         action="action_hotel_menucard_form" parent="menu_hotel_food_item" />
 
     <!-- Hierarchical Tree view of Food Item Category -->
@@ -818,7 +818,7 @@
         <field eval="'ir.actions.act_window,%d'%action_hotel_food" name="value" />
     </record> -->
 
-    <record id="hotel_food_category_action" model="ir.actions.act_window">
+    <!-- <record id="hotel_food_category_action" model="ir.actions.act_window">
         <field name="name">Food Items by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.menucard.type</field>
@@ -829,6 +829,6 @@
     </record>
 
     <menuitem name="Food Items by Category" id="menu_hotel_restaurent_food_category_action"
-        action="hotel_food_category_action" sequence="13" parent="menu_hotel_food_item" />
+        action="hotel_food_category_action" sequence="13" parent="menu_hotel_food_item" /> -->
 
 </odoo>
