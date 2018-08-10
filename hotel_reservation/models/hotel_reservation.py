@@ -219,11 +219,11 @@ class HotelReservation(models.Model):
         """
         if self.checkout and self.checkin:
             if self.checkin < self.date_order:
-                raise except_orm(_('Warning'), _('Checkin date should be \
-                greater than the current date.'))
+                raise except_orm(_('Warning'), _(
+                    'Checkin date should be greater than the current date.'))
             if self.checkout < self.checkin:
-                raise except_orm(_('Warning'), _('Checkout date \
-                should be greater than Checkin date.'))
+                raise except_orm(_('Warning'), _(
+                    'Checkout date should be greater than Checkin date.'))
 
     @api.model
     def _needaction_count(self, domain=None):
@@ -539,10 +539,8 @@ class HotelReservationLine(models.Model):
                                                  self.categ_id.id)])
         room_ids = []
         if not self.line_id.checkin:
-            raise except_orm(_('Warning'),
-                             _('Before choosing a room,\n You have to select \
-                             a Check in date or a Check out date in \
-                             the reservation form.'))
+            raise except_orm(
+                _('Warning'), ('Before choosing a room you have to select a Check in date or a Check out date in the reservation form.'))
         for room in hotel_room_ids:
             assigned = False
             for line in room.room_reservation_line_ids:
