@@ -43,22 +43,7 @@
             <field name="name">Double Bed</field>
         </record>
 
-        <!-- hotel_room_type -->
-        <record id="rooms" model="hotel.room.type">
-            <field name="name">All Rooms</field>
-        </record>
-        <record id="hotel_room_type_1" model="hotel.room.type">
-            <field name="categ_id" search="[('name', '=', 'All Rooms')]"/>
-            <field name="name">Single</field>
-        </record>
-        <record id="hotel_room_type_2" model="hotel.room.type">
-            <field name="categ_id" search="[('name', '=', 'All Rooms')]"/>
-            <field name="name">Double</field>
-        </record>
-        <record id="hotel_room_type_3" model="hotel.room.type">
-            <field name="categ_id" search="[('name', '=', 'All Rooms')]"/>
-            <field name="name">Triple</field>
-        </record>
+       
 
         <!-- hotel_service_type -->
         <record id="hotel_service_type_0" model="hotel.service.type">

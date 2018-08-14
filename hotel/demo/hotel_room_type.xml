@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+         <!-- hotel_room_type -->
+        <record id="single" model="hotel.room.type">
+            <field name="name">Single</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">1</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="double" model="hotel.room.type">
+            <field name="name">Double</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">2</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="triple" model="hotel.room.type">
+            <field name="name">Triple</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">2</field>
+            <field name="maximum_occupant">3</field>
+            <field name="extra_beds">1</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="quad" model="hotel.room.type">
+            <field name="name">Quad</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">3</field>
+            <field name="maximum_occupant">4</field>
+            <field name="extra_beds">1</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="single" model="hotel.room.type">
+            <field name="name">Single</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">1</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="double_double" model="hotel.room.type">
+            <field name="name">Double-double</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">1</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="studio" model="hotel.room.type">
+            <field name="name">Studio</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">1</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="king" model="hotel.room.type">
+            <field name="name">King</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">1</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+        <record id="queen" model="hotel.room.type">
+            <field name="name">Queen</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">1</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+
+         <record id="twin" model="hotel.room.type">
+            <field name="name">Twin</field>
+            <field name="room_ids"></field>
+            <field name="base_occupant">2</field>
+            <field name="maximum_occupant">1</field>
+            <field name="extra_beds">0</field>
+            <field name="status">1</field>
+        </record>
+    </data>
+</odoo>

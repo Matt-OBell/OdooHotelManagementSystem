@@ -12,15 +12,22 @@
     'category': 'Generic Modules/Hotel Management',
     'website': 'http://www.serpentcs.com',
     'depends': [
-        # 'sale_stock',
+        'base',
+        'sale_stock',
         # 'point_of_sale',
         'web'
     ],
     'license': "AGPL-3",
-    'demo': ['views/hotel_data.xml'],
+    'demo': [
+        'views/hotel_data.xml',
+        'demo/hotel_room_type.xml'
+    ],
     'data': [
         'security/hotel_security.xml',
         'security/ir.model.access.csv',
+        # Tope 14/08/2018
+        'views/hotel_room.xml',
+        # Tope 14/08/2018
         'views/hotel_sequence.xml',
         'views/hotel_report.xml',
         'views/report_hotel_management.xml',

@@ -67,70 +67,6 @@ class HotelFloor(models.Model):
     sequence = fields.Integer('Sequence', size=64, index=True)
 
 
-class HotelRoomType(models.Model):
-
-    _name = "hotel.room.type"
-    _description = "Room Type"
-
-    name = fields.Char('Name', size=64, required=True)
-    categ_id = fields.Many2one('hotel.room.type', 'Category')
-    child_id = fields.One2many('hotel.room.type', 'categ_id',
-                               'Child Categories')
-
-    @api.multi
-    def name_get(self):
-        def get_names(cat):
-            """ Return the list [cat.name, cat.categ_id.name, ...] """
-            res = []
-            while cat:
-                res.append(cat.name)
-                cat = cat.categ_id
-            return res
-        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
-
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        if not args:
-            args = []
-        if name:
-            # Be sure name_search is symetric to name_get
-            category_names = name.split(' / ')
-            parents = list(category_names)
-            child = parents.pop()
-            domain = [('name', operator, child)]
-            if parents:
-                names_ids = self.name_search(' / '.join(parents), args=args,
-                                             operator='ilike', limit=limit)
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
-                    categories = self.search([('id', 'not in', category_ids)])
-                    domain = expression.OR([[('categ_id', 'in',
-                                              categories.ids)], domain])
-                else:
-                    domain = expression.AND([[('categ_id', 'in',
-                                               category_ids)], domain])
-                for i in range(1, len(category_names)):
-                    domain = [[('name', operator,
-                                ' / '.join(category_names[-1 - i:]))], domain]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
-                    else:
-                        domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]),
-                                     limit=limit)
-        else:
-            categories = self.search(args, limit=limit)
-        return categories.name_get()
-
-
-class ProductProduct(models.Model):
-
-    _inherit = "product.product"
-
-    isroom = fields.Boolean('Is Room')
-    iscategid = fields.Boolean('Is categ id')
-    isservice = fields.Boolean('Is Service id')
-    type = fields.Selection([('service', 'Service'), ('consu', 'Consumable'), ('product', 'Stockable')], default='service')
 
 
 class HotelRoomAmenitiesType(models.Model):
@@ -215,83 +151,6 @@ class FolioRoomLine(models.Model):
     status = fields.Selection(string='state', related='folio_id.state')
 
 
-class HotelRoom(models.Model):
-
-    _name = 'hotel.room'
-    _description = 'Hotel Room'
-
-    product_id = fields.Many2one('product.product', 'Product_id',
-                                 required=True, delegate=True,
-                                 ondelete='cascade')
-    floor_id = fields.Many2one('hotel.floor', 'Floor No',
-                               help='At which floor the room is located.')
-    max_adult = fields.Integer('Max Adult')
-    max_child = fields.Integer('Max Child')
-    categ_id = fields.Many2one('hotel.room.type', string='Room Category',
-                               required=True)
-    room_amenities = fields.Many2many('hotel.room.amenities', 'temp_tab',
-                                      'room_amenities', 'rcateg_id',
-                                      string='Room Amenities',
-                                      help='List of room amenities. ')
-    status = fields.Selection([('available', 'Available'),
-                               ('occupied', 'Occupied')],
-                              'Status', default='available')
-    capacity = fields.Integer('Capacity', required=True, default=1)
-    room_line_ids = fields.One2many('folio.room.line', 'room_id',
-                                    string='Room Reservation Line')
-    product_manager = fields.Many2one('res.users', string='Product Manager')
-
-    @api.constrains('capacity')
-    def check_capacity(self):
-        for room in self:
-            if room.capacity <= 0:
-                raise ValidationError(_('Room capacity must be more than 0'))
-
-    @api.onchange('isroom')
-    def isroom_change(self):
-        """
-        Based on isroom, status will be updated.
-        ----------------------------------------
-        @param self: object pointer
-        """
-        if self.isroom is False:
-            self.status = 'occupied'
-        if self.isroom is True:
-            self.status = 'available'
-
-    @api.multi
-    def write(self, vals):
-        """
-        Overrides orm write method.
-        @param self: The object pointer
-        @param vals: dictionary of fields value.
-        """
-        if 'isroom' in vals and vals['isroom'] is False:
-            vals.update({'color': 2, 'status': 'occupied'})
-        if 'isroom'in vals and vals['isroom'] is True:
-            vals.update({'color': 5, 'status': 'available'})
-        ret_val = super(HotelRoom, self).write(vals)
-        return ret_val
-
-    @api.multi
-    def set_room_status_occupied(self):
-        """
-        This method is used to change the state
-        to occupied of the hotel room.
-        ---------------------------------------
-        @param self: object pointer
-        """
-        return self.write({'isroom': False, 'color': 2})
-
-    @api.multi
-    def set_room_status_available(self):
-        """
-        This method is used to change the state
-        to available of the hotel room.
-        ---------------------------------------
-        @param self: object pointer
-        """
-        return self.write({'isroom': True, 'color': 5})
 
 
 class HotelFolio(models.Model):
@@ -1186,15 +1045,6 @@ class HotelServices(models.Model):
                                required=True)
     product_manager = fields.Many2one('res.users', string='Product Manager')
 
-
-class ResCompany(models.Model):
-
-    _inherit = 'res.company'
-
-    additional_hours = fields.Integer('Additional Hours',
-                                      help="Provide the min hours value for \
-check in, checkout days, whatever the hours will be provided here based \
-on that extra days will be calculated.")
 
 
 class CurrencyExchangeRate(models.Model):
