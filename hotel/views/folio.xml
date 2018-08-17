@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Form view of hotel folio -->
+        <record id="view_hotel_folio1_form" model="ir.ui.view">
+            <field name="name">hotel.folio.form</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <form string="Folio">
+                    <header>
+                        <button name="confirm" states="draft" string="Confirm"
+                            class="btn btn-primary" type="object" />
+                        <button name="checkin" states="confirm" string="checkin"
+                            class="btn btn-primary" type="object" />
+                           <!--  <button name="%(sale.action_view_sale_advance_payment_inv)d"
+                                string="Create Invoice" type="action" class="btn-primary"
+                                attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}" /> -->
+
+                            <!-- <button name="action_cancel_draft" states="cancel" string="Set to Draft"
+                                type="object" icon="fa-check-square-o" class="oe_highlight" />
+
+                            <button name="action_cancel" string="Cancel Folio" states="sale"
+                                type="object" icon="fa-close" class="oe_highlight" />
+
+                            <button name="action_cancel" string="Cancel Folio" states="draft"
+                                icon="fa-close" type="object" class="oe_highlight" />
+
+                            <button name="action_done" type="object" string="Set to Done"
+                                states="sale" class="oe_highlight"
+                                help="If a Hotel Folio is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the Hotel Folio." /> -->
+
+                            <field name="state" widget="statusbar"/>
+                            <!-- <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,done" /> -->
+                    </header>
+                    <sheet>
+                        <div class="oe_right oe_button_box">
+                            <button name="go_to_currency_exchange" string="Money Exchange"
+                                icon="fa-refresh" class="oe_stat_button" type="object" />
+                        </div>
+                        <h1>
+                            <!-- <label string="Number" /> -->
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="partner_id" string="Guest Name" required="1" />
+                                <field name="checkin_date" />
+                                <!-- <field name="partner_invoice_id"/> -->
+                                <!-- <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" /> -->
+                            </group>
+                            <group>
+                                <!-- <field name="date_order" /> -->
+                                <!-- <field name="warehouse_id" string="Branch" /> -->
+                                <!-- <field name="invoice_status" /> -->
+                                <field name="invoice_id" states='sale,done,cancel'
+                                    readonly="1" />
+                                <field name="duration" readonly="1" widget="time_float"/>
+                                <field name="checkout_date" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Room(s)">
+                                 <field name="room_ids" string="Room Line" options="{'no_create': True, 'no_create_edit':True}"
+                                    domain="[('status', '=', 'available')]">
+                                    <tree string="Room Line">
+                                        <field name="categ_id" string="Category"/>
+                                        <field name="name" />
+                                        <field name="floor_id" string="Floor"/>
+                                        <field name="status" /> 
+                                        <field name="capacity"/>
+                                        <field name="total_price" string="Price"/>
+                                    </tree>
+                                </field>
+                                <!-- <group colspan="2" class="oe_subtotal_footer oe_right">
+                                    <field name="amount_untaxed" sum="Untaxed amount" widget='monetary' />
+                                    <field name="amount_tax" widget='monetary' />
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="amount_total" />
+                                    </div>
+                                    <field name="amount_total" nolabel="1" sum="Total amount"
+                                        widget='monetary' />
+                                    <button name="button_dummy" string="Compute" states="draft"
+                                        type="object" class="fa fa-calculator" aria-hidden="true"
+                                        style="background-color:#7c7bad;" />
+                                </group> -->
+                                <div class="oe_clear" />
+                            </page>
+                            <page string="Service(s)">
+                                <field name="service_ids">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="lst_price" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Amenities">
+                                <field name="amenity_ids">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="lst_price" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <!-- <field name="user_id" /> -->
+                                    <field name="hotel_policy" attrs="{'readonly':[('state','not in',('draft'))]}" />
+                                    <!-- <field name="client_order_ref" /> -->
+                                </group>
+                            </page>
+                            <page string="History">
+                                <!-- <separator string="Related invoices" colspan="4" /> -->
+                                <!-- <field name="invoice_ids" colspan="4" nolabel="1" /> -->
+                            </page>
+                            <page string="Foreign Exchange" name="foreign exchange">
+                                <separator string="Foreign Exchange" colspan="4" />
+                                <field name="currrency_ids" colspan="4" nolabel="1">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="today_date" />
+                                        <field name="type" />
+                                        <field name="in_amount" />
+                                        <field name="input_curr" />
+                                        <field name="total" sum="Total Amount" />
+                                        <field name="out_curr" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of hotel folio -->
+    <record id="view_hotel_folio1_tree" model="ir.ui.view">
+        <field name="name">hotel.folio.tree</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
+                <field name="checkin_date" />
+                <field name="checkout_date" />
+                <field name="name" />
+                <field name="partner_id" />
+                <!-- <field name="date_order" /> -->
+                <field name="state" />
+                <!-- <field name="amount_total" sum="Total amount" /> -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- Calendar view of hotel folio -->
+    <record id="hotel_folio_calendar_view" model="ir.ui.view">
+        <field name="name">Hotel- Folios Calendar</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <calendar string="Folios" date_start="checkin_date"
+                date_stop="checkout_date">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="duration" />
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Search view of hotel folio -->
+    <record id="view_hotel_folio_search" model="ir.ui.view">
+        <field name="name">hotel.folio.search</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <search string="Tables Detail">
+                <field name="partner_id" />
+                <field name="name" />
+                <filter string="Current Booking"
+                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
+                    help="Current Booking" />
+                <group expand="0" string="Group By">
+                    <filter string="Order By Month" domain="[]"
+                        context="{'group_by':'checkin_date'}" />
+                    <filter name="partner_id" string="Customer"
+                        icon="terp-stock_symbol-selection" context="{'group_by':'partner_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--graph view of hotel folio -->
+    <record id="view_hotel_folio_graph" model="ir.ui.view">
+        <field name="name">view.hotel.folio.graph</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="checkin_date" type="row" />
+                <!-- <field name="amount_total" type="measure" /> -->
+            </graph>
+        </field>
+    </record>
+    </data>
+</odoo>

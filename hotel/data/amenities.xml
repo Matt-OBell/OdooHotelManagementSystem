@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- hotel_room_amenities_type -->
+        <record id="hotel_room_amenities_type_00" model="product.category">
+            <field name="name">Banqueting Rooms</field>
+            <field name="isamenitytype">1</field>
+        </record>
+
+        <record id="hotel_room_amenities_type_01" model="product.category">
+            <field name="name">Conference Facilities</field>
+            <field name="isamenitytype">1</field>
+        </record>
+
+        <record id="hotel_room_amenities_type_02" model="product.category">
+            <field name="name">Spa</field>
+            <field name="isamenitytype">1</field>
+        </record>
+
+        <record id="hotel_room_amenities_type_03" model="product.category">
+            <field name="name">Hot Tub</field>
+            <field name="isamenitytype">1</field>
+        </record>
+
+
+        <!-- amenities -->
+        <record id="hotel_room_amenities_1" model="product.product">
+            <field name="name">Banqueting Room</field>
+            <field name="type">amenity</field>
+            <field name="categ_id" ref="hotel_room_amenities_type_00"/>
+        </record>
+
+        <record id="hotel_room_amenities_2" model="product.product">
+            <field name="name">Conference Facilities</field>
+            <field name="type">amenity</field>
+            <field name="categ_id" ref="hotel_room_amenities_type_01"/>
+        </record>
+
+        <record id="hotel_room_amenities_3" model="product.product">
+            <field name="name">Spa and Tub</field>
+            <field name="type">amenity</field>
+            <field name="categ_id" ref="hotel_room_amenities_type_03" />
+        </record>
+    </data>
+</odoo>
