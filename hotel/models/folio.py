@@ -351,7 +351,7 @@ class HotelFolio(models.Model):
         for room in self.room_ids:
             if room.is_available():
                 room.preoccupy()
-        folio.write({'state': 'checkin'})
+        self.write({'state': 'checkin'})
          
 
     @api.multi
