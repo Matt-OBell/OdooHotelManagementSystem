@@ -26,6 +26,15 @@
             <field name="view_mode">tree,form,calendar,graph</field>
         </record>
 
+        <!-- Action for hotel folio -->
+        <record id="open_hotel_folio1_checkin_form_tree_all" model="ir.actions.act_window">
+            <field name="name">Checkout</field>
+            <field name="res_model">hotel.folio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('state', '=', 'checkin')]</field>
+        </record>
+
          <!-- Action for hotel service type -->
         <record id="open_hotel_service_type_form_tree" model="ir.actions.act_window">
             <field name="name">Service Type</field>

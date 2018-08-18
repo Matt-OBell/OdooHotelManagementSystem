@@ -20,7 +20,7 @@
                 action="open_hotel_folio1_form_tree_all" sequence="5" parent="menu_all_folio" />
 
             <menuitem name="Check Out" id="menu_open_hotel_folio1_checkout"
-                action="open_hotel_folio1_form_tree_all" sequence="6" parent="menu_all_folio" />
+                action="open_hotel_folio1_checkin_form_tree_all" sequence="6" parent="menu_all_folio" />
 
 
         <menuitem id="menu_hotel_service" name="Services" 
