@@ -161,6 +161,23 @@ class HotelFolio(models.Model):
                                     readonly=True)
     duration_dummy = fields.Float('Duration Dummy')
 
+    def _basic_room_amenities(self, values):
+        ids = []
+        room_ids = values.get('room_ids')[0][2]
+        rooms = self.room_ids.browse(room_ids)
+        for room in rooms:
+            for amenities_id in room.amenities_ids:
+                ids.append(amenities_id.id)
+        return ids
+
+
+    @api.model
+    def create(self, values):
+        amenity_ids = self._basic_room_amenities(values)
+        values.update(amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
+        print(values)
+        return super(HotelFolio, self).create(values)
+
     @api.multi
     def go_to_currency_exchange(self):
         """
@@ -323,7 +340,8 @@ class HotelFolio(models.Model):
     @api.multi
     def confirm(self):
         for folio in self:
-            folio.write({'state': 'confirm'})
+            if folio.room_ids:
+                folio.write({'state': 'confirm'})
 
     @api.multi
     def checkin(self):
@@ -331,7 +349,8 @@ class HotelFolio(models.Model):
         till checkout time.
         """
         for room in self.room_ids:
-            print(self, '(((((((((((s', room)
+            if room.is_available():
+                room.preoccupy()
          
 
     @api.multi

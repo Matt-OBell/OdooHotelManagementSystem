@@ -46,15 +46,22 @@ class HotelRoom(models.Model):
                                       domain=[('type', '=', 'amenity')])
     status = fields.Selection(selection=ROOM_STATUS, string='Status', default='available')
     capacity = fields.Integer(string='Capacity', required=True, default=1)
-    # room_line_ids = fields.One2many('folio.room.line', 'room_id',
-    #                                 string='Room Reservation Line')
     product_manager = fields.Many2one('res.users', string='Product Manager')
     lease_price = fields.Float(string='Lease Price', required=True)
     total_price = fields.Float(string='Total Price', compute='_compute_total_price')
 
-    @api.depends('lease_price')
+    @api.multi
+    def is_available(self):
+        return self.status == 'available'
+
+    @api.multi
+    def preoccupy(self):
+        return self.write({'status':'occupied'})
+
+    @api.depends('lease_price', 'categ_id')
     def _compute_total_price(self):
-        self.total_price = self.lease_price * 4
+        for room in self:
+            room.total_price = room.lease_price + room.categ_id.standard_price
 
     @api.constrains('capacity')
     def check_capacity(self):
