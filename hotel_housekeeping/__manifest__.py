@@ -3,7 +3,7 @@
 {
     'name': 'Hotel Housekeeping Management',
     'version': '10.0.1.0.0',
-    'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA',
+    'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA, Mattobell LTD.',
     'category': 'Generic Modules/Hotel Housekeeping',
     'website': 'http://www.serpentcs.com',
     'depends': ['hotel'],
@@ -12,7 +12,7 @@
         'views/hotel_housekeeping_data.xml',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'report/hotel_housekeeping_report.xml',
         'views/activity_detail.xml',
         'wizard/hotel_housekeeping_wizard.xml',
