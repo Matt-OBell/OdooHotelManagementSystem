@@ -15,32 +15,32 @@ class HotelFolio(models.Model):
     reservation_id = fields.Many2one('hotel.reservation',
                                      string='Reservation Id')
 
-    @api.multi
-    def write(self, vals):
-        context = dict(self._context)
-        if not context:
-            context = {}
-        context.update({'from_reservation': True})
-        res = super(HotelFolio, self).write(vals)
-        reservation_line_obj = self.env['hotel.room.reservation.line']
-        for folio_obj in self:
-            if folio_obj.reservation_id:
-                for reservation in folio_obj.reservation_id:
-                    reservation_obj = (reservation_line_obj.search
-                                       ([('reservation_id', '=',
-                                          reservation.id)]))
-                    if len(reservation_obj) == 1:
-                        for line_id in reservation.reservation_line:
-                            line_id = line_id.reserve
-                            for room_id in line_id:
-                                vals = {'room_id': room_id.id,
-                                        'check_in': folio_obj.checkin_date,
-                                        'check_out': folio_obj.checkout_date,
-                                        'state': 'assigned',
-                                        'reservation_id': reservation.id,
-                                        }
-                                reservation_obj.write(vals)
-        return res
+#     @api.multi
+#     def write(self, vals):
+#         context = dict(self._context)
+#         if not context:
+#             context = {}
+#         context.update({'from_reservation': True})
+#         res = super(HotelFolio, self).write(vals)
+#         reservation_line_obj = self.env['hotel.room.reservation.line']
+#         for folio_obj in self:
+#             if folio_obj.reservation_id:
+#                 for reservation in folio_obj.reservation_id:
+#                     reservation_obj = (reservation_line_obj.search
+#                                        ([('reservation_id', '=',
+#                                           reservation.id)]))
+#                     if len(reservation_obj) == 1:
+#                         for line_id in reservation.reservation_line:
+#                             line_id = line_id.reserve
+#                             for room_id in line_id:
+#                                 vals = {'room_id': room_id.id,
+#                                         'check_in': folio_obj.checkin_date,
+#                                         'check_out': folio_obj.checkout_date,
+#                                         'state': 'assigned',
+#                                         'reservation_id': reservation.id,
+#                                         }
+#                                 reservation_obj.write(vals)
+#         return res
 
 
 class HotelFolioLineExt(models.Model):

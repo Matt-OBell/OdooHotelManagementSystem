@@ -41,6 +41,7 @@
                             <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
                             <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]"
                                 invisible="True" />
+                            <field name="folio_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('state', '!=', 'done')]}"/>
                         </group>
                         <field name="dummy" invisible="True" />
                     </group>
@@ -48,7 +49,7 @@
                         <page string='Reservation Line'>
                             <field name="reservation_line_ids" widget="one2many_list"  attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
-                                    <field name="room_id" string="Rooms"/>
+                                    <field name="room_id" string="Rooms" domain="[('isavailable', '=', True)]"/>
                                     <field name="categ_id" string="Category" readonly="1"/>
                                     <field name="capacity" string="Capacity" readonly="1"/>
                                 </tree>

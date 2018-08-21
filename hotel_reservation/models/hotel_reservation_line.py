@@ -41,5 +41,5 @@ class HotelRoom(models.Model):
         reserved_rooms_ids = self.env['hotel.reservation'].reserved_rooms_ids()
         print(reserved_rooms_ids)
         ids = self._search(args, limit=limit, access_rights_uid=access_rights_uid)
-        recs = self.browse(ids).filtered(lambda r: r.id not in reserved_rooms_ids)
+        recs = self.browse(ids).filtered(lambda r: r.id not in reserved_rooms_ids and r.isavailable == True)
         return recs.sudo(access_rights_uid).name_get()

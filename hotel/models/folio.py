@@ -175,7 +175,6 @@ class HotelFolio(models.Model):
     def create(self, values):
         amenity_ids = self._basic_room_amenities(values)
         values.update(amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
-        print(values)
         return super(HotelFolio, self).create(values)
 
     @api.multi

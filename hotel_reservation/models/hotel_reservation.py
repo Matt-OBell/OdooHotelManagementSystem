@@ -59,8 +59,7 @@ class HotelReservation(models.Model):
                                            help='Hotel room reservation details.',
                                            states={'draft': [('readonly', False)]})
     state = fields.Selection(selection=STATES, string='State', default='draft')
-    folio_id = fields.Many2many('hotel.folio', 'hotel_folio_reservation_rel',
-                                'order_id', 'invoice_id', string='Folio')
+    folio_id = fields.Many2one('hotel.folio', string='Folio')
     dummy = fields.Datetime('Dummy')
 
     def reserved_rooms_ids(self):
@@ -217,7 +216,22 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @return: new record set for hotel folio.
         """
-        hotel_folio_obj = self.env['hotel.folio']
+        folio = self.env['hotel.folio']
+        if self.folio_id:
+            pass
+            # redirect to folio
+        else: # create new folio and redirect
+            room_ids = [reservation.room_id.id for reservation in self.reservation_line_ids]
+            vals = {
+                'partner_id': self.partner_id.id, 
+                'checkin_date': self.arrival_date, 
+                'checkout_date':self.departure_date,
+                'room_ids': [[6, False, room_ids]],
+                'amenity_ids': [[6, False, []]],
+                'reservation_id': self.id
+            }
+            folio = folio.create(vals)
+            self.write({'folio_id': folio.id, 'state':'done'})
 
     @api.model
     def create(self, vals):
