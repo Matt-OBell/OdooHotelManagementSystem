@@ -6,9 +6,9 @@
     'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA',
     'category': 'Generic Modules/Hotel Restaurant Management',
     'website': 'http://www.serpentcs.com',
-    'depends': ['hotel'],
+    'depends': ['hotel', 'pos_restaurant'],
     'license': 'AGPL-3',
-    'demo': ['views/hotel_pos_data.xml'],
+    # 'demo': ['views/hotel_pos_data.xml'],
     'data': [
         # 'security/ir.model.access.csv',
         'views/pos_restaurent_view.xml',

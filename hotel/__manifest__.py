@@ -23,8 +23,8 @@
         # 'views/hotel_data.xml',
     ],
     'data': [
-        # 'security/hotel_security.xml',
-        # 'security/ir.model.access.csv',
+        'security/hotel_security.xml',
+        'security/ir.model.access.csv',
         'views/hotel_view.xml',
         # Tope 14/08/2018
          'views/folio.xml',

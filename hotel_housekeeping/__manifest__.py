@@ -12,7 +12,7 @@
         'views/hotel_housekeeping_data.xml',
     ],
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'report/hotel_housekeeping_report.xml',
         'views/activity_detail.xml',
         'wizard/hotel_housekeeping_wizard.xml',

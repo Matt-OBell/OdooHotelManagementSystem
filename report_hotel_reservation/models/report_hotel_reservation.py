@@ -26,10 +26,10 @@ class ReportHotelReservationStatus(models.Model):
             create or replace view report_hotel_reservation_status as (
                 select
                     min(c.id) as id,
-                    c.reservation_no,
+                    c.name,
                     c.state,
                     count(*) as nbr
                 from
                     hotel_reservation c
-                group by c.state,c.reservation_no
+                group by c.state,c.name
             )""")

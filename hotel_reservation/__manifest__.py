@@ -13,7 +13,7 @@
     ],
     'data': [
         'data/ir_sequence.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/hotel_reservation.xml',
         'wizard/hotel_reservation_wizard.xml',
         'report/hotel_reservation_report.xml',

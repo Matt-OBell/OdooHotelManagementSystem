@@ -3,8 +3,6 @@ access_hotel_floor_group,hotel.floor.user,model_hotel_floor,hotel.group_hotel_us
 access_product_category,product.category.user,product.model_product_category,hotel.group_hotel_user,1,1,1,0
 access_hotel_room_type,hotel.room_type.user,model_hotel_room_type,hotel.group_hotel_user,1,1,1,0
 access_product_product,product.product.user,product.model_product_product,hotel.group_hotel_user,1,1,1,0
-access_hotel_room_amenities_type,hotel.room_amenities_type.user,model_hotel_room_amenities_type,hotel.group_hotel_user,1,1,1,0
-access_hotel_room_amenities,hotel.room_aminities.user,model_hotel_room_amenities,hotel.group_hotel_user,1,1,1,0
 access_hotel_room,hotel.room.user,model_hotel_room,hotel.group_hotel_user,1,1,1,0
 access_hotel_folio,hotel.folio.user,model_hotel_folio,hotel.group_hotel_user,1,1,1,0
 access_hotel_folio_line,hotel_folio.line.user,model_hotel_folio_line,hotel.group_hotel_user,1,1,1,0
@@ -18,8 +16,6 @@ access_hotel_floor_group_manager,hotel.floor.manager,model_hotel_floor,hotel.gro
 access_product_category_manager,product.category.manager,product.model_product_category,hotel.group_hotel_manager,1,1,1,1
 access_hotel_room_type_manager,hotel.room_type.manager,model_hotel_room_type,hotel.group_hotel_manager,1,1,1,1
 access_product_product_manager,product.product.manager,product.model_product_product,hotel.group_hotel_manager,1,1,1,1
-access_hotel_room_amenities_type_manager,hotel.room_amenities_type.manager,model_hotel_room_amenities_type,hotel.group_hotel_manager,1,1,1,1
-access_hotel_room_amenities_manager,hotel.room_aminities.manager,model_hotel_room_amenities,hotel.group_hotel_manager,1,1,1,1
 access_hotel_room_manager,hotel.room.manager,model_hotel_room,hotel.group_hotel_manager,1,1,1,1
 access_hotel_folio_manager,hotel.folio.manager,model_hotel_folio,hotel.group_hotel_manager,1,1,1,1
 access_hotel_folio_line_manager,hotel_folio.line.manager,model_hotel_folio_line,hotel.group_hotel_manager,1,1,1,1
@@ -33,3 +29,4 @@ access_currency_exchange_manager,hotel.currency_exchange.manager,model_currency_
 access_currency_exchange_user,hotel.currency_exchange.user,model_currency_exchange,hotel.group_hotel_user,1,1,1,1
 access_folio_room_line_manager,hotel.folio_room_line.manager,model_folio_room_line,hotel.group_hotel_manager,1,1,1,1
 access_folio_room_line_user,hotel.folio_room_line.user,model_folio_room_line,hotel.group_hotel_user,1,1,1,1
+
