@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
-
-    
-
+    <data>
 
     <!-- ====== Company Configuration ====== -->
     <record id="res_company_inherit_config_hotel" model="ir.ui.view">
@@ -11,8 +8,14 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='currency_id']" position="after">
-                <field name="additional_hours" />
+            <xpath expr="//page[1]" position="after">
+                <page string="Hotel Settings" name="hotel">
+                    <group>
+                        <field name="additional_hours"/>
+                        <field name="checkin_hour" widget="floor_time"/>
+                        <field name="checkout_hour" widget="floor_time"/>
+                    </group>
+                </page>
             </xpath>
         </field>
     </record>
@@ -46,35 +49,6 @@
         </field>
     </record>
 
-    
-
-    
-
-
-    
-    <!-- Binding Tree Click to Action -->
- <!--    <record id="ir_hotel_amenities_open" model="ir.values">
-        <field eval="'tree_but_open'" name="key2" />
-        <field eval="'hotel.room.amenities.type'" name="model" />
-        <field name="name">Amenities by Category</field>
-        <field eval="'ir.actions.act_window,%d'%action_hotel_amenities"
-            name="value" />
-    </record> -->
-
-<!--     <record id="hotel_amenities_category_action" model="ir.actions.act_window">
-        <field name="name">Amenities by Category</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hotel.room.amenities.type</field>
-        <field name="domain">[('amenity_id', '=', False)]</field>
-        <field name="view_type">tree</field>
-        <field name="view_id" ref="hotel_amenities_category_tree_view" />
-    </record>
-
-    <menuitem name="Amenities by Category" id="menu_hotel_ty_category_action"
-        action="hotel_amenities_category_action" sequence="4" parent="hotel.menu_amenity" /> -->
-
-
-
     <record id="hotel_room_category_tree_view" model="ir.ui.view">
         <field name="name">hotel.room.type.tree</field>
         <field name="model">hotel.room.type</field>
@@ -85,30 +59,6 @@
             </tree>
         </field>
     </record>
-
-   
-
-    <!-- Binding Tree Click to Action -->
-<!--     <record id="ir_hotel_room_open" model="ir.values">
-        <field eval="'tree_but_open'" name="key2" />
-        <field eval="'hotel.room.type'" name="model" />
-        <field name="name">Rooms by Category</field>
-        <field eval="'ir.actions.act_window,%d'%action_hotel_room" name="value" />
-    </record> -->
-
-    <!-- <record id="hotel_room_category_action" model="ir.actions.act_window">
-        <field name="name">Rooms by Category</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hotel.room.type</field>
-        <field name="domain">[('categ_id','=',False)]</field>
-        <field name="view_type">tree</field>
-        <field name="view_id" ref="hotel_room_category_tree_view" />
-    </record>
-
-    <menuitem name="Room by Category" id="menu_hotel_room_category_action"
-        action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" /> -->
-
-
     
     <!--============ Hotel Service Type ============ -->
     <!-- Form view of hotel service type -->
@@ -235,10 +185,6 @@
         </field>
     </record>
 
-    
-
-    
-
     <!-- Hierarchical Tree view of Service Category -->
     <record id="hotel_service_category_tree_view" model="ir.ui.view">
         <field name="name">hotel.service.type.tree</field>
@@ -249,111 +195,6 @@
                 <field name="name" />
             </tree>
         </field>
-    </record>
-
-    
-
-    <!-- Binding Tree Click to Action Do not delete-->
-  <!--   <record id="ir_hotel_service_open" model="ir.values">
-        <field eval="'tree_but_open'" name="key2" />
-        <field eval="'hotel.service.type'" name="model" />
-        <field name="name">Services by Category</field>
-        <field eval="'ir.actions.act_window,%d'%action_hotel_service"
-            name="value" />
-    </record> -->
-
-    <!-- <record id="hotel_service_categ_action" model="ir.actions.act_window">
-        <field name="name">Services by Category</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hotel.service.type</field>
-        <field name="domain">[('service_id', '=', False)]</field>
-        <field name="view_type">tree</field>
-        <field name="view_id" ref="hotel_service_category_tree_view" />
-    </record>
-
-    <menuitem name="Services by Category" id="menu_hotel_services_categ_action"
-        action="hotel_service_categ_action" sequence="10"
-        parent="hotel.menu_hotel_service" /> -->
-
-    <!--======== Currency ======== -->
-    <!-- Form view of currency exchange -->
-   <!--  <record id="view_currency_exchange_form" model="ir.ui.view">
-        <field name="name">currency.exchange.form</field>
-        <field name="model">currency.exchange</field>
-        <field name="arch" type="xml">
-            <form string=" Currency Exchange">
-                <header>
-                    <button name="act_cur_done" string="Done" states='draft'
-                        icon="fa-check" type="object" class="oe_highlight" />
-                    <button name="act_cur_cancel" string="Cancel" states='draft'
-                        icon="fa-close" type="object" class="oe_highlight" />
-                    <button name="act_cur_cancel_draft" string="Set To Draft"
-                        states='cancel' icon="fa-check" type="object" class="oe_highlight" />
-                    <button name="%(report_hotel_currency)d" states='done' type="action"
-                        string="Print" class="oe_highlight" />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,done" />
-                </header>
-                <sheet>
-                    <div class="oe_title ">
-                        <label for="name" string="Reg Number" />
-                        <h1>
-                            <field name="name" />
-                        </h1>
-                    </div>
-                    <separator string="Details" />
-                    <newline />
-                    <group colspan="2" col="2">
-                        <field name="today_date" />
-                        <newline />
-                    </group>
-                    <group colspan="2" col="4">
-                        <field name="folio_no" required="1" />
-                        <field name="guest_name" required="1" />
-                        <field name="room_number" required="1" />
-                        <field name="hotel_id" />
-                        <field name="type" />
-                    </group>
-                    <separator string="Currency Exchange" />
-                    <newline />
-                    <group colspan="2" col="4">
-                        <field name="input_curr" required="1" />
-                        <field name="in_amount" widget="monetary"
-                            options="{'currency_field': 'input_curr'}" />
-                        <field name="out_curr" required="1" />
-                        <field name="rate" />
-                    </group>
-                    <group colspan="2" col="2">
-                        <field name="out_amount" widget="monetary"
-                            options="{'currency_field': 'out_curr'}" readonly="1" />
-                        <newline />
-                        <field name="tax" />
-                    </group>
-                    <separator string="Total Amount" />
-                    <newline />
-                    <h1>
-                        <field name="total" widget="monetary" options="{'currency_field': 'out_curr'}"
-                            readonly="1" />
-                    </h1>
-                    <group colspan="2" col="4">
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record> -->
-
-    <!-- Tree view of currency exchange -->
-    <!-- <record id="view_currency_exchange_tree" model="ir.ui.view">
-        <field name="name">currency.exchange.tree</field>
-        <field name="model">currency.exchange</field>
-        <field name="arch" type="xml">
-            <tree string=" Currency Exchange">
-                <field name="name" />
-                <field name="today_date" />
-                <field name="guest_name" />
-                <field name="total" sum="Total" />
-            </tree>
-        </field>
-    </record> -->
-
-  
+    </record> 
+</data>
 </odoo>
