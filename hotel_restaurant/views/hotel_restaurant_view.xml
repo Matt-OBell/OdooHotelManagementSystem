@@ -133,23 +133,21 @@
                     <group>
                         <group >
                             <field name="is_folio" />
-                            <newline />
                             <field name="folio_id"
                                 attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}" />
-                            <field name="room_no"
-                                attrs="{'invisible':[('is_folio','=',False)] ,'required':[('is_folio','=',True)]}" />
-                        </group>
-                        <newline />
-                        <group >
                             <field name="cname" />
+                        </group>
+                        <group >
                             <field name="partner_address_id" />
                             <field name="start_date" />
                             <field name="end_date" />
                         </group>
-                        <group >
-                            <field name="tableno"  nolabel='1' />
-                        </group>
                     </group>
+                    <notebook >
+                        <page string='Tables' name='table'>
+                            <field name="tableno"  nolabel='1' />
+                        </page>
+                    </notebook>        
                 </sheet>
             </form>
         </field>
@@ -165,7 +163,6 @@
                 toolbar="1">
                 <field name="reservation_id" />
                 <field name="folio_id" />
-                <field name="room_no" />
                 <field name="start_date" />
                 <field name="end_date" />
                 <field name="cname" />
@@ -197,7 +194,6 @@
                     <filter domain="[('state','=','cancel')]" string="Cancel" />
                     <filter domain="[('state','=','done')]" string="Done" />
                 </group>
-                <field name="room_no" />
                 <field name="start_date" />
                 <field name="end_date" />
                 <field name="cname" />

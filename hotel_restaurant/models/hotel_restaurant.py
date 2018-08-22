@@ -94,10 +94,10 @@ class HotelMenucard(models.Model):
 class HotelRestaurantTables(models.Model):
 
     _name = "hotel.restaurant.tables"
-    _description = "Includes Hotel Restaurant Table"
+    _description = "Hotel Restaurant Table"
 
-    name = fields.Char('Table Number', size=64, required=True, index=True)
-    capacity = fields.Integer('Capacity')
+    name = fields.Char(string='Table Number', required=True, index=True)
+    capacity = fields.Integer(string='Capacity')
 
 
 class HotelRestaurantReservation(models.Model):
@@ -128,7 +128,7 @@ class HotelRestaurantReservation(models.Model):
         return True
 
     @api.onchange('cname')
-    def onchange_partner_id(self):
+    def _onchange_partner_id(self):
         """
         When Customer name is changed respective adress will display
         in Adress field
@@ -141,7 +141,7 @@ class HotelRestaurantReservation(models.Model):
             self.partner_address_id = addr['default']
 
     @api.onchange('folio_id')
-    def get_folio_id(self):
+    def _onchange_folio_id(self):
         """
         When you change folio_id, based on that it will update
         the cname and room_number as well
@@ -153,8 +153,7 @@ class HotelRestaurantReservation(models.Model):
             self.room_no = False
             if rec.folio_id:
                 self.cname = rec.folio_id.partner_id.id
-                if rec.folio_id.room_lines:
-                    self.room_no = rec.folio_id.room_lines[0].product_id.id
+               
 
     @api.multi
     def action_set_to_draft(self):
@@ -226,13 +225,12 @@ class HotelRestaurantReservation(models.Model):
         return True
 
     _name = "hotel.restaurant.reservation"
-    _description = "Includes Hotel Restaurant Reservation"
+    _description = "Hotel Restaurant Reservation"
     _rec_name = "reservation_id"
 
-    reservation_id = fields.Char('Reservation No', size=64, readonly=True,
-                                 index=True)
-    room_no = fields.Many2one('product.product', string='Room No', size=64,
-                              index=True)
+    reservation_id = fields.Char('Reservation No', readonly=True, index=True)
+    # room_no = fields.Many2one('product.product', string='Room No', size=64,
+    #                           index=True)
     folio_id = fields.Many2one('hotel.folio', string='Folio No')
     start_date = fields.Datetime('Start Time', required=True,
                                  default=(lambda *a:
