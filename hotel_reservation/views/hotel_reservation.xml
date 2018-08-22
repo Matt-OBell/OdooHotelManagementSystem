@@ -159,47 +159,15 @@
         action="action_hotel_reservation_tree_all" parent="menu_hotel_reservation"
         sequence="3" />
 
-    <record id="view_hotel_room_form_inherited" model="ir.ui.view">
-        <field name="name">view.hotel.room.form.inherited</field>
-        <field name="model">hotel.room</field>
-        <field name="inherit_id" ref="hotel.view_hotel_room_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//page[@name='information_hotel_room']" position="after">
-                <page string="Room Reservation">
-                    <!-- <field name="room_reservation_line_ids"  nolabel='1'
-                        string="Room Reservation Line">
-                        <form string=" Room line">
-                            <group colspan='4' col='4'>
-                                <field name="room_id" />
-                                <field name="check_in" />
-                                <field name="state" />
-                                <field name="check_out" />
-                                <field name="reservation_id" />
-                                <field name="status" />
-                            </group>
-                        </form>
-                        <tree>
-                            <field name="room_id" />
-                            <field name="check_in" />
-                            <field name="check_out" />
-                            <field name="state" />
-                            <field name="reservation_id" />
-                            <field name="status" />
-                        </tree>
-                    </field> -->
-                </page>
-            </xpath>
-        </field>
-    </record>
 
     <record id="view_hotel_folio1_form_inherited" model="ir.ui.view">
         <field name="name">hotel.folio.form.inherited</field>
         <field name="model">hotel.folio</field>
         <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
         <field name="arch" type="xml">
-            <field name="name" position='after'>
+            <xpath expr="//page[@name='otherinfo']/group[1]" position='inside'>
                 <field name="reservation_id" readonly='1' />
-            </field>
+            </xpath>
         </field>
     </record>
     <record id="view_hotel_folio1_tree_inherited" model="ir.ui.view">

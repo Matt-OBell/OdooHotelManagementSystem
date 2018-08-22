@@ -189,8 +189,8 @@
                     <group string="Other Info">
                         <field name="standard_price"/>
                         <field name="extra_beds" />
-                        <field name="status"/>
-                        <field name="room_ids"/>
+                        <!-- <field name="status"/> -->
+                        <!-- <field name="room_ids"/> -->
                     </group>
                     </group>
                 </sheet>

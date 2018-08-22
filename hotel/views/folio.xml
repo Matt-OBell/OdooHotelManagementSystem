@@ -45,13 +45,8 @@
                             <group>
                                 <field name="partner_id" string="Guest Name" required="1" />
                                 <field name="checkin_date" />
-                                <!-- <field name="partner_invoice_id"/> -->
-                                <!-- <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" /> -->
                             </group>
                             <group>
-                                <!-- <field name="date_order" /> -->
-                                <!-- <field name="warehouse_id" string="Branch" /> -->
-                                <!-- <field name="invoice_status" /> -->
                                 <field name="invoice_id" states='sale,done,cancel'
                                     readonly="1" />
                                 <field name="duration" readonly="1" widget="time_float"/>
@@ -71,18 +66,6 @@
                                         <field name="total_price" string="Price"/>
                                     </tree>
                                 </field>
-                                <!-- <group colspan="2" class="oe_subtotal_footer oe_right">
-                                    <field name="amount_untaxed" sum="Untaxed amount" widget='monetary' />
-                                    <field name="amount_tax" widget='monetary' />
-                                    <div class="oe_subtotal_footer_separator oe_inline">
-                                        <label for="amount_total" />
-                                    </div>
-                                    <field name="amount_total" nolabel="1" sum="Total amount"
-                                        widget='monetary' />
-                                    <button name="button_dummy" string="Compute" states="draft"
-                                        type="object" class="fa fa-calculator" aria-hidden="true"
-                                        style="background-color:#7c7bad;" />
-                                </group> -->
                                 <div class="oe_clear" />
                             </page>
                             <page string="Service(s)">
@@ -101,16 +84,12 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Other Info">
+                            <page string="Other Info" name="otherinfo">
                                 <group>
-                                    <!-- <field name="user_id" /> -->
                                     <field name="hotel_policy" attrs="{'readonly':[('state','not in',('draft'))]}" />
-                                    <!-- <field name="client_order_ref" /> -->
                                 </group>
                             </page>
                             <page string="History">
-                                <!-- <separator string="Related invoices" colspan="4" /> -->
-                                <!-- <field name="invoice_ids" colspan="4" nolabel="1" /> -->
                             </page>
                             <page string="Foreign Exchange" name="foreign exchange">
                                 <separator string="Foreign Exchange" colspan="4" />

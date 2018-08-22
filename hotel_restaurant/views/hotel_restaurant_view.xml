@@ -14,8 +14,8 @@
                 position="after">
                 <page string="Hotel Restaurant">
                     <separator string="Restaurant Order Reservation Details"
-                        colspan="4" />
-                    <field name="hotel_reservation_order_ids" colspan="4"
+                         />
+                    <field name="hotel_reservation_order_ids" 
                         nolabel="1" readonly="1">
                         <tree string="Order" colors="blue:state == 'draft';green:state == 'order'"
                             toolbar="1">
@@ -27,8 +27,8 @@
                             <field name="amount_total" sum="Order Total" />
                         </tree>
                     </field>
-                    <separator string="Restaurant Orders Details" colspan="4" />
-                    <field name="hotel_restaurant_order_ids" colspan="4" nolabel="1"
+                    <separator string="Restaurant Orders Details"  />
+                    <field name="hotel_restaurant_order_ids"  nolabel="1"
                         readonly="1">
                         <tree string="Order"
                             colors="blue:state == 'draft';green:state == 'order';black:state == 'done';"
@@ -127,11 +127,11 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Booking" colspan="4" />
-                        <field name="reservation_id" colspan="4" />
+                        <label string="Table Booking"  />
+                        <field name="reservation_id"  />
                     </h1>
                     <group>
-                        <group colspan="2" col="4">
+                        <group >
                             <field name="is_folio" />
                             <newline />
                             <field name="folio_id"
@@ -140,15 +140,14 @@
                                 attrs="{'invisible':[('is_folio','=',False)] ,'required':[('is_folio','=',True)]}" />
                         </group>
                         <newline />
-                        <group colspan="4" col="4">
+                        <group >
                             <field name="cname" />
                             <field name="partner_address_id" />
                             <field name="start_date" />
                             <field name="end_date" />
                         </group>
-                        <group colspan="4">
-                            <separator colspan='4' string="Table List" />
-                            <field name="tableno" colspan="4" nolabel='1' />
+                        <group >
+                            <field name="tableno"  nolabel='1' />
                         </group>
                     </group>
                 </sheet>
@@ -248,17 +247,17 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Order" colspan="4" />
-                        <field name="order_number" colspan="4" />
+                        <label string="Order"  />
+                        <field name="order_number"  />
                     </h1>
                     <group>
-                        <group colspan="4" col="4">
+                        <group >
                             <field name="is_folio" invisible="1" />
                             <newline />
                             <field name="reservationno" />
                             <field name="folio_id" attrs="{'invisible': [('is_folio','=',False)]}" />
                         </group>
-                        <group colspan="4" col="4">
+                        <group >
                             <field name="date1" />
                             <field name="waitername" />
                             <field name="kitchen_id" invisible="1" />
@@ -266,10 +265,10 @@
                         </group>
                         <newline />
                         <separator colspan='4' string='Table List' />
-                        <field name="table_no" colspan="4" nolabel='1' />
+                        <field name="table_no"  nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="order_list" colspan="4" nolabel='1'>
+                        <field name="order_list"  nolabel='1'>
                             <form string="Order List">
                                 <group>
                                     <field name="name" />
@@ -286,7 +285,7 @@
                             </tree>
                         </field>
                         <newline />
-                        <group colspan="2" class="oe_subtotal_footer oe_right">
+                        <group  class="oe_subtotal_footer oe_right">
                             <field name="amount_subtotal" widget='monetary' />
                             <field name="tax" widget='monetary' />
                             <div class="oe_subtotal_footer_separator oe_inline">
@@ -376,21 +375,21 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Order" colspan="4" />
-                        <field name="order_no" colspan="4" />
+                        <label string="Table Order"  />
+                        <field name="order_no"  />
                     </h1>
                     <group>
-                        <group colspan="2" col="2">
+                        <group  col="2">
                             <field name="o_date" />
                             <field name="is_folio" />
                         </group>
-                        <group colspan="2" col="4">
+                        <group >
                             <field name="folio_id"
                                 attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}" />
                             <field name="room_no"
                                 attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}" />
                         </group>
-                        <group colspan="2" col="4">
+                        <group >
                             <field name="cname" />
                             <field name="waiter_name" />
                             <field name="kitchen_id" invisible="1" />
@@ -399,10 +398,10 @@
                         </group>
                         <newline />
                         <separator colspan='4' string='Table List' />
-                        <field name="table_no" colspan="4" nolabel='1' />
+                        <field name="table_no"  nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="order_list" colspan="4" nolabel='1'>
+                        <field name="order_list"  nolabel='1'>
                             <form string="Order List">
                                 <group>
                                     <field name="name" />
@@ -496,23 +495,23 @@
             <form string="KOT List" create="0" edit="0">
                 <sheet>
                     <group>
-                        <group colspan="4">
+                        <group >
                             <field name="orderno" />
                             <field name="resno" />
                         </group>
                         <group>
                             <field name="kot_date" />
                         </group>
-                        <group colspan="4" col="4">
+                        <group >
                             <field name="room_no" />
                             <field name="w_name" />
                         </group>
                         <newline />
                         <separator colspan='4' string='Table List' />
-                        <field name="tableno" colspan="4" nolabel='1' />
+                        <field name="tableno"  nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="kot_list" colspan="4" nolabel='1'>
+                        <field name="kot_list"  nolabel='1'>
                             <form string="Order List">
                                 <group>
                                     <field name="name" />
@@ -645,8 +644,8 @@
                     </div>
                     <notebook>
                         <page string="Information">
-                            <group colspan="4" col="2">
-                                <group colspan="4" col="4">
+                            <group  col="2">
+                                <group >
                                     <field name="type" select="2" string="Food Type" />
                                     <field name="categ_id" string="Food Item Type" />
                                     <field name="product_manager" select="2" string="Food Manager" />
@@ -656,15 +655,15 @@
                             </group>
                             <newline />
                             <separator string="Supplier Taxes" colspan='4' />
-                            <field name="supplier_taxes_id" colspan="4"
+                            <field name="supplier_taxes_id" 
                                 help='List of supplier taxes applied on the perticular Food Item. ' />
                             <newline />
                             <separator string="Customer Taxes" colspan='4' />
-                            <field name="taxes_id" colspan="4"
+                            <field name="taxes_id" 
                                 help='List of customer taxes applied on the perticular Food Item.' />
                         </page>
                         <page string="Procurement">
-                            <group colspan="4" col="4">
+                            <group >
                                 <field name="cost_method" />
                                 <field name="active" select="2" />
                                 <field name="list_price" />
@@ -673,17 +672,17 @@
                                 <field name="rental" select="2" />
                                 <field name="price_extra" />
                                 <separator string="Suppliers" colspan='4' />
-                                <field name="seller_ids" colspan="4" nolabel="1"
+                                <field name="seller_ids"  nolabel="1"
                                     widget="one2many_list" />
                             </group>
                         </page>
                         <page string="Descriptions">
                             <separator string="Description" />
-                            <field name="description" colspan="4" nolabel="1" />
+                            <field name="description"  nolabel="1" />
                             <separator string="Sale Description" />
-                            <field name="description_sale" colspan="4" nolabel="1" />
+                            <field name="description_sale"  nolabel="1" />
                             <separator string="Purchase Description" />
-                            <field name="description_purchase" colspan="4" nolabel="1" />
+                            <field name="description_purchase"  nolabel="1" />
                         </page>
                     </notebook>
                 </sheet>
