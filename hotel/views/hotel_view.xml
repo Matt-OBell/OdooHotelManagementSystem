@@ -12,8 +12,8 @@
                 <page string="Hotel Settings" name="hotel">
                     <group>
                         <field name="additional_hours"/>
-                        <field name="checkin_hour" widget="floor_time"/>
-                        <field name="checkout_hour" widget="floor_time"/>
+                        <field name="checkin_hour" widget="float_time"/>
+                        <field name="checkout_hour" widget="float_time"/>
                     </group>
                 </page>
             </xpath>

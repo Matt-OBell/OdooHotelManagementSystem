@@ -5,7 +5,7 @@ from odoo import api, fields, models
 import time
 import datetime
 from urllib.request import urlopen as urllib2
-from odoo.exceptions import except_orm, ValidationError
+from odoo.exceptions import except_orm, ValidationError, MissingError
 from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
@@ -154,12 +154,13 @@ class HotelFolio(models.Model):
                                     "either the guest has to payment at "
                                     "booking time or check-in "
                                     "check-out time.")
-    duration = fields.Integer('Duration in Days',
+    duration = fields.Integer(string='Duration in Days',
                             help="Number of days which will automatically "
                             "count from the check-in and check-out date. ")
     currrency_ids = fields.One2many('currency.exchange', 'folio_no',
                                     readonly=True)
     duration_dummy = fields.Float('Duration Dummy')
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get(),required=True)
 
     def _basic_room_amenities(self, values):
         ids = []
@@ -221,10 +222,10 @@ class HotelFolio(models.Model):
             folio_rooms.append(room.product_id.id)
 
 
-    def period_of_stay(self, checkin, checkout):
+    def _sojourn(self, checkin, checkout):
         adjustment, one_day = 0, 86400.0 # 60 * 60 * 24
         total_seconds = (checkout - checkin).total_seconds()
-        days = int((total_seconds + adjustment) / one_day)
+        days = int((total_seconds + adjustment) / one_day) if int((total_seconds + adjustment) / one_day) > 0 else 1
         return days
 
     @api.onchange('checkout_date', 'checkin_date')
@@ -242,40 +243,8 @@ class HotelFolio(models.Model):
         if self.checkin_date and self.checkout_date:
             checkin = fields.Datetime.from_string(self.checkin_date)
             checkout = fields.Datetime.from_string(self.checkout_date)
-            self.duration = self.period_of_stay(checkin, checkout)
+            self.duration = self._sojourn(checkin, checkout)
 
-
-
-    # @api.onchange('warehouse_id')
-    # def onchange_warehouse_id(self):
-    #     """
-    #     When you change warehouse it will update the warehouse of
-    #     the hotel folio as well
-    #     ----------------------------------------------------------
-    #     @param self: object pointer
-    #     """
-    #     return self.order_id._onchange_warehouse_id()
-
-    # @api.onchange('partner_id')
-    # def onchange_partner_id(self):
-    #     """
-    #     When you change partner_id it will update the partner_invoice_id,
-    #     partner_shipping_id and pricelist_id of the hotel folio as well
-    #     ---------------------------------------------------------------
-    #     @param self: object pointer
-    #     """
-    #     if self.partner_id:
-    #         partner_rec = self.env['res.partner'].browse(self.partner_id.id)
-    #         order_ids = [folio.order_id.id for folio in self]
-    #         if not order_ids:
-    #             self.partner_invoice_id = partner_rec.id
-    #             self.partner_shipping_id = partner_rec.id
-    #             self.pricelist_id = partner_rec.property_product_pricelist.id
-    #             raise _('Not Any Order For  %s ' % (partner_rec.name))
-    #         else:
-    #             self.partner_invoice_id = partner_rec.id
-    #             self.partner_shipping_id = partner_rec.id
-    #             self.pricelist_id = partner_rec.property_product_pricelist.id
 
     @api.multi
     def button_dummy(self):
@@ -339,8 +308,9 @@ class HotelFolio(models.Model):
     @api.multi
     def confirm(self):
         for folio in self:
-            if folio.room_ids:
-                folio.write({'state': 'confirm'})
+            if not folio.room_ids:
+                raise MissingError('Please add room(s) to the folio line')
+            folio.write({'state': 'confirm'})
 
     @api.multi
     def checkin(self):
