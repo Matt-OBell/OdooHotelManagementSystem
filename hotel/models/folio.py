@@ -1,15 +1,17 @@
-from datetime import timedelta
+# from datetime import timedelta, datetime
+from datetime import datetime, timedelta, date, time as tm
 
 from odoo import api, fields, models
 
 import time
-import datetime
+# import datetime
 from urllib.request import urlopen as urllib2
-from odoo.exceptions import except_orm, ValidationError, MissingError
+from odoo.exceptions import except_orm, ValidationError, MissingError, UserError
 from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
 from decimal import Decimal
+from odoo.addons.hotel.helper import decimal_to_time
 
 _STATES = [
     ('draft', 'New'),
@@ -111,8 +113,8 @@ class HotelFolio(models.Model):
             to_zone = self._context.get('tz')
         else:
             to_zone = 'UTC'
-        tm_delta = datetime.timedelta(days=1)
-        return datetime.datetime.strptime(_offset_format_timestamp1
+        tm_delta = timedelta(days=1)
+        return datetime.strptime(_offset_format_timestamp1
                                           (time.strftime("%Y-%m-%d 12:00:00"),
                                            DEFAULT_SERVER_DATETIME_FORMAT,
                                            DEFAULT_SERVER_DATETIME_FORMAT,
@@ -156,7 +158,7 @@ class HotelFolio(models.Model):
                                     "check-out time.")
     duration = fields.Integer(string='Duration in Days',
                             help="Number of days which will automatically "
-                            "count from the check-in and check-out date. ")
+                            "count from the check-in and check-out date. ", compute='_compute_duration')
     currrency_ids = fields.One2many('currency.exchange', 'folio_no',
                                     readonly=True)
     duration_dummy = fields.Float('Duration Dummy')
@@ -176,6 +178,7 @@ class HotelFolio(models.Model):
     def create(self, values):
         amenity_ids = self._basic_room_amenities(values)
         values.update(amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
+        values.update(name=self.env['ir.sequence'].next_by_code('hotel.folio'))
         return super(HotelFolio, self).create(values)
 
     @api.multi
@@ -228,8 +231,8 @@ class HotelFolio(models.Model):
         days = int((total_seconds + adjustment) / one_day) if int((total_seconds + adjustment) / one_day) > 0 else 1
         return days
 
-    @api.onchange('checkout_date', 'checkin_date')
-    def _onchange_duration(self):
+    @api.depends('checkout_date', 'checkin_date')
+    def _compute_duration(self):
         """
         This method gives the duration between check in and checkout
         if customer will leave only for some hour it would be considers
@@ -317,26 +320,30 @@ class HotelFolio(models.Model):
         """When a user checkin, all the room on the folio will become unavailable
         till checkout time.
         """
+        hours, minutes = decimal_to_time(self.company_id.checkin_hour)
+        can_check_in = datetime.combine(date.today(), tm(hours, minutes)) < datetime.now()
+        if not can_check_in:
+            raise UserError('Guest(s) cannot be checked in earlier than {}'.format(self.company_id.checkin_hour))
         for room in self.room_ids:
             if room.is_available():
                 room.preoccupy()
         self.write({'state': 'checkin'})
-         
+             
 
-    @api.multi
-    def test_state(self, mode):
-        """
-        @param self: object pointer
-        @param mode: state of workflow
-        """
-        write_done_ids = []
-        write_cancel_ids = []
-        if write_done_ids:
-            test_obj = self.env['sale.order.line'].browse(write_done_ids)
-            test_obj.write({'state': 'done'})
-        if write_cancel_ids:
-            test_obj = self.env['sale.order.line'].browse(write_cancel_ids)
-            test_obj.write({'state': 'cancel'})
+    # @api.multi
+    # def test_state(self, mode):
+    #     """
+    #     @param self: object pointer
+    #     @param mode: state of workflow
+    #     """
+    #     write_done_ids = []
+    #     write_cancel_ids = []
+    #     if write_done_ids:
+    #         test_obj = self.env['sale.order.line'].browse(write_done_ids)
+    #         test_obj.write({'state': 'done'})
+    #     if write_cancel_ids:
+    #         test_obj = self.env['sale.order.line'].browse(write_cancel_ids)
+    #         test_obj.write({'state': 'cancel'})
 
     @api.multi
     def action_cancel_draft(self):

@@ -14,7 +14,7 @@
         <record id="seq_hotel_table" model="ir.sequence">
             <field name="name">Hotel Reservation</field>
             <field name="code">hotel.restaurant.reservation</field>
-            <field name="prefix">R0/</field>
+            <field name="prefix">HRR</field>
             <field name="padding">5</field>
         </record>
 

@@ -127,7 +127,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Booking"  />
+                        <!-- <label string="Table Booking"  /> -->
                         <field name="reservation_id"  />
                     </h1>
                     <group>
@@ -259,27 +259,12 @@
                             <field name="kitchen_id" invisible="1" />
                             <field name="rest_id" widget="many2many_tags" invisible="1" />
                         </group>
-                        <separator  string='Table List' />
-                        <field name="table_no"  nolabel='1' />
-                        <separator  string='Order List' />
-                        <field name="order_list"  nolabel='1'>
-                            <form string="Order List">
-                                <group>
-                                    <field name="name" />
-                                    <field name="item_qty" />
-                                    <field name="item_rate" />
-                                    <field name="price_subtotal" invisible="1" />
-                                </group>
-                            </form>
-                            <tree string="Order List">
-                                <field name="name" />
-                                <field name="item_qty" />
-                                <field name="item_rate" />
-                                <field name="price_subtotal" />
-                            </tree>
-                        </field>
-                        <newline />
-                        <group  class="oe_subtotal_footer oe_right">
+                        
+                    </group>
+                    <notebook>
+                        <page string='Table List'>
+                            <field name="table_no"  nolabel='1' />
+                            <group  class="oe_subtotal_footer oe_right">
                             <field name="amount_subtotal" widget='monetary' />
                             <field name="tax" widget='monetary' />
                             <div class="oe_subtotal_footer_separator oe_inline">
@@ -287,7 +272,26 @@
                             </div>
                             <field name="amount_total" nolabel="1" widget='monetary' />
                         </group>
-                    </group>
+                        </page>
+                        <page string='Order List'>
+                            <field name="order_list"  nolabel='1'>
+                                <form string="Order List">
+                                    <group>
+                                        <field name="name" />
+                                        <field name="item_qty" />
+                                        <field name="item_rate" />
+                                       <field name="price_subtotal" invisible="1" />
+                                    </group>
+                               </form>
+                               <tree string="Order List">
+                                   <field name="name" />
+                                   <field name="item_qty" />
+                                   <field name="item_rate" />
+                                   <field name="price_subtotal" />
+                               </tree>
+                           </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -334,14 +338,14 @@
 
     <!-- Action of hotel reservation order -->
     <record id="open_view_hotel_reservation_order_form_tree" model="ir.actions.act_window">
-        <field name="name">Order</field>
+        <field name="name">Table Booking Order</field>
         <field name="res_model">hotel.reservation.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem id="menu_open_view_hotel_reservation_order_form_tree"
-        name="Orders" action="open_view_hotel_reservation_order_form_tree"
+        name="Table Booking Order" action="open_view_hotel_reservation_order_form_tree"
         parent="hotel_restaurant_menu" />
 
     <!-- ======= Table Order ======= -->

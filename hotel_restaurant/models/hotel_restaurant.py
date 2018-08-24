@@ -228,15 +228,15 @@ class HotelRestaurantReservation(models.Model):
     _description = "Hotel Restaurant Reservation"
     _rec_name = "reservation_id"
 
-    reservation_id = fields.Char('Reservation No', readonly=True, index=True)
+    reservation_id = fields.Char(string='Reservation No', readonly=True, index=True)
     # room_no = fields.Many2one('product.product', string='Room No', size=64,
     #                           index=True)
     folio_id = fields.Many2one('hotel.folio', string='Folio No')
-    start_date = fields.Datetime('Start Time', required=True,
+    start_date = fields.Datetime(string='Start Time', required=True,
                                  default=(lambda *a:
                                           time.strftime
                                           (DEFAULT_SERVER_DATETIME_FORMAT)))
-    end_date = fields.Datetime('End Time', required=True)
+    end_date = fields.Datetime(string='End Time', required=True)
     cname = fields.Many2one('res.partner', string='Customer Name', size=64,
                             required=True, index=True)
     partner_address_id = fields.Many2one('res.partner', string='Address')
@@ -251,7 +251,7 @@ class HotelRestaurantReservation(models.Model):
                               ('order', 'Order Created')], 'state',
                              index=True, required=True, readonly=True,
                              default=lambda * a: 'draft')
-    is_folio = fields.Boolean('Is a Hotel Guest??')
+    is_folio = fields.Boolean(string='Is a Hotel Guest??')
 
     @api.model
     def create(self, vals):
@@ -265,7 +265,7 @@ class HotelRestaurantReservation(models.Model):
         if self._context is None:
             self._context = {}
         seq_obj = self.env['ir.sequence']
-        resrve = seq_obj.next_by_code('hotel.restaurant.reservation') or 'New'
+        resrve = seq_obj.next_by_code('hotel.restaurant.reservation')
         vals['reservation_id'] = resrve
         return super(HotelRestaurantReservation, self).create(vals)
 

@@ -14,7 +14,7 @@
                             class="btn btn-primary" type="object" />
                            <!--  <button name="%(sale.action_view_sale_advance_payment_inv)d"
                                 string="Create Invoice" type="action" class="btn-primary"
-                                attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}" /> -->
+                                attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}a" /> -->
 
                             <!-- <button name="action_cancel_draft" states="cancel" string="Set to Draft"
                                 type="object" icon="fa-check-square-o" class="oe_highlight" />
@@ -56,7 +56,7 @@
                         <notebook>
                             <page string="Room(s)">
                                  <field name="room_ids" string="Room Line" options="{'no_create': True, 'no_create_edit':True}"
-                                    domain="[('status', '=', 'available')]">
+                                    domain="[('isavailable', '=', True)]">
                                     <tree string="Room Line">
                                         <field name="categ_id" string="Category"/>
                                         <field name="name" />

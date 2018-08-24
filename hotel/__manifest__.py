@@ -27,6 +27,7 @@
         'security/ir.model.access.csv',
         'views/hotel_view.xml',
         # Tope 14/08/2018
+        'data/ir_sequence.xml',
          'views/folio.xml',
         'views/hotel_room.xml',
         'views/product_product.xml',
