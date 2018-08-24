@@ -11,36 +11,33 @@
         <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[@name='foreign exchange']"
-                position="after">
-                <page string="Hotel Restaurant">
-                    <separator string="Restaurant Order Reservation Details"
-                         />
-                    <field name="hotel_reservation_order_ids" 
-                        nolabel="1" readonly="1">
-                        <tree string="Order" colors="blue:state == 'draft';green:state == 'order'"
-                            toolbar="1">
-                            <field name="order_number" />
-                            <field name="date1" />
-                            <field name="waitername" />
-                            <field name="table_no" />
-                            <field name="state" />
-                            <field name="amount_total" sum="Order Total" />
-                        </tree>
-                    </field>
-                    <separator string="Restaurant Orders Details"  />
-                    <field name="hotel_restaurant_order_ids"  nolabel="1"
-                        readonly="1">
-                        <tree string="Order"
-                            colors="blue:state == 'draft';green:state == 'order';black:state == 'done';"
-                            toolbar="1">
-                            <field name="order_no" />
-                            <field name="o_date" />
-                            <field name="waiter_name" />
-                            <field name="table_no" />
-                            <field name="state" />
-                            <field name="amount_total" sum="Table Order Total" />
-                        </tree>
-                    </field>
+                position="before">
+                <page string="Table Booking Order">
+                    <group>
+                        <field name="hotel_table_booking_order_ids" readonly="1">
+                            <tree colors="blue:state == 'draft';green:state == 'order'" toolbar="1">
+                                <field name="order_number" />
+                                <field name="date1" />
+                                <field name="waitername" />
+                                <field name="table_no" />
+                                <field name="state" />
+                                <field name="amount_total" sum="Total" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="hotel_restaurant_order_ids" string="Restaurant Orders" readonly="1">
+                            <tree colors="blue:state == 'draft';green:state == 'order';black:state == 'done';"
+                                toolbar="1">
+                                <field name="order_no" />
+                                <field name="o_date" />
+                                <field name="waiter_name" />
+                                <field name="table_no" />
+                                <field name="state" />
+                                <field name="amount_total" sum="Total" />
+                            </tree>
+                        </field>
+                    </group>
                 </page>
             </xpath>
         </field>
@@ -373,11 +370,10 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Order"  />
                         <field name="order_no"  />
                     </h1>
                     <group>
-                        <group  col="2">
+                        <group>
                             <field name="o_date" />
                             <field name="is_folio" />
                         </group>
@@ -394,38 +390,39 @@
                             <field name="rest_item_id" widget="many2many_tags"
                                 invisible="1" />
                         </group>
-                        <newline />
-                        <separator  string='Table List' />
-                        <field name="table_no"  nolabel='1' />
-                        <newline />
-                        <separator  string='Order List' />
-                        <field name="order_list"  nolabel='1'>
-                            <form string="Order List">
-                                <group>
+                    </group>
+                    <div class="oe_clear" />
+                    <notebook>
+                     <page string="Table List">
+                            <field name="table_no"  nolabel='1' />
+                            <group  class="oe_subtotal_footer oe_right">
+                                <field name="amount_subtotal" widget="monetary" />
+                                <field name="tax" widget='monetary' />
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total" />
+                                </div>
+                                <field name="amount_total" nolabel="1" widget='monetary' />
+                            </group>
+                        </page>
+                        <page string="Order List">
+                            <field name="order_list"  nolabel='1'>
+                                <form string="Order List">
+                                    <group>
+                                        <field name="name" />
+                                        <field name="item_qty" />
+                                        <field name="item_rate" />
+                                        <field name="price_subtotal" invisible="1" />
+                                    </group>
+                                </form>
+                                <tree string="Order List">
                                     <field name="name" />
                                     <field name="item_qty" />
                                     <field name="item_rate" />
-                                    <field name="price_subtotal" invisible="1" />
-                                </group>
-                            </form>
-                            <tree string="Order List">
-                                <field name="name" />
-                                <field name="item_qty" />
-                                <field name="item_rate" />
-                                <field name="price_subtotal" />
-                            </tree>
-                        </field>
-                    </group>
-                    <newline />
-                    <group col="2" class="oe_subtotal_footer oe_right">
-                        <field name="amount_subtotal" widget="monetary" />
-                        <field name="tax" widget='monetary' />
-                        <div class="oe_subtotal_footer_separator oe_inline">
-                            <label for="amount_total" />
-                        </div>
-                        <field name="amount_total" nolabel="1" widget='monetary' />
-                    </group>
-                    <div class="oe_clear" />
+                                    <field name="price_subtotal" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -445,7 +442,7 @@
                 <field name="room_no" />
                 <field name="waiter_name" />
                 <field name="state" />
-                <field name="amount_total" sum="Table Order Total" />
+                <field name="amount_total" sum="Total" />
             </tree>
         </field>
     </record>
@@ -472,14 +469,14 @@
 
     <!-- Action of hotel restaurant order -->
     <record id="open_view_hotel_restaurant_order_form_tree" model="ir.actions.act_window">
-        <field name="name">Table Order</field>
+        <field name="name">Restaurant Order</field>
         <field name="res_model">hotel.restaurant.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem id="menu_open_view_hotel_restaurant_order_form_tree"
-        name="Table Order" action="open_view_hotel_restaurant_order_form_tree"
+        name="Restaurant Order" action="open_view_hotel_restaurant_order_form_tree"
         sequence="11" parent="hotel_restaurant_menu" />
 
 
@@ -644,7 +641,7 @@
                     </div>
                     <notebook>
                         <page string="Information">
-                            <group  col="2">
+                            <group  >
                                 <group >
                                     <field name="type" select="2" string="Food Type" />
                                     <field name="categ_id" string="Food Item Type" />

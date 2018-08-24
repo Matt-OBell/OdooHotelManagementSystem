@@ -9,7 +9,7 @@
     'depends': ['hotel'],
     'license': 'AGPL-3',
     'demo': [
-        'views/hotel_restaurant_data.xml',
+        # 'views/hotel_restaurant_data.xml',
     ],
     'data': [
         'security/ir.model.access.csv',

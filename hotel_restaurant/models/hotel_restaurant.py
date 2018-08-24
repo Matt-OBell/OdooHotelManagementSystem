@@ -10,14 +10,10 @@ from odoo.osv import expression
 class HotelFolio(models.Model):
     _inherit = 'hotel.folio'
 
-    hotel_reservation_order_ids = fields.Many2many('hotel.reservation.order',
-                                                   'hotel_res_rel',
-                                                   'hotel_folio_id',
-                                                   'reste_id', 'Orders')
-    hotel_restaurant_order_ids = fields.Many2many('hotel.restaurant.order',
-                                                  'hotel_res_resv',
-                                                  'hfolio_id',
-                                                  'reserves_id', 'Orders')
+    hotel_table_booking_order_ids = fields.One2many(
+        'hotel.reservation.order', 'folio_id', string='Table Orders')
+    hotel_restaurant_order_ids = fields.One2many(
+        'hotel.restaurant.order', 'folio_id', string='Restaurant Orders')
 
 
 class HotelMenucardType(models.Model):
@@ -153,7 +149,6 @@ class HotelRestaurantReservation(models.Model):
             self.room_no = False
             if rec.folio_id:
                 self.cname = rec.folio_id.partner_id.id
-               
 
     @api.multi
     def action_set_to_draft(self):
@@ -228,9 +223,10 @@ class HotelRestaurantReservation(models.Model):
     _description = "Hotel Restaurant Reservation"
     _rec_name = "reservation_id"
 
-    reservation_id = fields.Char(string='Reservation No', readonly=True, index=True)
-    # room_no = fields.Many2one('product.product', string='Room No', size=64,
-    #                           index=True)
+    reservation_id = fields.Char(
+        string='Reservation No', readonly=True, index=True)
+    room_no = fields.Many2one('hotel.room', string='Room No', size=64,
+                              index=True)
     folio_id = fields.Many2one('hotel.folio', string='Folio No')
     start_date = fields.Datetime(string='Start Time', required=True,
                                  default=(lambda *a:
@@ -348,8 +344,8 @@ class HotelRestaurantOrder(models.Model):
             self.room_no = False
             if rec.folio_id:
                 self.cname = rec.folio_id.partner_id.id
-                if rec.folio_id.room_lines:
-                    self.room_no = rec.folio_id.room_lines[0].product_id.id
+                if rec.folio_id.room_ids:
+                    self.room_no = rec.folio_id.room_ids[0].id
 
     @api.multi
     def done_cancel(self):
@@ -421,7 +417,7 @@ class HotelRestaurantOrder(models.Model):
                              default=(lambda *a:
                                       time.strftime
                                       (DEFAULT_SERVER_DATETIME_FORMAT)))
-    room_no = fields.Many2one('product.product', string='Room No', size=64)
+    room_no = fields.Many2one('hotel.room', string='Room No', size=64)
     folio_id = fields.Many2one('hotel.folio', string='Folio No')
     waiter_name = fields.Many2one('res.partner', 'Waiter Name')
     table_no = fields.Many2many('hotel.restaurant.tables', 'temp_table2',
@@ -453,13 +449,9 @@ class HotelRestaurantOrder(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if not vals:
-            vals = {}
-        if self._context is None:
-            self._context = {}
-        seq_obj = self.env['ir.sequence']
-        rest_order = seq_obj.next_by_code('hotel.restaurant.order') or 'New'
-        vals['order_no'] = rest_order
+        rest_order = self.env['ir.sequence'].next_by_code(
+            'hotel.restaurant.order')
+        vals.update(order_no=rest_order)
         return super(HotelRestaurantOrder, self).create(vals)
 
     @api.multi
@@ -505,28 +497,7 @@ class HotelRestaurantOrder(models.Model):
         ----------------------------------------
         @param self: object pointer
         """
-        hotel_folio_obj = self.env['hotel.folio']
-        hsl_obj = self.env['hotel.service.line']
-        so_line_obj = self.env['sale.order.line']
-        for order_obj in self:
-            hotelfolio = order_obj.folio_id.order_id.id
-            if order_obj.folio_id:
-                for order1 in order_obj.order_list:
-                    values = {'order_id': hotelfolio,
-                              'name': order1.name.name,
-                              'product_id': order1.name.product_id.id,
-                              'product_uom': order1.name.uom_id.id,
-                              'product_uom_qty': order1.item_qty,
-                              'price_unit': order1.item_rate,
-                              'price_subtotal': order1.price_subtotal,
-                              }
-                    sol_rec = so_line_obj.create(values)
-                    hsl_obj.create({'folio_id': order_obj.folio_id.id,
-                                    'service_line_id': sol_rec.id})
-                    hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                    hf_rec.write({'hotel_restaurant_order_ids':
-                                  [(4, order_obj.id)]})
-            self.state = 'done'
+        self.state = 'done'
         return True
 
 
@@ -631,36 +602,7 @@ class HotelReservationOrder(models.Model):
 
     @api.multi
     def done_kot(self):
-        """
-        This method is used to change the state
-        to done of the hotel reservation order
-        ----------------------------------------
-        @param self: object pointer
-        """
-        hotel_folio_obj = self.env['hotel.folio']
-        hsl_obj = self.env['hotel.service.line']
-        so_line_obj = self.env['sale.order.line']
-        for order_obj in self:
-            hotelfolio = order_obj.folio_id.order_id.id
-            if order_obj.folio_id:
-                for order1 in order_obj.order_list:
-                    values = {'order_id': hotelfolio,
-                              'name': order1.name.name,
-                              'product_id': order1.name.product_id.id,
-                              'product_uom_qty': order1.item_qty,
-                              'price_unit': order1.item_rate,
-                              'price_subtotal': order1.price_subtotal,
-                              }
-                    sol_rec = so_line_obj.create(values)
-                    hsl_obj.create({'folio_id': order_obj.folio_id.id,
-                                    'service_line_id': sol_rec.id})
-                    hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                    hf_rec.write({'hotel_reservation_order_ids':
-                                  [(4, order_obj.id)]})
-            if order_obj.reservationno:
-                order_obj.reservationno.write({'state': 'done'})
         self.state = 'done'
-        return True
 
     _name = "hotel.reservation.order"
     _description = "Reservation Order"
@@ -702,12 +644,8 @@ class HotelReservationOrder(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if not vals:
-            vals = {}
-        if self._context is None:
-            self._context = {}
-        seq_obj = self.env['ir.sequence']
-        res_oder = seq_obj.next_by_code('hotel.reservation.order') or 'New'
+        res_oder = self.env['ir.sequence'].next_by_code(
+            'hotel.reservation.order')
         vals['order_number'] = res_oder
         return super(HotelReservationOrder, self).create(vals)
 
