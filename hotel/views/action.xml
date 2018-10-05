@@ -27,8 +27,8 @@
         </record>
 
         <!-- Action for hotel folio -->
-        <record id="open_hotel_folio1_checkin_form_tree_all" model="ir.actions.act_window">
-            <field name="name">Checkout</field>
+        <record id="hotel_folio_checkout_action" model="ir.actions.act_window">
+            <field name="name">Guest Folio</field>
             <field name="res_model">hotel.folio</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>

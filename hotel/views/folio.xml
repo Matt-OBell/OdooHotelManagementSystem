@@ -10,7 +10,10 @@
                     <header>
                         <button name="confirm" states="draft" string="Confirm"
                             class="btn btn-primary" type="object" />
-                        <button name="checkin" states="confirm" string="checkin"
+                        <button name="checkin" states="confirm" string="Checkin"
+                            class="btn btn-primary" type="object" />
+                            <!-- TODO: move this button to another place -->
+                        <button name="checkout" states="checkin" string="Checkout"
                             class="btn btn-primary" type="object" />
 
                             <field name="state" widget="statusbar"/>
@@ -21,7 +24,6 @@
                                 icon="fa-refresh" class="oe_stat_button" type="object" />
                         </div>
                         <h1>
-                            <!-- <label string="Number" /> -->
                             <field name="name"/>
                         </h1>
                         <group>
@@ -100,13 +102,11 @@
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
             <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
+                <field name="name" />
+                <field name="partner_id" string='Client'/>
                 <field name="checkin_date" />
                 <field name="checkout_date" />
-                <field name="name" />
-                <field name="partner_id" />
-                <!-- <field name="date_order" /> -->
                 <field name="state" />
-                <!-- <field name="amount_total" sum="Total amount" /> -->
             </tree>
         </field>
     </record>
