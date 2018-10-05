@@ -2,14 +2,12 @@
 
 {
     'name': 'Hotel Reservation Management',
-    'version': '10.0.1.0.0',
-    'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA',
+    'author': 'Serpent Consulting Services Pvt. Ltd., Mattobell Nigeria Ltd, OpenERP SA',
     'category': 'Generic Modules/Hotel Reservation',
-    'website': 'http://www.serpentcs.com',
+    'website': 'http://www.mattobell.com',
     'depends': ['hotel', 'stock', 'mail'],
     'license': 'AGPL-3',
     'demo': [
-        # 'demo/hotel_reservation_data.xml',
     ],
     'data': [
         'data/ir_sequence.xml',
@@ -23,7 +21,7 @@
         'views/room_res.xml',
         'views/room_summ_view.xml',
     ],
-    'js': ['static/src/js/hotel_room_summary.js', ],
+    # 'js': ['static/src/js/hotel_room_summary.js', ],
     'qweb': ['static/src/xml/hotel_room_summary.xml'],
     'css': ['static/src/css/room_summary.css'],
     'images': ['static/description/HotelReservation.png'],

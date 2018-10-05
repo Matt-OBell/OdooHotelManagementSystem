@@ -2,8 +2,9 @@
 .table_header
 {
     text-align: center;
-    min-width:100px;
+    /*min-width:100px;*/
     vertical-align: middle;
+    background: red;
 }
 
 .table_reserved

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <record id="action_hotel_room____" model="ir.actions.act_window">
+            <field name="name">Room</field>
+            <field name="res_model">hotel.room</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('isroom','=',True)]</field>
+            <field name="context">{'search_default_product_id':active_id,'default_product_id':active_id}</field>
+        </record>
+
+        <menuitem id="menu_hotel_reservation_" name="Dashboard" parent="hotel.hotel_management_menu" sequence="1" 
+            action="action_hotel_room____"/>
+    </data>
+</odoo>

@@ -15,11 +15,10 @@ class HotelReservationLine(models.Model):
 
     name = fields.Char('Name', size=64)
     line_id = fields.Many2one('hotel.reservation', string='Hotel')
-    room_id = fields.Many2one('hotel.room', domain="[('isavailable','=', True)]")
+    room_id = fields.Many2one(
+        'hotel.room', domain="[('isavailable','=', True)]")
     categ_id = fields.Many2one(related='room_id.categ_id', string='Category')
     capacity = fields.Integer(related='room_id.capacity', string='Capacity')
-
-
 
 
 class HotelRoom(models.Model):
@@ -34,12 +33,15 @@ class HotelRoom(models.Model):
         args = list(args or [])
         # optimize out the default criterion of ``ilike ''`` that matches everything
         if not self._rec_name:
-            _logger.warning("Cannot execute name_search, no _rec_name defined on %s", self._name)
+            _logger.warning(
+                "Cannot execute name_search, no _rec_name defined on %s", self._name)
         elif not (name == '' and operator == 'ilike'):
             args += [(self._rec_name, operator, name)]
-        access_rights_uid =  self._uid
+        access_rights_uid = self._uid
         reserved_rooms_ids = self.env['hotel.reservation'].reserved_rooms_ids()
         print(reserved_rooms_ids)
-        ids = self._search(args, limit=limit, access_rights_uid=access_rights_uid)
-        recs = self.browse(ids).filtered(lambda r: r.id not in reserved_rooms_ids and r.isavailable == True)
+        ids = self._search(args, limit=limit,
+                           access_rights_uid=access_rights_uid)
+        recs = self.browse(ids).filtered(
+            lambda r: r.id not in reserved_rooms_ids and r.isavailable == True)
         return recs.sudo(access_rights_uid).name_get()

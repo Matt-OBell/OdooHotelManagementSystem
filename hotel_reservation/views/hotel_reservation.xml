@@ -134,27 +134,16 @@
         </field>
     </record>
 
-    <!-- gantt view of hotel reservation -->
-<!--     <record id="hotel_gantt_view" model="ir.ui.view">
-        <field name="name">hotel.gantt</field>
-        <field name="model">hotel.reservation</field>
-        <field name="priority" eval="2" />
-        <field name="arch" type="xml">
-            <gantt date_start="arrival_date" date_stop="departure_date" string="Reservation"
-                default_group_by="partner_id"></gantt>
-        </field>
-    </record> -->
-
     <!-- Action of hotel reservation -->
     <record id="action_hotel_reservation_tree_all" model="ir.actions.act_window">
-        <field name="name">Reservations</field>
+        <field name="name">Hotel Reservation</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.reservation</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_hotel_reservation" name="Reservations"
-        parent="hotel.hotel_management_menu" sequence="1" />
+    <menuitem id="menu_hotel_reservation" name="Hotel Reservation"
+        parent="hotel.hotel_management_menu" sequence="2" />
     <menuitem name="Reservations" id="menu_action_hotel_reservation_tree_all"
         action="action_hotel_reservation_tree_all" parent="menu_hotel_reservation"
         sequence="3" />
@@ -187,22 +176,19 @@
         <field name="model">room.reservation.summary</field>
         <field name="arch" type="xml">
             <form string="Reservation Summary">
-                <header>
-                    <separator string="Room Reservation Summary"  />
-                </header>
                 <sheet>
-                    <group  >
-                        <div>
-                            <label for="date_from" string="Summary Period" />
+                    <group string="Summary Period">
+                        <group>
                             <field name="date_from" class="oe_inline" />
-                            to
+                        </group>
+                        <group>
                             <field name="date_to" class="oe_inline" />
-                        </div>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Room Summary">
                             <field name="summary_header"  invisible="1" />
-                            <field name="room_summary"  invisible="1" />
+                            <field name="room_summary"  widget="room_summary_widget" />
                             <!-- <widget name="Room_Reservation"/> -->
                         </page>
                     </notebook>

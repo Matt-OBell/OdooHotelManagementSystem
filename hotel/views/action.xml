@@ -19,8 +19,8 @@
         </record>
 
         <!-- Action for hotel folio -->
-        <record id="open_hotel_folio1_form_tree_all" model="ir.actions.act_window">
-            <field name="name">Folio</field>
+        <record id="hotel_guest_folio_action" model="ir.actions.act_window">
+            <field name="name">Guest Folio</field>
             <field name="res_model">hotel.folio</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
@@ -53,16 +53,8 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-      <!--   <record id="action_hotel_service" model="ir.actions.act_window">
-            <field name="name">Service</field>
-            <field name="res_model">hotel.services</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('isservice', '=', True)]</field>
-            <field name="context">{'search_default_product_id':active_id,'default_product_id':active_id}</field>
-        </record> -->
 
-          <!-- Action of currency exchange -->
+    <!-- Action of currency exchange -->
     <record id="open_currency_exchange_tree" model="ir.actions.act_window">
         <field name="name">Currency Exchange</field>
         <field name="res_model">currency.exchange</field>

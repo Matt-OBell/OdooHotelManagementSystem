@@ -21,6 +21,7 @@ _STATES = [
     ('cance', 'Cancel'),
 ]
 
+
 def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,
                               ignore_unparsable_time=True, context=None):
     """
@@ -74,7 +75,7 @@ class HotelFolio(models.Model):
     all the transactions pertaining to the stay in the room,consumption of 
     food & beverages or use of any facility is posted directly or 
     indirectly onto the guest folio. 
-    
+
     The cash or credit payments are both included. It is like a book of accounting.
     Upon checking out the the guest is required to settle the amount payable in 
     the guest folio. Folio is considered as the master bill in the hotel 
@@ -115,12 +116,12 @@ class HotelFolio(models.Model):
             to_zone = 'UTC'
         tm_delta = timedelta(days=1)
         return datetime.strptime(_offset_format_timestamp1
-                                          (time.strftime("%Y-%m-%d 12:00:00"),
-                                           DEFAULT_SERVER_DATETIME_FORMAT,
-                                           DEFAULT_SERVER_DATETIME_FORMAT,
-                                           ignore_unparsable_time=True,
-                                           context={'tz': to_zone}),
-                                          '%Y-%m-%d %H:%M:%S') + tm_delta
+                                 (time.strftime("%Y-%m-%d 12:00:00"),
+                                  DEFAULT_SERVER_DATETIME_FORMAT,
+                                  DEFAULT_SERVER_DATETIME_FORMAT,
+                                  ignore_unparsable_time=True,
+                                  context={'tz': to_zone}),
+                                 '%Y-%m-%d %H:%M:%S') + tm_delta
 
     @api.multi
     def copy(self, default=None):
@@ -136,9 +137,11 @@ class HotelFolio(models.Model):
 
     name = fields.Char('Number', readonly=True, index=True,
                        default='New')
-    invoice_id = fields.Many2one('account.invoice', string='Invoice', copy=False)
+    invoice_id = fields.Many2one(
+        'account.invoice', string='Invoice', copy=False)
     partner_id = fields.Many2one('res.partner', string='Partner', copy=False)
-    state = fields.Selection(selection=_STATES, string='State', default='draft')
+    state = fields.Selection(
+        selection=_STATES, string='State', default='draft')
     checkin_date = fields.Datetime(string='Arrival Date', required=True, readonly=True,
                                    states={'draft': [('readonly', False)]},
                                    default=_get_checkin_date)
@@ -146,8 +149,10 @@ class HotelFolio(models.Model):
                                     states={'draft': [('readonly', False)]},
                                     default=_get_checkout_date)
     room_ids = fields.Many2many('hotel.room', string='Room')
-    service_ids = fields.Many2many('product.product', string='Services', domain=[('type', '=', 'service')])
-    amenity_ids = fields.Many2many('product.product', string='Amenities', domain=[('type', '=', 'amenity')])
+    service_ids = fields.Many2many('product.product', string='Services', domain=[
+                                   ('type', '=', 'service')])
+    amenity_ids = fields.Many2many('product.product', string='Amenities', domain=[
+                                   ('type', '=', 'amenity')])
     hotel_policy = fields.Selection([('prepaid', 'On Booking'),
                                      ('manual', 'On Check In'),
                                      ('picking', 'On Checkout')],
@@ -157,12 +162,13 @@ class HotelFolio(models.Model):
                                     "booking time or check-in "
                                     "check-out time.")
     duration = fields.Integer(string='Duration in Days',
-                            help="Number of days which will automatically "
-                            "count from the check-in and check-out date. ", compute='_compute_duration')
+                              help="Number of days which will automatically "
+                              "count from the check-in and check-out date. ", compute='_compute_duration')
     currrency_ids = fields.One2many('currency.exchange', 'folio_no',
                                     readonly=True)
     duration_dummy = fields.Float('Duration Dummy')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get(),required=True)
+    company_id = fields.Many2one('res.company', string='Company',
+                                 default=lambda self: self.env['res.company']._company_default_get(), required=True)
 
     def _basic_room_amenities(self, values):
         ids = []
@@ -173,11 +179,11 @@ class HotelFolio(models.Model):
                 ids.append(amenities_id.id)
         return ids
 
-
     @api.model
     def create(self, values):
         amenity_ids = self._basic_room_amenities(values)
-        values.update(amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
+        values.update(
+            amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
         values.update(name=self.env['ir.sequence'].next_by_code('hotel.folio'))
         return super(HotelFolio, self).create(values)
 
@@ -224,11 +230,11 @@ class HotelFolio(models.Model):
                 raise ValidationError(_('You Cannot Take Same Room Twice'))
             folio_rooms.append(room.product_id.id)
 
-
     def _sojourn(self, checkin, checkout):
-        adjustment, one_day = 0, 86400.0 # 60 * 60 * 24
+        adjustment, one_day = 0, 86400.0  # 60 * 60 * 24
         total_seconds = (checkout - checkin).total_seconds()
-        days = int((total_seconds + adjustment) / one_day) if int((total_seconds + adjustment) / one_day) > 0 else 1
+        days = int((total_seconds + adjustment) /
+                   one_day) if int((total_seconds + adjustment) / one_day) > 0 else 1
         return days
 
     @api.depends('checkout_date', 'checkin_date')
@@ -247,7 +253,6 @@ class HotelFolio(models.Model):
             checkin = fields.Datetime.from_string(self.checkin_date)
             checkout = fields.Datetime.from_string(self.checkout_date)
             self.duration = self._sojourn(checkin, checkout)
-
 
     @api.multi
     def button_dummy(self):
@@ -321,14 +326,15 @@ class HotelFolio(models.Model):
         till checkout time.
         """
         hours, minutes = decimal_to_time(self.company_id.checkin_hour)
-        can_check_in = datetime.combine(date.today(), tm(hours, minutes)) < datetime.now()
+        can_check_in = datetime.combine(
+            date.today(), tm(hours, minutes)) < datetime.now()
         if not can_check_in:
-            raise UserError('Guest(s) cannot be checked in earlier than {}'.format(self.company_id.checkin_hour))
+            raise UserError('Guest(s) cannot be checked in earlier than {}'.format(
+                self.company_id.checkin_hour))
         for room in self.room_ids:
             if room.is_available():
                 room.preoccupy()
         self.write({'state': 'checkin'})
-             
 
     # @api.multi
     # def test_state(self, mode):
@@ -362,4 +368,3 @@ class HotelFolio(models.Model):
         sale_line_obj.write({'invoiced': False, 'state': 'draft',
                              'invoice_lines': [(6, 0, [])]})
         return True
-

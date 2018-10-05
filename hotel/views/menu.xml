@@ -13,14 +13,14 @@
         action="open_hotel_floor_form_tree" sequence="21"
         parent="hotel_configuration_menu" />
 
-        <menuitem id="menu_all_folio" name="Folio" 
+        <menuitem id="hotel_folio_menu" name="Folio" 
             parent="hotel.hotel_management_menu" sequence="4" />
 
-            <menuitem name="Check In" id="menu_open_hotel_folio1_checkin"
-                action="open_hotel_folio1_form_tree_all" sequence="5" parent="menu_all_folio" />
+            <menuitem name="Guest Folio" id="hotel_guest_folio_menu"
+                action="hotel_guest_folio_action" sequence="5" parent="hotel_folio_menu" />
 
             <menuitem name="Check Out" id="menu_open_hotel_folio1_checkout"
-                action="open_hotel_folio1_checkin_form_tree_all" sequence="6" parent="menu_all_folio" />
+                action="open_hotel_folio1_checkin_form_tree_all" sequence="6" parent="hotel_folio_menu" />
 
 
         <menuitem id="menu_hotel_service" name="Services" 

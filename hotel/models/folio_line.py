@@ -1,4 +1,4 @@
-from odoo import api, fields, models,_
+from odoo import api, fields, models, _
 import time
 import datetime
 from urllib.request import urlopen as urllib2

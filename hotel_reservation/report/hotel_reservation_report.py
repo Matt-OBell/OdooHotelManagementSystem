@@ -196,6 +196,7 @@ class ReportTestMaxroom(models.AbstractModel):
                                 strftime('%m/%d/%Y')})
         return docargs
 
+
 class ReportTestRoomres(models.AbstractModel):
     _name = "report.hotel_reservation.report_roomres_qweb"
 

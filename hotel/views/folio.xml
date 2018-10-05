@@ -12,25 +12,8 @@
                             class="btn btn-primary" type="object" />
                         <button name="checkin" states="confirm" string="checkin"
                             class="btn btn-primary" type="object" />
-                           <!--  <button name="%(sale.action_view_sale_advance_payment_inv)d"
-                                string="Create Invoice" type="action" class="btn-primary"
-                                attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}a" /> -->
-
-                            <!-- <button name="action_cancel_draft" states="cancel" string="Set to Draft"
-                                type="object" icon="fa-check-square-o" class="oe_highlight" />
-
-                            <button name="action_cancel" string="Cancel Folio" states="sale"
-                                type="object" icon="fa-close" class="oe_highlight" />
-
-                            <button name="action_cancel" string="Cancel Folio" states="draft"
-                                icon="fa-close" type="object" class="oe_highlight" />
-
-                            <button name="action_done" type="object" string="Set to Done"
-                                states="sale" class="oe_highlight"
-                                help="If a Hotel Folio is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the Hotel Folio." /> -->
 
                             <field name="state" widget="statusbar"/>
-                            <!-- <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,done" /> -->
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box">

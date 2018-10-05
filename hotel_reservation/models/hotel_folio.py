@@ -105,4 +105,3 @@ class HotelFolioLineExt(models.Model):
                                         'check_out': chkout}
                         rm_lines.write(rm_line_vals)
         return super(HotelFolioLineExt, self).write(vals)
-
