@@ -12,7 +12,6 @@
                             class="btn btn-primary" type="object" />
                         <button name="checkin" states="confirm" string="Checkin"
                             class="btn btn-primary" type="object" />
-                            <!-- TODO: move this button to another place -->
                         <button name="checkout" states="checkin" string="Checkout"
                             class="btn btn-primary" type="object" />
 
@@ -22,6 +21,9 @@
                         <div class="oe_right oe_button_box">
                             <button name="go_to_currency_exchange" string="Money Exchange"
                                 icon="fa-refresh" class="oe_stat_button" type="object" />
+                            <button name="advance_deposits" icon="fa-usd" class="oe_stat_button" type="object">
+                                <field name="payment_deposits" widget="statinfo"/>
+                            </button>
                         </div>
                         <h1>
                             <field name="name"/>

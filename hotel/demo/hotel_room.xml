@@ -120,7 +120,7 @@
         <record id="room3" model="hotel.room">
             <field name="name">RM 003</field>
             <field name="categ_id" ref="hotel.king"></field>
-            <field name="capacity">3</field>
+            <field name="capacity" eval="3"></field>
             <field name="lease_price">5000</field>
         </record>
 

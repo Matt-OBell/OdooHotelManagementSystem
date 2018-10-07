@@ -136,7 +136,7 @@ class HotelFolio(models.Model):
     _order = 'id'
 
     name = fields.Char('Number', readonly=True, index=True,
-                       default='New')
+                       default='/')
     invoice_id = fields.Many2one(
         'account.invoice', string='Invoice', copy=False)
     partner_id = fields.Many2one('res.partner', string='Partner', copy=False)
@@ -170,6 +170,11 @@ class HotelFolio(models.Model):
     duration_dummy = fields.Float('Duration Dummy')
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env['res.company']._company_default_get(), required=True)
+    payment_deposits =  fields.Float(string='Deposits', compute='_compute_payment_deposit')
+
+
+    def _compute_payment_deposit(self):
+        pass
 
     def _basic_room_amenities(self, values):
         ids = []
@@ -187,6 +192,11 @@ class HotelFolio(models.Model):
             amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
         values.update(name=self.env['ir.sequence'].next_by_code('hotel.folio'))
         return super(HotelFolio, self).create(values)
+
+    @api.multi
+    def advance_deposits(self):
+        print('advance_deposits*******************************')
+        return 40000
 
     @api.multi
     def go_to_currency_exchange(self):
