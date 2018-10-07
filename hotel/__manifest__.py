@@ -2,7 +2,7 @@
 
 {
     'name': 'Hotel Management System',
-    'version': '0.0.1',
+    'version': '1.0.0',
 
     'summary': """
     Hotel management system is a system that provides us the ability to reserving rooms, 

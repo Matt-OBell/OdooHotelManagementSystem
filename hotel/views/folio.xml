@@ -36,6 +36,7 @@
                                     readonly="1" />
                                 <field name="duration" readonly="1" widget="time_float"/>
                                 <field name="checkout_date" />
+                                <field name="deposits"/>
                             </group>
                         </group>
                         <notebook>

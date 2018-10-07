@@ -142,6 +142,7 @@ class HotelFolio(models.Model):
     partner_id = fields.Many2one('res.partner', string='Partner', copy=False)
     state = fields.Selection(
         selection=_STATES, string='State', default='draft')
+    deposits = fields.Float(string='Deposits')
     checkin_date = fields.Datetime(string='Arrival Date', required=True, readonly=True,
                                    states={'draft': [('readonly', False)]},
                                    default=_get_checkin_date)
