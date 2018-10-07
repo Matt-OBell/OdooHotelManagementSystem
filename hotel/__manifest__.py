@@ -12,14 +12,13 @@
     'category': 'Generic Modules/Hotel Management',
     'website': 'http://www.serpentcs.com',
     'depends': [
+        'web',
         'base',
-        'sale_stock',
         'account_invoicing',
-        'web'
     ],
     'license': "AGPL-3",
     'demo': [
-        # 'demo/hotel_room_type.xml'
+        'demo/hotel_room.xml',
         # 'views/hotel_data.xml',
     ],
     'data': [
