@@ -14,6 +14,7 @@
     'depends': [
         'web',
         'base',
+        'sale',
         'account_invoicing',
     ],
     'license': "AGPL-3",
