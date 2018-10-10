@@ -17,7 +17,7 @@ ROOM_STATUS = [
 class HotelRoomType(models.Model):
 
     _name = "hotel.room.type"
-    _description = "Room Type"
+    _description = "Room Category"
 
     status = fields.Boolean(string='Status')
     name = fields.Char('Name', required=True)
@@ -26,6 +26,7 @@ class HotelRoomType(models.Model):
     extra_beds = fields.Integer(string='Extra Bed(s) Allowed')
     maximum_occupant = fields.Integer(string='Maximum Occupant')
     standard_price = fields.Float(string='Standard Price', required=True)
+    required_deposit = fields.Float(string='Required Deposits')
 
 
 class HotelRoom(models.Model):

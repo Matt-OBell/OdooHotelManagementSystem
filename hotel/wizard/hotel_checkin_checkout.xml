@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="wizard_checkin_checkin_wizard" model="ir.ui.view">
+            <field name="name">wizard.checkin.checkin</field>
+            <field name="model">wizard.checkin.checkout</field>
+            <field name="arch" type="xml">
+                <form string="Check In">
+                    <group>
+                        <group>
+                            <field name="folio_id" domain="[('state', '=', 'confirm')]" required="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="checkin" string="Check-In" type="object" class="oe_highlight" />
+                        <button string="Cancel" class="btn btn-primary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_checkin_checkout_wizard" model="ir.ui.view">
+            <field name="name">wizard.checkin.checkout</field>
+            <field name="model">wizard.checkin.checkout</field>
+            <field name="arch" type="xml">
+                <form string="Check Out">
+                    <group>
+                        <group>
+                            <field name="folio_id" domain="[('state', '=', 'checkin')]" required="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="checkin" string="Check-Out" type="object" class="oe_highlight" />
+                        <button string="Cancel" class="btn btn-primary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -38,6 +38,7 @@
         'views/hotel_sequence.xml',
         'views/hotel_report.xml',
         'views/report_hotel_management.xml',
+        'wizard/hotel_checkin_checkout.xml',
         # 'wizard/hotel_wizard.xml',
         'views/action.xml',
         'views/menu.xml',

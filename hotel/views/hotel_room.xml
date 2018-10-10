@@ -36,29 +36,6 @@
                             </group>
                             </group>
                         </page>
-                        <page string="Room Amenities &amp; Services">
-                            <field name="amenities_ids" colspan="4" nolabel="1" context="{'default_type':'amenity'}">
-                                <tree>
-                                    <field name="name"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Procurement">
-                            <group colspan="4" col="4">
-                                <!-- <field name="active" select="2" /> -->
-                                <!-- <field name="list_price" /> -->
-                                <!-- <field name="rental" select="2" /> -->
-                                <!-- <field name="standard_price" /> -->
-                                <!-- <field name="cost_method" string="Cost Method" /> -->
-                                <newline />
-                            </group>
-                            <newline />
-                            <group>
-                                <separator string="Suppliers" />
-                                <!-- <field name="seller_ids" colspan="4" nolabel="1" -->
-                                    <!-- widget="one2many_list" /> -->
-                            </group>
-                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -189,7 +166,7 @@
                     <group string="Other Info">
                         <field name="standard_price"/>
                         <field name="extra_beds" />
-                        <!-- <field name="status"/> -->
+                        <field name="required_deposit"/>
                         <!-- <field name="room_ids"/> -->
                     </group>
                     </group>

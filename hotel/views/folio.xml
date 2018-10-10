@@ -38,7 +38,6 @@
                                     readonly="1" />
                                 <field name="duration" readonly="1" widget="time_float"/>
                                 <field name="checkout_date" />
-                                <field name="deposits"/>
                             </group>
                         </group>
                         <notebook>
@@ -58,14 +57,6 @@
                             </page>
                             <page string="Service(s)">
                                 <field name="service_ids">
-                                    <tree>
-                                        <field name="name" />
-                                        <field name="lst_price" />
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Amenities">
-                                <field name="amenity_ids">
                                     <tree>
                                         <field name="name" />
                                         <field name="lst_price" />

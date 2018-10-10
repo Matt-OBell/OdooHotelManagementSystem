@@ -142,7 +142,6 @@ class HotelFolio(models.Model):
     partner_id = fields.Many2one('res.partner', string='Partner', copy=False)
     state = fields.Selection(
         selection=_STATES, string='State', default='draft')
-    deposits = fields.Float(string='Deposits')
     checkin_date = fields.Datetime(string='Arrival Date', required=True, readonly=True,
                                    states={'draft': [('readonly', False)]},
                                    default=_get_checkin_date)
@@ -152,8 +151,6 @@ class HotelFolio(models.Model):
     room_ids = fields.Many2many('hotel.room', string='Room')
     service_ids = fields.Many2many('product.product', string='Services', domain=[
                                    ('type', '=', 'service')])
-    amenity_ids = fields.Many2many('product.product', string='Amenities', domain=[
-                                   ('type', '=', 'amenity')])
     hotel_policy = fields.Selection([('prepaid', 'On Booking'),
                                      ('manual', 'On Check In'),
                                      ('picking', 'On Checkout')],
@@ -174,7 +171,9 @@ class HotelFolio(models.Model):
 
 
     def _compute_payment_deposit(self):
-        pass
+        payment = self.env['account.payment'].sudo(self.env.user.id)
+        payments = payment.search([('folio_id', '=', self.id),('state', '!=', 'draft')])
+        self.payment_deposits = sum([payment.amount for payment in payments])
 
     def _basic_room_amenities(self, values):
         ids = []
@@ -187,16 +186,31 @@ class HotelFolio(models.Model):
 
     @api.model
     def create(self, values):
-        amenity_ids = self._basic_room_amenities(values)
-        values.update(
-            amenity_ids=[[6, False, values['amenity_ids'][0][2] + amenity_ids]])
         values.update(name=self.env['ir.sequence'].next_by_code('hotel.folio'))
         return super(HotelFolio, self).create(values)
 
     @api.multi
     def advance_deposits(self):
-        print('advance_deposits*******************************')
-        return 40000
+        payment = self.env['account.payment'].sudo(self.env.user.id)
+        action = {
+            'name': 'Deposits',
+            'type': 'ir.actions.act_window',
+            'res_model': payment._name,
+            'views': [[False, 'tree'], [False, 'form']],
+            'domain': [['folio_id', '=', self.id]],
+            'context': {
+                'default_folio_id': self.id, 
+                'default_payment_type': 'inbound',
+                'default_partner_type': 'customer',
+                'default_partner_id': self.partner_id.id,
+                'default_amount': sum([room.categ_id.required_deposit for room in self.room_ids])
+            }
+        }
+        if not payment.search([('folio_id', '=', self.id)]):
+            # There is no payment made agaist this folio. we need to make new deposit.
+            return action
+        action.update(res_id=self.id)
+        return action
 
     @api.multi
     def go_to_currency_exchange(self):
