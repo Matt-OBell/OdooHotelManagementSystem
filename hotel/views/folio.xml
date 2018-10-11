@@ -68,22 +68,6 @@
                                     <field name="hotel_policy" attrs="{'readonly':[('state','not in',('draft'))]}" />
                                 </group>
                             </page>
-                            <page string="History">
-                            </page>
-                            <page string="Foreign Exchange" name="foreign exchange">
-                                <separator string="Foreign Exchange" colspan="4" />
-                                <field name="currrency_ids" colspan="4" nolabel="1">
-                                    <tree>
-                                        <field name="name" />
-                                        <field name="today_date" />
-                                        <field name="type" />
-                                        <field name="in_amount" />
-                                        <field name="input_curr" />
-                                        <field name="total" sum="Total Amount" />
-                                        <field name="out_curr" />
-                                    </tree>
-                                </field>
-                            </page>
                         </notebook>
                     </sheet>
             </form>

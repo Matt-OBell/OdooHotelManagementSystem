@@ -63,15 +63,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-
-    <!-- Action of currency exchange -->
-    <record id="open_currency_exchange_tree" model="ir.actions.act_window">
-        <field name="name">Currency Exchange</field>
-        <field name="res_model">currency.exchange</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
      <!-- Action for hotel room -->
     <record id="action_hotel_room_form" model="ir.actions.act_window">
         <field name="name">Room</field>

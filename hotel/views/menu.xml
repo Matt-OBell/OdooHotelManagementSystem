@@ -37,10 +37,6 @@
             action="action_hotel_services_form" sequence="9"
             parent="hotel.menu_hotel_service" />
 
-    <menuitem name="Currency Exchange" id="menu_currency_exchange_tree"
-        action="open_currency_exchange_tree" sequence="22"
-        parent="hotel_configuration_menu" />
-
         <menuitem id="menu_hotel_room" name="Room"
         parent="hotel.hotel_configuration_menu" sequence="2" />
 

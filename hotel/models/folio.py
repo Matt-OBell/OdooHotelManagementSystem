@@ -162,8 +162,6 @@ class HotelFolio(models.Model):
     duration = fields.Integer(string='Duration in Days',
                               help="Number of days which will automatically "
                               "count from the check-in and check-out date. ", compute='_compute_duration')
-    currrency_ids = fields.One2many('currency.exchange', 'folio_no',
-                                    readonly=True)
     duration_dummy = fields.Float('Duration Dummy')
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env['res.company']._company_default_get(), required=True)
@@ -212,35 +210,7 @@ class HotelFolio(models.Model):
         action.update(res_id=self.id)
         return action
 
-    @api.multi
-    def go_to_currency_exchange(self):
-        """
-         when Money Exchange button is clicked then this method is called.
-        -------------------------------------------------------------------
-        @param self: object pointer
-        """
-        ctx = dict(self._context)
-        for rec in self:
-            if rec.partner_id.id and len(rec.room_lines) != 0:
-                ctx.update({'folioid': rec.id, 'guest': rec.partner_id.id,
-                            'room_no': rec.room_lines[0].product_id.name,
-                            'hotel': rec.warehouse_id.id})
-                self.env.args = misc.frozendict(ctx)
-            else:
-                raise except_orm(_('Warning'), _('Please Reserve Any Room.'))
-        return {'name': _('Currency Exchange'),
-                'res_model': 'currency.exchange',
-                'type': 'ir.actions.act_window',
-                'view_id': False,
-                'view_mode': 'form,tree',
-                'view_type': 'form',
-                'context': {'default_folio_no': ctx.get('folioid'),
-                            'default_hotel_id': ctx.get('hotel'),
-                            'default_guest_name': ctx.get('guest'),
-                            'default_room_number': ctx.get('room_no')
-                            },
-                }
-
+    
     @api.constrains('room_lines')
     def folio_room_lines(self):
         """
@@ -361,20 +331,6 @@ class HotelFolio(models.Model):
                 room.preoccupy()
         self.write({'state': 'checkin'})
 
-    # @api.multi
-    # def test_state(self, mode):
-    #     """
-    #     @param self: object pointer
-    #     @param mode: state of workflow
-    #     """
-    #     write_done_ids = []
-    #     write_cancel_ids = []
-    #     if write_done_ids:
-    #         test_obj = self.env['sale.order.line'].browse(write_done_ids)
-    #         test_obj.write({'state': 'done'})
-    #     if write_cancel_ids:
-    #         test_obj = self.env['sale.order.line'].browse(write_cancel_ids)
-    #         test_obj.write({'state': 'cancel'})
 
     @api.multi
     def action_cancel_draft(self):
