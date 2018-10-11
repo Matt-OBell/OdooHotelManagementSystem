@@ -165,12 +165,13 @@ class HotelFolio(models.Model):
     duration_dummy = fields.Float('Duration Dummy')
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env['res.company']._company_default_get(), required=True)
-    payment_deposits =  fields.Float(string='Deposits', compute='_compute_payment_deposit')
-
+    payment_deposits = fields.Float(
+        string='Deposits', compute='_compute_payment_deposit')
 
     def _compute_payment_deposit(self):
         payment = self.env['account.payment'].sudo(self.env.user.id)
-        payments = payment.search([('folio_id', '=', self.id),('state', '!=', 'draft')])
+        payments = payment.search(
+            [('folio_id', '=', self.id), ('state', '!=', 'draft')])
         self.payment_deposits = sum([payment.amount for payment in payments])
 
     def _basic_room_amenities(self, values):
@@ -197,7 +198,7 @@ class HotelFolio(models.Model):
             'views': [[False, 'tree'], [False, 'form']],
             'domain': [['folio_id', '=', self.id]],
             'context': {
-                'default_folio_id': self.id, 
+                'default_folio_id': self.id,
                 'default_payment_type': 'inbound',
                 'default_partner_type': 'customer',
                 'default_partner_id': self.partner_id.id,
@@ -210,7 +211,6 @@ class HotelFolio(models.Model):
         action.update(res_id=self.id)
         return action
 
-    
     @api.constrains('room_lines')
     def folio_room_lines(self):
         """
@@ -314,23 +314,6 @@ class HotelFolio(models.Model):
             if not folio.room_ids:
                 raise MissingError('Please add room(s) to the folio line')
             folio.write({'state': 'confirm'})
-
-    @api.multi
-    def checkin(self):
-        """When a user checkin, all the room on the folio will become unavailable
-        till checkout time.
-        """
-        hours, minutes = decimal_to_time(self.company_id.checkin_hour)
-        can_check_in = datetime.combine(
-            date.today(), tm(hours, minutes)) < datetime.now()
-        if not can_check_in:
-            raise UserError('Guest(s) cannot be checked in earlier than {}'.format(
-                self.company_id.checkin_hour))
-        for room in self.room_ids:
-            if room.is_available():
-                room.preoccupy()
-        self.write({'state': 'checkin'})
-
 
     @api.multi
     def action_cancel_draft(self):

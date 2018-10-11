@@ -10,8 +10,6 @@
                     <header>
                         <button name="confirm" states="draft" string="Confirm"
                             class="btn btn-primary" type="object" />
-                        <button name="checkin" states="confirm" string="Checkin"
-                            class="btn btn-primary" type="object" />
                         <button name="checkout" states="checkin" string="Checkout"
                             class="btn btn-primary" type="object" />
 
