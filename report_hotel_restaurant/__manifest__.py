@@ -2,7 +2,7 @@
 
 {
     'name': 'Hotel Restaurant Management - Reporting',
-    'version': '10.0.1.0.0',
+    'version': '1.0.0',
     'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA',
     'website': 'http://www.serpentcs.com, http://www.openerp.com',
     'depends': ['hotel_restaurant', 'report_hotel_reservation'],

@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE xml>
 <odoo>
-
     <!--Form view for folio report wizard -->
     <record id="view_hotel_order_wizard" model="ir.ui.view">
         <field name="name">order.report.wizard</field>
         <field name="model">order.report.wizard</field>
         <field name="arch" type="xml">
             <form string="Order Report">
-                <group col="4">
-                    <field name="date_start" required="1" />
-                    <field name="date_end" required="1" />
-                    <group col="4">
-                        <field name="check" />
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_start" string='Start Date' required="1" />
+                        </group>
+                        <group>
+                            <field name="date_end" string='End Date' required="1" />
+                            <field name="check" />
+                        </group>
                     </group>
-                </group>
-                <footer>
-                    <button name="print_pos_report" string="Print Pos Order"
-                        type="object" class="oe_highlight" />
-                    <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel" />
-                </footer>
+                    <footer>
+                        <button name="print_pos_report" string="Print Pos Order"
+                            type="object" class="oe_highlight" />
+                        <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel" />
+                    </footer>
+                </sheet>
             </form>
         </field>
     </record>

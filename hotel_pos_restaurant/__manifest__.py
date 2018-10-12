@@ -11,7 +11,7 @@
     # 'demo': ['views/hotel_pos_data.xml'],
     'data': [
         # 'security/ir.model.access.csv',
-        'views/pos_restaurent_view.xml',
+        'views/pos_restaurant.xml',
         'views/hotel_pos_report.xml',
         'views/report_pos_management.xml',
         'wizard/hotel_pos_wizard.xml'],

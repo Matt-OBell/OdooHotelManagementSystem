@@ -1,12 +1,11 @@
 # See LICENSE file for full copyright and licensing details.
-
 from odoo import models, fields, api
 
 
 class PosOrder(models.Model):
     _inherit = "pos.order"
 
-    folio_id = fields.Many2one('hotel.folio', 'Folio Number')
+    folio_id = fields.Many2one('hotel.folio', string='Folio Number')
 
 
 class HotelFolio(models.Model):

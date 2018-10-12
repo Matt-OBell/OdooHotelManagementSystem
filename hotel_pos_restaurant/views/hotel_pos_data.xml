@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
     <data noupdate="1">
-
         <!-- Food Item Category -->
-
         <record id="punjabi_1" model="pos.category">
             <field name="parent_id" ref="point_of_sale.fruits_vegetables" />
             <field name="name">Punjabi</field>
             <field name="image" type="base64"
                 file="hotel_pos_restaurant/static/img/food-image.jpg" />
         </record>
+
         <record id="south_indian_1" model="pos.category">
             <field name="parent_id" ref="point_of_sale.fruits_vegetables" />
             <field name="name">South Indian</field>
             <field name="image" type="base64"
                 file="hotel_pos_restaurant/static/img/food-image.jpg" />
         </record>
+
         <record id="gujarati_1" model="pos.category">
             <field name="parent_id" ref="point_of_sale.fruits_vegetables" />
             <field name="name">Gujarati</field>
@@ -134,7 +133,6 @@
         </record>
 
         <!-- Gujarati -->
-
         <record id="hotel_fooditem_21" model="product.product">
             <field name="name">Chole-Bhature</field>
             <field name="available_in_pos">True</field>
