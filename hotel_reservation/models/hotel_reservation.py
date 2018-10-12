@@ -14,6 +14,8 @@ STATES = [
     ('done', 'Done')
 ]
 
+def _string_to_datetime_tz(rec, timestamp):
+    return fields.Datetime.context_timestamp(rec, timestamp)
 
 class HotelReservation(models.Model):
 
@@ -85,7 +87,8 @@ class HotelReservation(models.Model):
         date should be greater than the arrival_date date.
         """
         if self.departure_date and self.arrival_date:
-            if fields.Datetime.from_string(self.arrival_date) < fields.Datetime.from_string(fields.Datetime.now()):
+            if fields.Datetime.from_string(self.arrival_date) < datetime.now():
+                # _string_to_datetime_tz(self, fields.Datetime.from_string(self.arrival_date)), _string_to_datetime_tz(self,datetime.now())
                 raise UserError(
                     'Arrival date date should be greater than the current date.')
             if fields.Datetime.from_string(self.departure_date) < fields.Datetime.from_string(self.arrival_date):
@@ -93,7 +96,7 @@ class HotelReservation(models.Model):
                     'Departure date date should be greater than arrival_date date.')
 
     @api.onchange('partner_id')
-    def onchange_partner_id(self):
+    def _onchange_partner_id(self):
         """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel reservation as well
@@ -151,14 +154,8 @@ class HotelReservation(models.Model):
         template message loaded by default.
         @param self: object pointer
         """
-        assert len(self._ids) == 1, 'This is for a single id at a time.'
         ir_model_data = self.env['ir.model.data']
-        try:
-            template_id = (ir_model_data.get_object_reference
-                           ('hotel_reservation',
-                            'email_template_hotel_reservation')[1])
-        except ValueError:
-            template_id = False
+        template_id = self.env.ref('hotel_reservation.email_template_hotel_reservation')
         try:
             compose_form_id = (ir_model_data.get_object_reference
                                ('mail',
@@ -168,9 +165,9 @@ class HotelReservation(models.Model):
         ctx = dict()
         ctx.update({
             'default_model': 'hotel.reservation',
-            'default_res_id': self._ids[0],
+            'default_res_id': self.id,
             'default_use_template': bool(template_id),
-            'default_template_id': template_id,
+            'default_template_id': template_id.id,
             'default_composition_mode': 'comment',
             'force_send': True,
             'mark_so_as_sent': True

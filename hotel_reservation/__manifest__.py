@@ -11,6 +11,7 @@
     ],
     'data': [
         'data/ir_sequence.xml',
+        'data/mail_template.xml',
         'security/ir.model.access.csv',
         'views/hotel_reservation.xml',
         'wizard/hotel_reservation_wizard.xml',
