@@ -90,7 +90,7 @@ class HotelHousekeeping(models.Model):
                                    ('checkout', 'Check-Out')],
                                   'Clean Type', required=True,
                                   states={'done': [('readonly', True)]},)
-    room_no = fields.Many2one('hotel.room', 'Room No', required=True,
+    room_no = fields.Many2one('hotel.room', string='Room Number', required=True,
                               states={'done': [('readonly', True)]},
                               index=True)
     activity_lines = fields.One2many('hotel.housekeeping.activities',

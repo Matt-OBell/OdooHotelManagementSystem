@@ -266,23 +266,19 @@ class HotelRestaurantReservation(models.Model):
         return super(HotelRestaurantReservation, self).create(vals)
 
     @api.constrains('start_date', 'end_date')
-    def check_start_dates(self):
+    def _check_start_dates(self):
         """
         This method is used to validate the start_date and end_date.
         -------------------------------------------------------------
         @param self: object pointer
         @return: raise a warning depending on the validation
         """
-        if self.start_date >= self.end_date:
-            raise ValidationError(_('Start Date Should be less \
-            than the End Date!'))
+        if fields.Datetime.from_string(self.start_date) > fields.Datetime.from_string(self.end_date):
+            raise ValidationError(_('Start date should be less than the end date'))
         if self.is_folio is True:
-            if self.start_date < self.folio_id.checkin_date:
-                raise ValidationError(_('Start Date Should be greater than the'
-                                        ' Folio Check-in Date!'))
-            if self.end_date > self.folio_id.checkout_date:
-                raise ValidationError(_('End Date Should be less than the'
-                                        ' Folio Check-out Date!'))
+            if self.folio_id.state == 'checkin':
+                if fields.Datetime.from_string(self.end_date) > fields.Datetime.from_string(self.folio_id.checkout_date):
+                    raise ValidationError(_('End date should be less than the folio check out date'))
 
 
 class HotelRestaurantKitchenOrderTickets(models.Model):

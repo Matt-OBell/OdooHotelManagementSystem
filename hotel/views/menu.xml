@@ -4,9 +4,9 @@
         <menuitem id="hotel_management_menu" name="Hotel Management" />
 
         <menuitem id="hotel_configuration_menu" name="Configuration"
-            sequence="20" parent="hotel_management_menu" />
+            sequence="90" parent="hotel_management_menu" />
 
-        <menuitem id="hotel_report_menu" name="Pdf Reports" sequence="19"
+        <menuitem id="hotel_report_menu" name="Pdf Reports" sequence="80"
             parent="hotel_management_menu" />
 
         <menuitem id="menu_open_hotel_floor_form_tree" name="Floor"

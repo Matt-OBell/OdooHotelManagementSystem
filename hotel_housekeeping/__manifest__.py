@@ -2,7 +2,7 @@
 
 {
     'name': 'Hotel Housekeeping Management',
-    'version': '10.0.1.0.0',
+    'version': '1.0.0',
     'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA, Mattobell LTD.',
     'category': 'Generic Modules/Hotel Housekeeping',
     'website': 'http://www.serpentcs.com',

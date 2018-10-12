@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE xml>
 <odoo>
-
-    <!-- ======= Housekeeping ======= -->
     <!-- Form view of hotel housekeeping -->
     <record id="view_hotel_housekeeping_form" model="ir.ui.view">
         <field name="name">hotel.housekeeping.form</field>
@@ -123,14 +120,13 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_hotel_housekeeping_tree" />
     </record>
-    <menuitem id="menu_housekeeping" name="Housekeeping Services"
+    <menuitem id="menu_housekeeping" name="House Keeping"
         parent="hotel.hotel_management_menu" sequence="18" />
-    <menuitem name="Housekeeping Services" id="menu_open_hotel_housekeeping_form_tree"
+    <menuitem name="House Keeping" id="menu_open_hotel_housekeeping_form_tree"
         action="open_hotel_housekeeping_form_tree" parent="menu_housekeeping"
         sequence="4" />
 
     <!-- ================ Activity Category================= -->
-    <!-- Form view of hotel housekeeping activity type -->
     <record id="view_hotel_housekeeping_activity_type_form" model="ir.ui.view">
         <field name="name">hotel_housekeeping_activity_type_form</field>
         <field name="model">hotel.housekeeping.activity.type</field>
