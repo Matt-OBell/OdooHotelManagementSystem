@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
-
     <!--Form view for folio report wizard -->
     <record id="view_hotel_folio_wizard" model="ir.ui.view">
         <field name="name">folio.report.wizard</field>
@@ -29,6 +27,6 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Hotel Folio Report" action="hotel_folio_wizard" id="wizard_hotel_menu" parent="hotel_report_menu" sequence="31" />
+    <menuitem name="Hotel Folio Report" action="hotel_folio_wizard" id="wizard_hotel_menu_" parent="hotel_report_menu" sequence="31" />
 
 </odoo>

@@ -26,26 +26,22 @@
         'security/hotel_security.xml',
         'security/ir.model.access.csv',
         'views/hotel_view.xml',
-        # Tope 14/08/2018
         'data/ir_sequence.xml',
         'views/folio.xml',
         'views/hotel_room.xml',
         'views/product_product.xml',
-        # data file
         'data/amenities.xml',
-        # 'data/product_category.xml',
-        # Tope 14/08/2018
         'views/hotel_sequence.xml',
         'views/hotel_report.xml',
         'views/report_hotel_management.xml',
         'wizard/hotel_checkin_checkout.xml',
-        # 'wizard/hotel_wizard.xml',
         'views/action.xml',
         'views/menu.xml',
+        'wizard/hotel_wizard.xml',
     ],
     'css': ['static/src/css/room_kanban.css'],
     'images': ['static/description/Hotel.png'],
     'auto_install': False,
     'installable': True,
-    'application': True
+    'application': False
 }

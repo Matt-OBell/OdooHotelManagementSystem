@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <odoo>
 
-    <menuitem id="menu_hotel_reporting" name="Reports" parent="hotel.hotel_management_menu" sequence="7"/>
+    <menuitem id="menu_hotel_reporting" name="Reports" parent="hotel.hotel_management_menu" sequence="70"/>
 
     <!-- Action of hotel reservation -->
     <record id="action_view_frontdesk_cal" model="ir.actions.act_window">

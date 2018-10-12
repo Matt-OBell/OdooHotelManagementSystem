@@ -9,7 +9,12 @@
     'depends': [
         'hotel',
         'board_frontdesk', 
-        'hotel_housekeeping'
+        'hotel_housekeeping',
+        'hotel_pos_restaurant',
+        'hotel_reservation',
+        'hotel_restaurant',
+        'report_hotel_reservation',
+        'report_hotel_restaurant',
     ],
     'data' : [
         # 'views/dashboard.xml' It man not be needed.
