@@ -8,7 +8,8 @@
                 <form string="Check In">
                     <group>
                         <group>
-                            <field name="folio_id" domain="[('state', '=', 'confirm')]" required="1"/>
+                            <field name="folio_id" domain="[('state', '=', 'confirm')]" 
+                                options="{'no_create': True}" required="1"/>
                         </group>
                         <group>
                             <field name="partner_id" readonly="1"/>
@@ -29,14 +30,15 @@
                 <form string="Check Out">
                     <group>
                         <group>
-                            <field name="folio_id" domain="[('state', '=', 'checkin')]" required="1"/>
+                            <field name="folio_id" domain="[('state', '=', 'checkin')]" options="{'no_create': True}" 
+                                required="1"/>
                         </group>
                         <group>
                             <field name="partner_id" readonly="1"/>
                         </group>
                     </group>
                     <footer>
-                        <button name="checkin" string="Check-Out" type="object" class="oe_highlight" />
+                        <button name="checkout" string="Check-Out" type="object" class="oe_highlight" />
                         <button string="Cancel" class="btn btn-primary" special="cancel" />
                     </footer>
                 </form>

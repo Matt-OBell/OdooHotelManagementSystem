@@ -11,7 +11,6 @@ from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
 from decimal import Decimal
-from odoo.addons.hotel.helper import decimal_to_time
 
 _STATES = [
     ('draft', 'New'),
