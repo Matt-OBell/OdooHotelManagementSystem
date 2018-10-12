@@ -22,7 +22,8 @@ class HotelCheckinCheckout(models.TransientModel):
         till checkout time.
         """
         if self.folio_id.state != 'confirm':
-            raise UserError('This folio {} is not yet confirmed'.format(self.folio_id.name))
+            raise UserError(
+                'This folio {} is not yet confirmed'.format(self.folio_id.name))
         hours, minutes = decimal_to_time(self.env.user.company_id.checkin_hour)
         can_check_in = datetime.combine(
             date.today(), tm(hours, minutes)) < datetime.now()
@@ -34,7 +35,6 @@ class HotelCheckinCheckout(models.TransientModel):
             if room.is_available():
                 room.preoccupy()
         self.folio_id.write({'state': 'checkin'})
-
 
     def checkout(self):
         pass

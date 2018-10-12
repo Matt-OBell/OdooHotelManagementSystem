@@ -8,7 +8,7 @@
     'website': 'http://www.serpentcs.com',
     'depends': [
         'hotel',
-        'board_frontdesk', 
+        'board_frontdesk',
         'hotel_housekeeping',
         'hotel_pos_restaurant',
         'hotel_reservation',
@@ -16,7 +16,7 @@
         'report_hotel_reservation',
         'report_hotel_restaurant',
     ],
-    'data' : [
+    'data': [
         # 'views/dashboard.xml' It man not be needed.
     ],
     'license': 'AGPL-3',

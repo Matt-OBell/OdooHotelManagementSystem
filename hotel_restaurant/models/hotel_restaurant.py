@@ -274,11 +274,13 @@ class HotelRestaurantReservation(models.Model):
         @return: raise a warning depending on the validation
         """
         if fields.Datetime.from_string(self.start_date) > fields.Datetime.from_string(self.end_date):
-            raise ValidationError(_('Start date should be less than the end date'))
+            raise ValidationError(
+                _('Start date should be less than the end date'))
         if self.is_folio is True:
             if self.folio_id.state == 'checkin':
                 if fields.Datetime.from_string(self.end_date) > fields.Datetime.from_string(self.folio_id.checkout_date):
-                    raise ValidationError(_('End date should be less than the folio check out date'))
+                    raise ValidationError(
+                        _('End date should be less than the folio check out date'))
 
 
 class HotelRestaurantKitchenOrderTickets(models.Model):
