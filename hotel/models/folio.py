@@ -249,13 +249,17 @@ class HotelFolio(models.Model):
             self.duration = self._sojourn(checkin, checkout)
 
     @api.multi
-    def button_dummy(self):
+    def extend_stay(self):
         """
         @param self: object pointer
         """
-        for folio in self:
-            folio.order_id.button_dummy()
-        return True
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "wizard.checkin.checkout",
+            "views": [[self.env.ref('hotel.wizard_extend_stay_wizard').id, "form"]],
+            "context": {'default_folio_id': 1},
+            "target": "new",
+        }
 
     @api.multi
     def action_done(self):

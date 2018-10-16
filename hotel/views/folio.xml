@@ -10,6 +10,8 @@
                     <header>
                         <button name="confirm" states="draft" string="Confirm"
                             class="btn btn-primary" type="object" />
+                        <button name="extend_stay" states="confirm" string="Extend Stay"
+                            class="btn btn-primary" type="object" />
 
                             <field name="state" widget="statusbar"/>
                     </header>

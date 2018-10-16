@@ -25,6 +25,9 @@
             <menuitem name="Check-Out" id="hotel_folio_checkout_menu"
                 action="hotel_folio_checkout_wizard_action" sequence="6" parent="hotel_folio_menu" />
 
+            <menuitem name="Late-Out" id="hotel_folio_lateout_menu"
+                action="hotel_folio_checkout_wizard_action" sequence="7" parent="hotel_folio_menu" />
+
 
         <menuitem id="menu_hotel_service" name="Services" 
             parent="hotel.hotel_configuration_menu" sequence="2" />

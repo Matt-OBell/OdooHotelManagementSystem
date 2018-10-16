@@ -44,5 +44,30 @@
                 </form>
             </field>
         </record>
+
+        <record id="wizard_extend_stay_wizard" model="ir.ui.view">
+            <field name="name">wizard.checkin.checkout</field>
+            <field name="model">wizard.checkin.checkout</field>
+            <field name="arch" type="xml">
+                <form string="Check Out">
+                    <group>
+                        <group>
+                            <field name="folio_id" domain="[('state', '=', 'checkin')]" options="{'no_create': True}" 
+                                required="1" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="number_of_days" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="extend_stay" string="Extend Stay" type="object" class="oe_highlight" />
+                        <button string="Cancel" class="btn btn-primary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </odoo>

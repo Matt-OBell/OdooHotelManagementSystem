@@ -15,6 +15,8 @@ class HotelCheckinCheckout(models.TransientModel):
         related='folio_id.partner_id',
         string='Partner'
     )
+    number_of_days = fields.Integer(
+        string='Number of Days', required=True, default=1)
 
     @api.multi
     def checkin(self):
@@ -35,6 +37,13 @@ class HotelCheckinCheckout(models.TransientModel):
             if room.is_available():
                 room.preoccupy()
         self.folio_id.write({'state': 'checkin'})
+
+    @api.multi
+    def extend_stay(self):
+        extend_from = fields.Datetime.from_string(self.folio_id.checkout_date)
+        extend_to = timedelta(days=int(self.number_of_days))
+        new_checkout_date = extend_from + extend_to
+        self.folio_id.write({'checkout_date': new_checkout_date})
 
     def checkout(self):
         pass
