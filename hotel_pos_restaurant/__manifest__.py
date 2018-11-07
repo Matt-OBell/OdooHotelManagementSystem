@@ -18,5 +18,5 @@
     'qweb': ['static/src/xml/*.xml'],
     'images': ['static/description/HotelPOSRestaurant.png'],
     'auto_install': False,
-    'installable': True
+    'installable': False
 }

@@ -19,6 +19,6 @@
         'views/hotel_housekeeping_view.xml',
     ],
     'images': ['static/description/HouseKeeping.png'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

@@ -1,4 +1,5 @@
-"""Collection of helper functions."""
+"""collections of helper functions."""
+
 import time
 # from odoo.tools.misc import DEFAULT_SERVER_TIME_FORMAT
 

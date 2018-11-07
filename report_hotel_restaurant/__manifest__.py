@@ -13,6 +13,6 @@
         'views/report_hotel_restaurant_view.xml',
     ],
     'images': ['static/description/RestaurantReporting.png'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

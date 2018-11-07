@@ -15,5 +15,5 @@
     'data': [
         'views/board_frontdesk_view.xml'
     ],
-    'installable': True,
+    'installable': False,
 }

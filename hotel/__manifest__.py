@@ -1,5 +1,4 @@
 # See LICENSE file for full copyright and licensing details.
-
 {
     'name': 'Hotel Management System',
     'version': '1.0.0',
@@ -8,19 +7,18 @@
     Hotel management system is a system that provides us the ability to reserving rooms, 
     checking  whether the rooms are vacant are or not.""",
 
-    'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA, Mattobell LTD.',
+    'author': 'Mattobell LTD.',
     'category': 'Generic Modules/Hotel Management',
-    'website': 'http://www.serpentcs.com',
+    'website': 'https://www.mattobell.com',
     'depends': [
         'web',
         'base',
         'sale',
         'account_invoicing',
     ],
-    'license': "AGPL-3",
+    'license': "LGPL-3",
     'demo': [
         'demo/hotel_room.xml',
-        # 'views/hotel_data.xml',
     ],
     'data': [
         'security/hotel_security.xml',

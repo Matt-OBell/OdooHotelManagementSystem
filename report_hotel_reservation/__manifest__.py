@@ -13,6 +13,6 @@
         'views/report_hotel_reservation_view.xml',
     ],
     'images': ['static/description/HotelReservationReporting.png'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
