@@ -135,10 +135,10 @@ class HotelFolio(models.Model):
     name = fields.Char('Number', readonly=True, default='/')
     invoice_id = fields.Many2one(
         'account.invoice', string='Invoice', copy=False)
-    partner_id = fields.Many2one('res.partner', string='Guest', copy=False, 
-        domain=[('company_type', '=', 'person')])
-    corporate_id = fields.Many2one('res.partner', string='Corporation', 
-        copy=False, domain=[('company_type', '=', 'company')])
+    partner_id = fields.Many2one('res.partner', string='Guest', copy=False,
+                                 domain=[('company_type', '=', 'person')])
+    corporate_id = fields.Many2one('res.partner', string='Corporation',
+                                   copy=False, domain=[('company_type', '=', 'company')])
     state = fields.Selection(
         selection=_STATES, string='State', default='draft')
     checkin_date = fields.Datetime(string='Arrival Date', required=True, readonly=True,
@@ -169,7 +169,8 @@ class HotelFolio(models.Model):
     client_type = fields.Selection([
         ('is_corporate', 'Corporate'),
         ('is_normal', 'Normal')], string='Guest Type', default='is_normal')
-    corporate_client_child_ids = fields.Many2many('res.partner', string='Guests')
+    corporate_client_child_ids = fields.Many2many(
+        'res.partner', string='Guests')
 
     @api.onchange('client_type', 'corporate_id')
     def _onchange_client_type(self):

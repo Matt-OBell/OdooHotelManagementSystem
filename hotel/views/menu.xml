@@ -48,7 +48,7 @@
 
     <menuitem id="menu_hotel_room" name="Room"
         parent="hotel.hotel_configuration_menu" sequence="2" />
-    <menuitem id="menu_open_hotel_room_type_form_tree" name="Room Categories"
+    <menuitem id="menu_open_hotel_room_type_form_tree" name="Room Type"
         action="open_hotel_room_type_form_tree" sequence="5"
         parent="hotel.menu_hotel_room" />
 
