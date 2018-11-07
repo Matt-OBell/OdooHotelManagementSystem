@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-    <!-- ====== Rooms ====== -->
     <!-- Form view of hotel room -->
     <record id="view_hotel_room_form" model="ir.ui.view">
         <field name="name">hotel.room.form</field>
@@ -9,17 +8,21 @@
         <field name="arch" type="xml">
             <form string="Hotel Room">
                 <sheet>
-                    <!-- <field name="image_medium" widget="image" class="oe_avatar" /> -->
+                    <div class="oe_right oe_button_box">
+                        <button name="check_room_status" icon="fa-signal" class="oe_stat_button" type="object">
+                            <field name="status" readonly="1"/>
+                        </button>
+                    </div>
+                    <!-- <field name="image" widget="image" class="oe_avatar" /> -->
                     <div class="oe_title">
                         <label for="name" string="Name" />
                         <h1>
                             <field name="name" required="1"/>
                         </h1>
-                        <label for="status" string="Status" />
-                        <h2>
-                            <field name="status" readonly="1" />
-                        </h2>
                     </div>
+                    <group>
+                        <field name="current_occupant"/>
+                    </group>
                     <notebook>
                         <page name="information_hotel_room" string="General Information">
                             <group>
@@ -28,13 +31,18 @@
                                     <field name="categ_id" select="1" />
                                     <field name="lease_price"/>
                                     <field name="total_price"/>
+                                </group>
+                                <group>
+                                    <field name="floor_id" string="Floor" />
+                                   <field name="product_manager" string="Room Manager" />
+                                </group>
                             </group>
-                            <group>
-                                <field name="floor_id" string="Floor" />
-                                <field name="product_manager" string="Room Manager" />
-                                <field name="isavailable" />
-                            </group>
-                            </group>
+                        </page>
+                        <page name="amenities_ids" string="Amenities">
+                            <field name="amenities_ids"/>
+                        </page>
+                        <page name="folio_ids" string="Charges">
+                            <field name="folio_ids"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -143,8 +151,6 @@
     </record>
 
    
-
-    <!--======= Room Type ======= -->
     <!-- Form view of hotel room type -->
     <record id="view_hotel_room_type_form" model="ir.ui.view">
         <field name="name">hotel.room_type.form</field>
@@ -166,8 +172,7 @@
                     <group string="Other Info">
                         <field name="standard_price"/>
                         <field name="extra_beds" />
-                        <field name="required_deposit"/>
-                        <!-- <field name="room_ids"/> -->
+                        <field name="require_min_deposit"/>
                     </group>
                     </group>
                 </sheet>

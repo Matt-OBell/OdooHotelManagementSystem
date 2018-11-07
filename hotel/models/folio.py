@@ -147,7 +147,7 @@ class HotelFolio(models.Model):
     checkout_date = fields.Datetime(string='Departure Date', required=True, readonly=True,
                                     states={'draft': [('readonly', False)]},
                                     default=_get_checkout_date)
-    room_ids = fields.Many2many('hotel.room', string='Room')
+    room_id = fields.Many2one('hotel.room', string='Room')
     service_ids = fields.Many2many('product.product', string='Services', domain=[
                                    ('type', '=', 'service')])
     hotel_policy = fields.Selection([('prepaid', 'On Booking'),
@@ -169,14 +169,19 @@ class HotelFolio(models.Model):
     client_type = fields.Selection([
         ('is_corporate', 'Corporate'),
         ('is_normal', 'Normal')], string='Guest Type', default='is_normal')
-    corporate_client_child_ids = fields.Many2many(
-        'res.partner', string='Guests')
+    total_amount = fields.Float(string='Total Amount', compute='_compute_total_amount')
+    # corporate_client_child_ids = fields.Many2many(
+    #     'res.partner', string='Guests')
 
-    @api.onchange('client_type', 'corporate_id')
-    def _onchange_client_type(self):
-        if self.client_type == 'is_corporate':
-            child_ids = self.corporate_id.child_ids.ids
-            self.corporate_client_child_ids = child_ids
+    # @api.onchange('client_type', 'corporate_id')
+    # def _onchange_client_type(self):
+    #     if self.client_type == 'is_corporate':
+    #         child_ids = self.corporate_id.child_ids.ids
+    #         self.corporate_client_child_ids = child_ids
+
+    @api.depends('service_ids')
+    def _compute_total_amount(self):
+        return 123
 
     def _compute_payment_deposit(self):
         payment = self.env['account.payment'].sudo(self.env.user.id)

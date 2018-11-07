@@ -35,29 +35,16 @@
                             <group>
                                 <field name="invoice_id" states='sale,done,cancel'
                                     readonly="1" />
+                                <field name="room_id" domain="[('status', '=', 'vacant')]"/>
                                 <field name="duration" readonly="1" widget="time_float"/>
                                 <field name="checkin_date" />
                                 <field name="checkout_date" />
                             </group>
-                            <group attrs="{'invisible': [('client_type','=', 'is_normal')]}">
+                           <!--  <group attrs="{'invisible': [('client_type','=', 'is_normal')]}">
                                 <field name="corporate_client_child_ids" nolabel="0"/>
-                            </group>
+                            </group> -->
                         </group>
                         <notebook>
-                            <page string="Room(s)">
-                                 <field name="room_ids" string="Room Line" options="{'no_create': True, 'no_create_edit':True}"
-                                    domain="[('isavailable', '=', True)]">
-                                    <tree string="Room Line">
-                                        <field name="categ_id" string="Category"/>
-                                        <field name="name" />
-                                        <field name="floor_id" string="Floor"/>
-                                        <field name="status" /> 
-                                        <field name="capacity"/>
-                                        <field name="total_price" string="Price"/>
-                                    </tree>
-                                </field>
-                                <div class="oe_clear" />
-                            </page>
                             <page string="Service(s)">
                                 <field name="service_ids">
                                     <tree>
@@ -88,6 +75,7 @@
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="state" />
+                <field name="total_amount"/>
             </tree>
         </field>
     </record>

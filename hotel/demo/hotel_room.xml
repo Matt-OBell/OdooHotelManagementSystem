@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
          <!-- hotel_room_type -->
         <record id="single" model="hotel.room.type">
             <field name="name">Single</field>
@@ -9,7 +9,6 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <record id="double" model="hotel.room.type">
@@ -19,7 +18,6 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <record id="triple" model="hotel.room.type">
@@ -29,7 +27,6 @@
             <field name="maximum_occupant">3</field>
             <field name="extra_beds">1</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <record id="quad" model="hotel.room.type">
@@ -39,7 +36,6 @@
             <field name="maximum_occupant">4</field>
             <field name="extra_beds">1</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <record id="single" model="hotel.room.type">
@@ -49,7 +45,6 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <record id="double_double" model="hotel.room.type">
@@ -59,7 +54,7 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
+            
         </record>
 
         <record id="studio" model="hotel.room.type">
@@ -69,7 +64,7 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
+            
         </record>
 
         <record id="king" model="hotel.room.type">
@@ -79,7 +74,6 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <record id="queen" model="hotel.room.type">
@@ -89,7 +83,6 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
          <record id="twin" model="hotel.room.type">
@@ -99,13 +92,13 @@
             <field name="maximum_occupant">1</field>
             <field name="extra_beds">0</field>
             <field name="standard_price">5000</field>
-            <field name="status">1</field>
         </record>
 
         <!-- Hotel Rooms -->
         <record id="room1" model="hotel.room">
             <field name="name">RM 001</field>
             <field name="categ_id" ref="hotel.twin"></field>
+            <field name="status">stayover</field>
             <field name="capacity">2</field>
             <field name="lease_price">3000</field>
         </record>
@@ -114,6 +107,7 @@
             <field name="name">RM 002</field>
             <field name="categ_id" ref="hotel.queen"></field>
             <field name="capacity">2</field>
+            <field name="status">cleaning_in_progress</field>
             <field name="lease_price">4000</field>
         </record>
 
@@ -122,6 +116,7 @@
             <field name="categ_id" ref="hotel.king"></field>
             <field name="capacity" eval="3"></field>
             <field name="lease_price">5000</field>
+            <field name="status">out_of_service</field>
         </record>
 
         <record id="room4" model="hotel.room">
@@ -129,6 +124,7 @@
             <field name="categ_id" ref="hotel.single"></field>
             <field name="capacity">1</field>
             <field name="lease_price">1000</field>
+            <field name="status">occupied</field>
         </record>
 
         <record id="room5" model="hotel.room">
@@ -136,6 +132,7 @@
             <field name="categ_id" ref="hotel.single"></field>
             <field name="capacity">1</field>
             <field name="lease_price">1000</field>
+            <field name="status">occupied</field>
         </record>
 
         <record id="room6" model="hotel.room">
@@ -143,6 +140,7 @@
             <field name="categ_id" ref="hotel.single"></field>
             <field name="capacity">1</field>
             <field name="lease_price">1000</field>
+            <field name="status">occupied</field>
         </record>
 
         <record id="room7" model="hotel.room">
@@ -150,6 +148,7 @@
             <field name="categ_id" ref="hotel.single"></field>
             <field name="capacity">1</field>
             <field name="lease_price">1000</field>
+            <field name="status">vacant</field>
         </record>
 
         <record id="room8" model="hotel.room">
@@ -157,7 +156,7 @@
             <field name="categ_id" ref="hotel.single"></field>
             <field name="lease_price">8000</field>
             <field name="capacity">1</field>
-            <field name="isavailable" eval="1"></field>
+            <field name="status">vacant</field>
         </record>
 
         <record id="room9" model="hotel.room">
@@ -165,6 +164,7 @@
             <field name="capacity">1</field>
             <field name="categ_id" ref="hotel.single"></field>
             <field name="lease_price">1000</field>
+            <field name="status">vacant</field>
         </record>
 
     </data>
