@@ -1,10 +1,8 @@
-# from datetime import timedelta, datetime
 from datetime import datetime, timedelta, date, time as tm
 
 from odoo import api, fields, models
 
 import time
-# import datetime
 from urllib.request import urlopen as urllib2
 from odoo.exceptions import except_orm, ValidationError, MissingError, UserError
 from odoo.osv import expression
@@ -134,11 +132,13 @@ class HotelFolio(models.Model):
     _description = 'hotel folio'
     _order = 'id'
 
-    name = fields.Char('Number', readonly=True, index=True,
-                       default='/')
+    name = fields.Char('Number', readonly=True, default='/')
     invoice_id = fields.Many2one(
         'account.invoice', string='Invoice', copy=False)
-    partner_id = fields.Many2one('res.partner', string='Partner', copy=False)
+    partner_id = fields.Many2one('res.partner', string='Guest', copy=False, 
+        domain=[('company_type', '=', 'person')])
+    corporate_id = fields.Many2one('res.partner', string='Corporation', 
+        copy=False, domain=[('company_type', '=', 'company')])
     state = fields.Selection(
         selection=_STATES, string='State', default='draft')
     checkin_date = fields.Datetime(string='Arrival Date', required=True, readonly=True,
@@ -166,6 +166,16 @@ class HotelFolio(models.Model):
                                  default=lambda self: self.env['res.company']._company_default_get(), required=True)
     payment_deposits = fields.Float(
         string='Deposits', compute='_compute_payment_deposit')
+    client_type = fields.Selection([
+        ('is_corporate', 'Corporate'),
+        ('is_normal', 'Normal')], string='Guest Type', default='is_normal')
+    corporate_client_child_ids = fields.Many2many('res.partner', string='Guests')
+
+    @api.onchange('client_type', 'corporate_id')
+    def _onchange_client_type(self):
+        if self.client_type == 'is_corporate':
+            child_ids = self.corporate_id.child_ids.ids
+            self.corporate_client_child_ids = child_ids
 
     def _compute_payment_deposit(self):
         payment = self.env['account.payment'].sudo(self.env.user.id)
@@ -257,7 +267,7 @@ class HotelFolio(models.Model):
             "type": "ir.actions.act_window",
             "res_model": "wizard.checkin.checkout",
             "views": [[self.env.ref('hotel.wizard_extend_stay_wizard').id, "form"]],
-            "context": {'default_folio_id': 1},
+            "context": {'default_folio_id': self.id},
             "target": "new",
         }
 

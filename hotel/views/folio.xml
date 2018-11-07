@@ -28,14 +28,19 @@
                         </h1>
                         <group>
                             <group>
-                                <field name="partner_id" string="Guest Name" required="1" />
-                                <field name="checkin_date" />
+                                <field name="client_type" widget="radio" options="{'horizontal':True}"/>
+                                <field name="corporate_id" attrs="{'required':[('client_type','=', 'is_corporate')], 'invisible': [('client_type','=', 'is_normal')]}"/>
+                                <field name="partner_id" attrs="{'required':[('client_type','=', 'is_normal')], 'invisible': [('client_type','=', 'is_corporate')]}" />
                             </group>
                             <group>
                                 <field name="invoice_id" states='sale,done,cancel'
                                     readonly="1" />
                                 <field name="duration" readonly="1" widget="time_float"/>
+                                <field name="checkin_date" />
                                 <field name="checkout_date" />
+                            </group>
+                            <group attrs="{'invisible': [('client_type','=', 'is_normal')]}">
+                                <field name="corporate_client_child_ids" nolabel="0"/>
                             </group>
                         </group>
                         <notebook>
