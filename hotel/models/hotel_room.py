@@ -15,7 +15,7 @@ ROOM_STATUS = [
     ('do_not_disturb', 'Do Not Disturb'),
     ('cleaning_in_progress', 'Cleaning in progress'),
     ('sleep_out', 'Sleep-out'),
-    ('on_queue:', 'On-Queue:'),
+    ('on_queue', 'On-Queue:'),
     ('skipper', 'Skipper'),
     ('vacant', 'Vacant'),
     ('out_of_order', 'Out of Order'),
@@ -126,7 +126,7 @@ class HotelRoom(models.Model):
                               help=ROOM_STATUS_HELP,
                               default='vacant')
     capacity = fields.Integer(string='Capacity', required=True, default=1)
-    product_manager = fields.Many2one('res.users', string='Product Manager')
+    product_manager = fields.Many2one('res.users', string='Room Manager')
     lease_price = fields.Float(string='Lease Price', required=True)
     total_price = fields.Float(
         string='Total Price', compute='_compute_total_price')
@@ -137,8 +137,8 @@ class HotelRoom(models.Model):
         print('check_room_status*****************************')
 
     @api.multi
-    def is_available(self):
-        return self.status == 'available'
+    def isvacant(self):
+        return self.status == 'vacant'
 
     @api.multi
     def preoccupy(self):
@@ -155,20 +155,7 @@ class HotelRoom(models.Model):
         for room in self:
             if room.capacity <= 0:
                 raise ValidationError(_('Room capacity must be more than 0'))
-
-    @api.multi
-    def write(self, vals):
-        """
-        Overrides orm write method.
-        @param self: The object pointer
-        @param vals: dictionary of fields value.
-        """
-        # if 'isavailable' in vals and vals['isavailable'] is False:
-        #     vals.update({'color': 2, 'status': 'occupied'})
-        # if 'isavailable'in vals and vals['isavailable'] is True:
-        #     vals.update({'color': 5, 'status': 'available'})
-        # ret_val = super(HotelRoom, self).write(vals)
-        # return ret_val
+                
 
     @api.multi
     def set_room_status_occupied(self):

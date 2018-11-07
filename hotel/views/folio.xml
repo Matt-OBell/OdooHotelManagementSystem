@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Folio">
                     <header>
-                        <button name="confirm" states="draft" string="Confirm"
+                        <button name="on_queue" states="draft" string="On-Queue"
                             class="btn btn-primary" type="object" />
                         <button name="extend_stay" states="confirm" string="Extend Stay"
                             class="btn btn-primary" type="object" />
@@ -17,9 +17,11 @@
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box">
-                            <button name="go_to_currency_exchange" string="Money Exchange"
-                                icon="fa-refresh" class="oe_stat_button" type="object" />
-                            <button name="advance_deposits" icon="fa-usd" class="oe_stat_button" type="object">
+                            <button name="go_to_currency_exchange"
+                                icon="fa-hashtag" class="oe_stat_button" type="object">
+                                <field name="total_amount" widget="statinfo"/>
+                            </button>
+                            <button name="advance_deposits" icon="fa-hashtag" class="oe_stat_button" type="object">
                                 <field name="payment_deposits" widget="statinfo"/>
                             </button>
                         </div>
@@ -45,7 +47,7 @@
                             </group> -->
                         </group>
                         <notebook>
-                            <page string="Service(s)">
+                            <page string="Room Services">
                                 <field name="service_ids">
                                     <tree>
                                         <field name="name" />

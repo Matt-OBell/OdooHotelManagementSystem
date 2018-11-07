@@ -1,18 +1,19 @@
 from datetime import datetime, timedelta, date, time as tm
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+
 
 import time
 from urllib.request import urlopen as urllib2
 from odoo.exceptions import except_orm, ValidationError, MissingError, UserError
 from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
-from odoo import models, fields, api, _
+
 from decimal import Decimal
 
 _STATES = [
-    ('draft', 'New'),
-    ('confirm', 'Confirm'),
+    ('draft', 'Open'),
+    ('on_queue', 'On-Queue'),
     ('checkin', 'Checkin'),
     ('checkout', 'Checkout'),
     ('cance', 'Cancel'),
@@ -169,7 +170,8 @@ class HotelFolio(models.Model):
     client_type = fields.Selection([
         ('is_corporate', 'Corporate'),
         ('is_normal', 'Normal')], string='Guest Type', default='is_normal')
-    total_amount = fields.Float(string='Total Amount', compute='_compute_total_amount')
+    total_amount = fields.Float(
+        string='Total Bill', compute='_compute_total_amount')
     # corporate_client_child_ids = fields.Many2many(
     #     'res.partner', string='Guests')
 
@@ -179,9 +181,30 @@ class HotelFolio(models.Model):
     #         child_ids = self.corporate_id.child_ids.ids
     #         self.corporate_client_child_ids = child_ids
 
+    @api.multi
+    def on_queue(self):
+        status = [
+            'occupied', 'on_change', 'cleaning_in_progress',
+            'on_queue', 'out_of_order', 'out_of_service'
+        ]
+        for folio in self:
+            if not folio.room_id:
+                raise MissingError('A room needs to be attached to Folio')
+            if folio.room_id.status not in status:
+                folio.room_id.write({'status': 'on_queue'})
+                folio.write({'state': 'on_queue'})
+            else:
+                raise UserError(
+                    _('The selected room is not available at the moment'))
+
+    @api.multi
+    def _calculate_total_amount(self):
+        """Calculate amount total should be overiden by the child class"""
+        return sum([service_id.lst_price for service_id in self.service_ids])
+
     @api.depends('service_ids')
     def _compute_total_amount(self):
-        return 123
+        self.total_amount = self._calculate_total_amount()
 
     def _compute_payment_deposit(self):
         payment = self.env['account.payment'].sudo(self.env.user.id)
@@ -189,14 +212,11 @@ class HotelFolio(models.Model):
             [('folio_id', '=', self.id), ('state', '!=', 'draft')])
         self.payment_deposits = sum([payment.amount for payment in payments])
 
-    def _basic_room_amenities(self, values):
-        ids = []
-        room_ids = values.get('room_ids')[0][2]
-        rooms = self.room_ids.browse(room_ids)
-        for room in rooms:
-            for amenities_id in room.amenities_ids:
-                ids.append(amenities_id.id)
-        return ids
+    #
+    #
+    #
+    #
+    #
 
     @api.model
     def create(self, values):
@@ -226,19 +246,6 @@ class HotelFolio(models.Model):
         action.update(res_id=self.id)
         return action
 
-    @api.constrains('room_lines')
-    def folio_room_lines(self):
-        """
-        This method is used to validate the room_lines.
-        ------------------------------------------------
-        @param self: object pointer
-        @return: raise warning depending on the validation
-        """
-        folio_rooms = []
-        for room in self[0].room_lines:
-            if room.product_id.id in folio_rooms:
-                raise ValidationError(_('You Cannot Take Same Room Twice'))
-            folio_rooms.append(room.product_id.id)
 
     def _sojourn(self, checkin, checkout):
         adjustment, one_day = 0, 86400.0  # 60 * 60 * 24
@@ -326,13 +333,6 @@ class HotelFolio(models.Model):
             for invoice in sale.invoice_ids:
                 invoice.state = 'cancel'
         return self.order_id.action_cancel()
-
-    @api.multi
-    def confirm(self):
-        for folio in self:
-            if not folio.room_ids:
-                raise MissingError('Please add room(s) to the folio line')
-            folio.write({'state': 'confirm'})
 
     @api.multi
     def action_cancel_draft(self):
