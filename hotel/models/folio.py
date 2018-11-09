@@ -14,7 +14,7 @@ from decimal import Decimal
 _STATES = [
     ('draft', 'Open'),
     ('on_queue', 'On-Queue'),
-    ('checkin', 'Checkin'),
+    ('checkin', 'Checked In'),
     ('checkout', 'Checkout'),
     ('cance', 'Cancel'),
 ]
@@ -121,13 +121,6 @@ class HotelFolio(models.Model):
                                   context={'tz': to_zone}),
                                  '%Y-%m-%d %H:%M:%S') + tm_delta
 
-    @api.multi
-    def copy(self, default=None):
-        """
-        @param self: object pointer
-        @param default: dict of default values to be set
-        """
-        return super(HotelFolio, self).copy(default=default)
 
     _name = 'hotel.folio'
     _description = 'hotel folio'
@@ -162,7 +155,6 @@ class HotelFolio(models.Model):
     duration = fields.Integer(string='Duration in Days',
                               help="Number of days which will automatically "
                               "count from the check-in and check-out date. ", compute='_compute_duration')
-    duration_dummy = fields.Float('Duration Dummy')
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env['res.company']._company_default_get(), required=True)
     payment_deposits = fields.Float(
@@ -204,7 +196,8 @@ class HotelFolio(models.Model):
 
     @api.depends('service_ids')
     def _compute_total_amount(self):
-        self.total_amount = self._calculate_total_amount()
+        for folio in self:
+            folio.total_amount = folio._calculate_total_amount()
 
     def _compute_payment_deposit(self):
         payment = self.env['account.payment'].sudo(self.env.user.id)
@@ -237,7 +230,7 @@ class HotelFolio(models.Model):
                 'default_payment_type': 'inbound',
                 'default_partner_type': 'customer',
                 'default_partner_id': self.partner_id.id,
-                'default_amount': sum([room.categ_id.required_deposit for room in self.room_ids])
+                'default_amount': self.total_amount
             }
         }
         if not payment.search([('folio_id', '=', self.id)]):

@@ -2,7 +2,6 @@ import time
 import datetime
 from urllib.request import urlopen as urllib2
 from odoo.exceptions import except_orm, ValidationError
-from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
 from decimal import Decimal
@@ -141,9 +140,8 @@ class HotelRoom(models.Model):
         return self.status == 'vacant'
 
     @api.multi
-    def preoccupy(self):
-        pass
-        # return self.write({'isavailable': False})
+    def occupy(self):
+        return self.write({'status': 'occupied'})
 
     @api.depends('lease_price', 'categ_id')
     def _compute_total_price(self):

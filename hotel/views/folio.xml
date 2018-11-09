@@ -37,7 +37,7 @@
                             <group>
                                 <field name="invoice_id" states='sale,done,cancel'
                                     readonly="1" />
-                                <field name="room_id" domain="[('status', '=', 'vacant')]"/>
+                                <field name="room_id" domain="[('status', '=', 'vacant')]" required="1"/>
                                 <field name="duration" readonly="1" widget="time_float"/>
                                 <field name="checkin_date" />
                                 <field name="checkout_date" />
@@ -73,6 +73,7 @@
         <field name="arch" type="xml">
             <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
                 <field name="name" />
+                <field name="room_id"/>
                 <field name="partner_id" string='Client'/>
                 <field name="checkin_date" />
                 <field name="checkout_date" />

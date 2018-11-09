@@ -41,8 +41,17 @@
                         <page name="amenities_ids" string="Amenities">
                             <field name="amenities_ids"/>
                         </page>
-                        <page name="folio_ids" string="Charges">
-                            <field name="folio_ids"/>
+                        <page name="folio_id" string="Charges">
+                            <field name="folio_ids" domain="[('state', '=', 'checkin')]">
+                                <tree create="0" edit="0" delete="0">
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="checkin_date" />
+                                    <field name="checkout_date" />
+                                    <field name="state" />
+                                    <field name="total_amount"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
