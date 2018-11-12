@@ -133,7 +133,7 @@ class HotelRoom(models.Model):
     folio_ids = fields.One2many('hotel.folio', 'room_id', string='Folio')
 
     def check_room_status(self):
-        print('check_room_status*****************************')
+        pass
 
     @api.multi
     def isvacant(self):
@@ -153,7 +153,6 @@ class HotelRoom(models.Model):
         for room in self:
             if room.capacity <= 0:
                 raise ValidationError(_('Room capacity must be more than 0'))
-                
 
     @api.multi
     def set_room_status_occupied(self):

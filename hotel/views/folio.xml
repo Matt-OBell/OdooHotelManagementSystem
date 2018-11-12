@@ -38,6 +38,7 @@
                                 <field name="invoice_id" states='sale,done,cancel'
                                     readonly="1" />
                                 <field name="room_id" domain="[('status', '=', 'vacant')]" required="1"/>
+                                <field name="price"/>
                                 <field name="duration" readonly="1" widget="time_float"/>
                                 <field name="checkin_date" />
                                 <field name="checkout_date" />

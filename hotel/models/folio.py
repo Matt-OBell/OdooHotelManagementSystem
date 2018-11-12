@@ -142,6 +142,7 @@ class HotelFolio(models.Model):
                                     states={'draft': [('readonly', False)]},
                                     default=_get_checkout_date)
     room_id = fields.Many2one('hotel.room', string='Room')
+    price = fields.Float(related='room_id.total_price', string='Price')
     service_ids = fields.Many2many('product.product', string='Services', domain=[
                                    ('type', '=', 'service')])
     hotel_policy = fields.Selection([('prepaid', 'On Booking'),
@@ -197,7 +198,7 @@ class HotelFolio(models.Model):
     @api.depends('service_ids')
     def _compute_total_amount(self):
         for folio in self:
-            folio.total_amount = folio._calculate_total_amount()
+            folio.total_amount = folio._calculate_total_amount() + folio.price
 
     def _compute_payment_deposit(self):
         payment = self.env['account.payment'].sudo(self.env.user.id)

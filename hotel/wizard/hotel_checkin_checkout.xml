@@ -43,7 +43,7 @@
                         <field name="total_bill" readonly="1" class="oe_subtotal_footer_separator"/>
                         <field name="payment_deposits" readonly="1" class="oe_subtotal_footer_separator"/>
                         <field name="amount_due" readonly="1" class="oe_subtotal_footer_separator"/>
-                        <button name="pay_due_amount" action="object" string="Pay Due Amount"
+                        <button name="pay_due_amount" type="object" string="Pay Due Amount"
                             class="oe_right" attrs="{'invisible':[('amount_due', '&lt;', 1)]}"/>
                     </group>
                     <footer>

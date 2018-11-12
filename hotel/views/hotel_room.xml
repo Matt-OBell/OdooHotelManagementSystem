@@ -42,8 +42,8 @@
                             <field name="amenities_ids"/>
                         </page>
                         <page name="folio_id" string="Charges">
-                            <field name="folio_ids" domain="[('state', '=', 'checkin')]">
-                                <tree create="0" edit="0" delete="0">
+                            <field name="folio_ids">
+                                <tree create="0" edit="0" delete="0" limit="1"> 
                                     <field name="name"/>
                                     <field name="partner_id"/>
                                     <field name="checkin_date" />

@@ -26,6 +26,6 @@
     'qweb': ['static/src/xml/hotel_room_summary.xml'],
     'css': ['static/src/css/room_summary.css'],
     'images': ['static/description/HotelReservation.png'],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

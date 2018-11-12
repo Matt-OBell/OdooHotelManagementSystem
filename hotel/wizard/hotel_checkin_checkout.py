@@ -83,9 +83,13 @@ class HotelCheckinCheckout(models.TransientModel):
         if self.amount_due <= 0:
             self._checkout(folio)
         else:
-            pass
+            raise UserError('The customer needs to pay all due amount before checkout can be completed.')
     
     def _checkout(self, folio):
         room = folio.room_id
         folio.write({'state':'checkout'})
         room.write({'status': 'on_change'})
+
+    def pay_due_amount(self, context):
+        """Generate due amount and match it up with the customer invoice."""
+        print(self, context, '**********************************')
