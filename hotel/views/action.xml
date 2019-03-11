@@ -86,8 +86,8 @@
     <record id="action_hotel_room_amenities_type_view_form" model="ir.actions.act_window">
         <field name="name">Amenities Type</field>
         <field name="res_model">product.category</field>
-        <field name="context">{'default_isamenitytype':1}</field>
-        <field name="domain" eval="[('isamenitytype', '=', True)]"/>
+        <field name="context">{'default_is_amenity_type':1}</field>
+        <field name="domain" eval="[('is_amenity_type', '=', True)]"/>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>

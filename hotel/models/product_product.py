@@ -12,4 +12,4 @@ class ProductCategory(models.Model):
 
     _inherit = "product.category"
 
-    isamenitytype = fields.Boolean(string='Amenity Type', default=False)
+    is_amenity_type = fields.Boolean(string='Amenity Type', default=False)
