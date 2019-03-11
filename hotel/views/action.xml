@@ -24,6 +24,10 @@
             <field name="res_model">hotel.folio</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first folio</p>
+            </field>
+
         </record>
 
         <!-- Action for hotel folio -->
@@ -68,8 +72,6 @@
         <field name="name">Room</field>
         <field name="res_model">hotel.room</field>
         <field name="view_type">form</field>
-        <!-- <field name="context">{'default_isavailable':1,'default_rental':1,'default_available_in_pos':0} -->
-        <!-- </field> -->
         <field name="view_id" ref="view_hotel_room_tree" />
         <field name="view_mode">kanban,tree,form</field>
     </record>

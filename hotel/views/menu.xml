@@ -10,7 +10,7 @@
             parent="hotel_management_menu" />
 
 
-        <menuitem id="hotel_folio_menu" name="Folio" 
+        <menuitem id="hotel_folio_menu" name="Room Operations" 
             parent="hotel.hotel_management_menu" sequence="4" />
 
             <menuitem name="Folio" id="hotel_guest_folio_menu"
@@ -37,13 +37,13 @@
             action="action_hotel_services_form" sequence="9"
             parent="hotel.menu_hotel_service" />
 
-        <menuitem id="menu_hotel_room" name="Room"
+        <menuitem id="menu_hotel_room" name="Room List"
         parent="hotel.hotel_configuration_menu" sequence="2" />
 
     <menuitem id="menu_open_hotel_room_form" name="Rooms"
         action="action_hotel_room_form" sequence="6" parent="hotel.menu_hotel_room" />
 
-    <menuitem id="menu_hotel_room" name="Room"
+    <menuitem id="menu_hotel_room" name="Room Setup"
         parent="hotel.hotel_configuration_menu" sequence="2" />
     <menuitem id="menu_open_hotel_room_type_form_tree" name="Room Type"
         action="open_hotel_room_type_form_tree" sequence="5"
@@ -52,7 +52,7 @@
         action="open_hotel_floor_form_tree" sequence="21"
         parent="hotel.menu_hotel_room" />
 
-    <menuitem id="menu_amenity" name="Amenities"
+    <menuitem id="menu_amenity" name="Amenity Setup"
         parent="hotel.hotel_configuration_menu" sequence="2" />
     <menuitem name="Amenity Types"
         id="menu_action_hotel_room_amenities_type_view_form" action="action_hotel_room_amenities_type_view_form"

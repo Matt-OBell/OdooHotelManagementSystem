@@ -15,8 +15,7 @@ class HotelReservationLine(models.Model):
 
     name = fields.Char('Name', size=64)
     line_id = fields.Many2one('hotel.reservation', string='Hotel')
-    room_id = fields.Many2one(
-        'hotel.room', domain="[('isavailable','=', True)]")
+    room_id = fields.Many2one('hotel.room')
     categ_id = fields.Many2one(related='room_id.categ_id', string='Category')
     capacity = fields.Integer(related='room_id.capacity', string='Capacity')
 

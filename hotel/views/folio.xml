@@ -33,15 +33,16 @@
                                 <field name="client_type" widget="radio" options="{'horizontal':True}"/>
                                 <field name="corporate_id" attrs="{'required':[('client_type','=', 'is_corporate')], 'invisible': [('client_type','=', 'is_normal')]}"/>
                                 <field name="partner_id" attrs="{'required':[('client_type','=', 'is_normal')], 'invisible': [('client_type','=', 'is_corporate')]}" />
+                                <field name="source"/>
                             </group>
                             <group>
                                 <field name="invoice_id" states='sale,done,cancel'
                                     readonly="1" />
                                 <field name="room_id" domain="[('status', '=', 'vacant')]" required="1"/>
-                                <field name="price"/>
-                                <field name="duration" readonly="1" widget="time_float"/>
                                 <field name="checkin_date" />
                                 <field name="checkout_date" />
+                                <field name="duration" readonly="1" widget="time_float"/>
+                                <field name="price"/>
                             </group>
                            <!--  <group attrs="{'invisible': [('client_type','=', 'is_normal')]}">
                                 <field name="corporate_client_child_ids" nolabel="0"/>
@@ -73,12 +74,13 @@
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
             <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
-                <field name="name" />
+                <field name="name"/>
                 <field name="room_id"/>
                 <field name="partner_id" string='Client'/>
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="state" />
+                <field name="source"/>
                 <field name="total_amount"/>
             </tree>
         </field>

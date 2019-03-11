@@ -68,7 +68,7 @@ def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,
     return res
 
 
-class HotelFolio(models.Model):
+class Folio(models.Model):
     """As soon as the guest checks in to a hotel a guest file folio is opened, 
     all the transactions pertaining to the stay in the room,consumption of 
     food & beverages or use of any facility is posted directly or 
@@ -165,6 +165,7 @@ class HotelFolio(models.Model):
         ('is_normal', 'Normal')], string='Guest Type', default='is_normal')
     total_amount = fields.Float(
         string='Total Bill', compute='_compute_total_amount')
+    source = fields.Char(string='Source')
     # corporate_client_child_ids = fields.Many2many(
     #     'res.partner', string='Guests')
 
