@@ -20,7 +20,7 @@
     'demo': [
         'demo/hotel_room.xml',
         'demo/amenities.xml',
-        'demo/services.xml',
+        # 'demo/services.xml',
     ],
     'data': [
         'security/hotel_security.xml',
@@ -28,19 +28,20 @@
         'views/hotel_view.xml',
         'data/ir_sequence.xml',
         # Views
-        'views/amenity.xml',
-        'views/folio.xml',
         'views/room.xml',
-        'views/product_product.xml',
+        'views/folio.xml',
+        'views/amenity.xml',
+        'views/services.xml',
         'views/hotel_sequence.xml',
+        'views/product_product.xml',
         'views/hotel_report.xml',
         'views/report_hotel_management.xml',
-        'wizard/hotel_checkin_checkout.xml',
         # Actions and Menu
         'views/action.xml',
         'views/menu.xml',
         # Wizard
         'wizard/hotel_wizard.xml',
+        'wizard/hotel_checkin_checkout.xml',
     ],
     'css': ['static/src/css/room_kanban.css'],
     'images': ['static/description/Hotel.png'],
