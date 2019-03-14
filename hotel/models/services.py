@@ -13,3 +13,4 @@ class HotelServices(models.Model):
     categ_id = fields.Many2one('hotel.service.type', string='Service Category',
                                required=True)
     product_manager = fields.Many2one('res.users', string='Product Manager')
+# Laundry Service, Business Center, Billable Internet, Phone Calls, Taxi Services.

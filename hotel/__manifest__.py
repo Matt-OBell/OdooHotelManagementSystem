@@ -20,6 +20,7 @@
     'demo': [
         'demo/hotel_room.xml',
         'demo/amenities.xml',
+        'demo/services.xml',
     ],
     'data': [
         'security/hotel_security.xml',
