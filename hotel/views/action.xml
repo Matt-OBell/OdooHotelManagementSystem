@@ -87,9 +87,7 @@
     <!-- Action for hotel room amenities type -->
     <record id="action_hotel_room_amenities_type_view_form" model="ir.actions.act_window">
         <field name="name">Amenities Type</field>
-        <field name="res_model">product.category</field>
-        <field name="context">{'default_is_amenity_type':1}</field>
-        <field name="domain" eval="[('is_amenity_type', '=', True)]"/>
+        <field name="res_model">hotel.room.amenity.type</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -97,12 +95,9 @@
     <!-- Action for hotel room amenities -->
     <record id="action_hotel_room_amenities_view_form" model="ir.actions.act_window">
         <field name="name">Amenities</field>
-        <field name="res_model">product.product</field>
+        <field name="res_model">hotel.room.amenity</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'default_type': 'amenity'}
-        </field>
-        <field name="domain" eval="[('type', '=', 'amenity')]"/>
         <field name="view_id" ref="view_hotel_room_amenities_list" />
     </record>
     

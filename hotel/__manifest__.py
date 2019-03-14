@@ -19,23 +19,26 @@
     'license': "LGPL-3",
     'demo': [
         'demo/hotel_room.xml',
+        'demo/amenities.xml',
     ],
     'data': [
         'security/hotel_security.xml',
         'security/ir.model.access.csv',
         'views/hotel_view.xml',
         'data/ir_sequence.xml',
+        # Views
+        'views/amenity.xml',
         'views/folio.xml',
         'views/hotel_room.xml',
         'views/product_product.xml',
-        'data/amenities.xml',
         'views/hotel_sequence.xml',
         'views/hotel_report.xml',
         'views/report_hotel_management.xml',
         'wizard/hotel_checkin_checkout.xml',
+        'wizard/hotel_wizard.xml',
+        # Actions and Menu
         'views/action.xml',
         'views/menu.xml',
-        'wizard/hotel_wizard.xml',
     ],
     'css': ['static/src/css/room_kanban.css'],
     'images': ['static/description/Hotel.png'],

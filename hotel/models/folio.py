@@ -216,7 +216,7 @@ class Folio(models.Model):
     @api.model
     def create(self, values):
         values.update(name=self.env['ir.sequence'].next_by_code('hotel.folio'))
-        return super(HotelFolio, self).create(values)
+        return super(Folio, self).create(values)
 
     @api.multi
     def advance_deposits(self):

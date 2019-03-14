@@ -118,8 +118,7 @@ class HotelRoom(models.Model):
     amenities_ids = fields.Many2many('product.product', 'room_amenities',
                                      'rood_id', 'product_id',
                                      string='Room Amenities',
-                                     help='List of room amenities.',
-                                     domain=[('type', '=', 'amenity')])
+                                     help='List of room amenities.')
     status = fields.Selection(selection=ROOM_STATUS,
                               string='Status',
                               help=ROOM_STATUS_HELP,
