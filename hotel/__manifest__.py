@@ -35,10 +35,11 @@
         'views/hotel_report.xml',
         'views/report_hotel_management.xml',
         'wizard/hotel_checkin_checkout.xml',
-        'wizard/hotel_wizard.xml',
         # Actions and Menu
         'views/action.xml',
         'views/menu.xml',
+        # Wizard
+        'wizard/hotel_wizard.xml',
     ],
     'css': ['static/src/css/room_kanban.css'],
     'images': ['static/description/Hotel.png'],

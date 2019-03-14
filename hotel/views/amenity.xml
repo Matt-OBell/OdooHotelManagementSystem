@@ -1,209 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-    <!-- Form view of hotel room -->
-    <record id="view_hotel_room_form" model="ir.ui.view">
-        <field name="name">hotel.room.form</field>
-        <field name="model">hotel.room</field>
-        <field name="arch" type="xml">
-            <form string="Hotel Room">
-                <sheet>
-                    <div class="oe_right oe_button_box">
-                        <button name="check_room_status" icon="fa-signal" class="oe_stat_button" type="object">
-                            <field name="status" readonly="1"/>
-                        </button>
-                    </div>
-                    <!-- <field name="image" widget="image" class="oe_avatar" /> -->
-                    <div class="oe_title">
-                        <label for="name" string="Name" />
-                        <h1>
-                            <field name="name" required="1"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="current_occupant"/>
-                    </group>
-                    <notebook>
-                        <page name="information_hotel_room" string="General Information">
-                            <group>
-                                <group>
-                                    <field name="capacity" />
-                                    <field name="categ_id" select="1" />
-                                    <field name="lease_price"/>
-                                    <field name="total_price"/>
-                                </group>
-                                <group>
-                                    <field name="floor_id" string="Floor" />
-                                   <field name="product_manager" string="Room Manager" />
-                                </group>
-                            </group>
-                        </page>
-                        <page name="amenities_ids" string="Amenities">
-                            <field name="amenities_ids"/>
-                        </page>
-                        <page name="folio_id" string="Charges">
-                            <field name="folio_ids">
-                                <tree create="0" edit="0" delete="0" limit="1"> 
-                                    <field name="name"/>
-                                    <field name="partner_id"/>
-                                    <field name="checkin_date" />
-                                    <field name="checkout_date" />
-                                    <field name="state" />
-                                    <field name="total_amount"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <!-- Tree view of hotel room -->
-    <record id="view_hotel_room_tree" model="ir.ui.view">
-        <field name="name">hotel.room.tree</field>
-        <field name="model">hotel.room</field>
-        <field name="arch" type="xml">
-            <tree string="Hotel Room">
-                <field name="name" />
-                <field name="categ_id" />
-                <field name="status" />
-                <field name="floor_id"/>
-                <field name="capacity" />
-                <field name="total_price" string="Room rate" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="view_hotel_room_kanban" model="ir.ui.view">
-        <field name="name">hotel.room.kanban</field>
-        <field name="model">hotel.room</field>
-        <field name="arch" type="xml">
-            <kanban default_group_by="status">
-                <!-- <field name="name" /> -->
-                <field name="status" />
-                <!-- <field name="color" /> -->
-                <!-- <field name="lst_price" /> -->
-                <templates>
-                    <t t-name="kanban-box">
-                        <div
-                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
-                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
-                                    <span class="fa fa-bars fa-lg" />
-                                </a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <t t-if="widget.editable">
-                                        <li>
-                                            <a type="edit">Edit</a>
-                                        </li>
-                                    </t>
-                                    <t t-if="widget.deletable">
-                                        <li>
-                                            <a type="delete">Delete</a>
-                                        </li>
-                                    </t>
-                                    <li>
-                                        <ul class="oe_kanban_colorpicker" data-field="color" />
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="oe_kanban_details" style='margin-top: -5px;'>
-                                <div class="oe_kanban_content">
-                                    <div class="oe_kanban_project_list">
-                                        <H3>
-                                            <a type="open">
-                                                <!-- <img
-                                                    t-att-src="kanban_image('hotel.room', 'image_medium', record.id.value)"
-                                                    style="height:70px;width:70px" class="oe_avatar oe_kanban_avatar_smallbox" /> -->
-                                                <t t-if="record.code.raw_value" style="margin-right: 10px">
-                                                    [
-                                                    <!-- <field name="code" /> -->
-                                                    ]
-                                                </t>
-                                                <!-- <field name="name" /> -->
-                                            </a>
-                                        </H3>
-                                    </div>
-                                    <div name="tags" />
-                                    <ul>
-                                        <li>
-                                            Status:
-                                            <field name="status"></field>
-                                        </li>
-                                        <li>
-                                            Rate:
-                                            <!-- <field name="lst_price"></field> -->
-                                        </li>
-                                        <li>
-                                            Capacity:
-                                            <field name="capacity"></field>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="oe_kanban_bottom_right">
-                                    <a t-if="record.status.raw_value === 'available'" type="object"
-                                        string="Available" name="set_room_status_occupied"
-                                        class="oe_kanban_status oe_kanban_status_green ">
-                                    </a>
-                                    <a t-if="record.status.raw_value === 'occupied'" type="object"
-                                        string="occupied" name="set_room_status_available"
-                                        class="oe_kanban_status oe_kanban_status_red ">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="oe_clear"></div>
+        <!-- Form view of hotel room -->
+        <record id="hotel_room_amenity_form" model="ir.ui.view">
+            <field name="name">hotel.room.amenity.form</field>
+            <field name="model">hotel.room.amenity</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Name" />
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
                         </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
+                        <group>
+                            <field name="category_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-   
-    <!-- Form view of hotel room type -->
-    <record id="view_hotel_room_type_form" model="ir.ui.view">
-        <field name="name">hotel.room_type.form</field>
-        <field name="model">hotel.room.type</field>
-        <field name="arch" type="xml">
-            <form string="Hotel Room Type">
-                <sheet>
-                    <div class="oe_title">
-                        <label for="name" string="Name"/>
-                        <h1>
-                            <field name="name" default_focus="1" placeholder="Name" required="1"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Occupancy">
-                        <field name="base_occupant"/>
-                        <field name="maximum_occupant" />
-                    </group>
-                    <group string="Other Info">
-                        <field name="standard_price"/>
-                        <field name="extra_beds" />
-                        <field name="require_min_deposit"/>
-                    </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
+        <!-- Tree -->
+        <record id="hotel_room_amenity_tree" model="ir.ui.view">
+            <field name="name">hotel.room.amenity.tree</field>
+            <field name="model">hotel.room.amenity</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="category_id" />
+                </tree>
+            </field>
+        </record>
 
-    <!-- Tree view of hotel room type -->
-    <record id="view_hotel_room_type_tree" model="ir.ui.view">
-        <field name="name">hotel.room_type.tree</field>
-        <field name="model">hotel.room.type</field>
-        <field name="arch" type="xml">
-            <tree string="Hotel Room Type">
-                <field name="name" />
-                 <field name="base_occupant"/>
-                 <field name="extra_beds" />
-                 <field name="maximum_occupant" />
-            </tree>
-        </field>
-    </record>
+        <record id="hotel_room_amenity_type_form" model="ir.ui.view">
+            <field name="name">hotel.room.amenity.type.form</field>
+            <field name="model">hotel.room.amenity.type</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Name" />
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    
+        <!-- Tree -->
+        <record id="hotel_room_amenity_type_tree" model="ir.ui.view">
+            <field name="name">hotel.room.amenity.type.tree</field>
+            <field name="model">hotel.room.amenity.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
     </data>
 </odoo>
+
+
+
+    
