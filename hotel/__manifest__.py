@@ -29,7 +29,7 @@
         # Views
         'views/amenity.xml',
         'views/folio.xml',
-        'views/hotel_room.xml',
+        'views/room.xml',
         'views/product_product.xml',
         'views/hotel_sequence.xml',
         'views/hotel_report.xml',

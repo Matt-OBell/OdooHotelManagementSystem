@@ -115,9 +115,8 @@ class HotelRoom(models.Model):
     max_child = fields.Integer('Max Child')
     categ_id = fields.Many2one('hotel.room.type', string='Room Category',
                                required=True)
-    amenities_ids = fields.Many2many('product.product', 'room_amenities',
-                                     'rood_id', 'product_id',
-                                     string='Room Amenities',
+    amenities_ids = fields.Many2many('hotel.room.amenity', 'rel_room_id_amenity_id',
+                                     string='Amenities',
                                      help='List of room amenities.')
     status = fields.Selection(selection=ROOM_STATUS,
                               string='Status',
@@ -125,7 +124,7 @@ class HotelRoom(models.Model):
                               default='vacant')
     capacity = fields.Integer(string='Capacity', required=True, default=1)
     product_manager = fields.Many2one('res.users', string='Room Manager')
-    lease_price = fields.Float(string='Lease Price', required=True)
+    lease_price = fields.Float(string='Extra Amenities', required=True)
     total_price = fields.Float(
         string='Total Price', compute='_compute_total_price')
     current_occupant = fields.Many2one('res.partner', string='Occupant')
