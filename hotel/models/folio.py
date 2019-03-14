@@ -179,6 +179,29 @@ class Folio(models.Model):
             record.price = record.room_id.total_price * record.duration
 
 
+    @api.multi
+    def checkin(self):
+        """Open Checkout wizard"""
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "wizard.checkin.checkout",
+            "views": [[self.env.ref('hotel.wizard_checkin_checkin_wizard').id, "form"]],
+            "context": {'default_room_id': self.room_id.id},
+            "target": "new",
+        }
+
+    @api.multi
+    def checkout(self):
+        """Open Checkout wizard"""
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "wizard.checkin.checkout",
+            "views": [[self.env.ref('hotel.wizard_checkin_checkout_wizard').id, "form"]],
+            "context": {'default_room_id': self.room_id.id},
+            "target": "new",
+        }
+
+
 
     # corporate_client_child_ids = fields.Many2many(
     #     'res.partner', string='Guests')

@@ -52,25 +52,6 @@
             </field>
         </record>
 
-        <!-- Action for hotel folio -->
-        <record id="hotel_folio_checkin_wizard_action" model="ir.actions.act_window">
-            <field name="name">Check In</field>
-            <field name="res_model">wizard.checkin.checkout</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="hotel.wizard_checkin_checkin_wizard"/>
-            <field name="target">new</field>
-        </record>
-
-        <record id="hotel_folio_checkout_wizard_action" model="ir.actions.act_window">
-            <field name="name">Check Out</field>
-            <field name="res_model">wizard.checkin.checkout</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="hotel.wizard_checkin_checkout_wizard"/>
-            <field name="target">new</field>
-        </record>
-
 
         <!-- Action for hotel service -->
         <record id="action_hotel_services_form" model="ir.actions.act_window">

@@ -21,14 +21,9 @@
             <menuitem name="Checkout List" id="hotel_folio_checkout_list_menu"
                 action="hotel_guest_checkout_list_action" sequence="30" parent="hotel_folio_menu"/>
 
-            <menuitem name="Check-In" id="hotel_folio_checkin_menu"
-                action="hotel_folio_checkin_wizard_action" sequence="60" parent="hotel_folio_menu" />
 
-            <menuitem name="Check-Out" id="hotel_folio_checkout_menu"
-                action="hotel_folio_checkout_wizard_action" sequence="61" parent="hotel_folio_menu" />
-
-            <menuitem name="Late-Out" id="hotel_folio_lateout_menu"
-                action="hotel_folio_checkout_wizard_action" sequence="70" parent="hotel_folio_menu" />
+           <!--  <menuitem name="Late-Out" id="hotel_folio_lateout_menu"
+                action="hotel_folio_checkout_wizard_action" sequence="70" parent="hotel_folio_menu" /> -->
 
 
         <menuitem id="menu_hotel_service" name="Services" 
