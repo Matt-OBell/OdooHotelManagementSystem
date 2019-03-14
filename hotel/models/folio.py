@@ -19,6 +19,17 @@ _STATES = [
     ('cance', 'Cancel'),
 ]
 
+HOTEL_POLICY = [
+    ('prepaid', 'On Booking'),
+    ('manual', 'On Check In'),
+    ('picking', 'On Checkout')
+]
+
+CLIENT_TYPE = [
+    ('is_corporate', 'Corporate'),
+    ('is_normal', 'Private')
+]
+
 
 def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,
                               ignore_unparsable_time=True, context=None):
@@ -121,10 +132,9 @@ class Folio(models.Model):
                                   context={'tz': to_zone}),
                                  '%Y-%m-%d %H:%M:%S') + tm_delta
 
-
     _name = 'hotel.folio'
-    _description = 'hotel folio'
-    _order = 'id'
+    _description = 'Guest Account Card'
+    _order = 'id desc'
 
     name = fields.Char('Number', readonly=True, default='/')
     invoice_id = fields.Many2one(
@@ -142,30 +152,34 @@ class Folio(models.Model):
                                     states={'draft': [('readonly', False)]},
                                     default=_get_checkout_date)
     room_id = fields.Many2one('hotel.room', string='Room')
-    price = fields.Float(related='room_id.total_price', string='Price')
-    service_ids = fields.Many2many('product.product', string='Services', domain=[
-                                   ('type', '=', 'service')])
-    hotel_policy = fields.Selection([('prepaid', 'On Booking'),
-                                     ('manual', 'On Check In'),
-                                     ('picking', 'On Checkout')],
-                                    'Hotel Policy', default='manual',
+    price = fields.Float(string='Price', compute='_compute_room_price', store=True)
+    service_ids = fields.Many2many('hotel.services', string='Services')
+    hotel_policy = fields.Selection(HOTEL_POLICY, string='Hotel Policy', default='manual',
                                     help="Hotel policy for payment that "
                                     "either the guest has to payment at "
                                     "booking time or check-in "
                                     "check-out time.")
     duration = fields.Integer(string='Duration in Days',
                               help="Number of days which will automatically "
-                              "count from the check-in and check-out date. ", compute='_compute_duration')
+                              "count from the check-in and check-out date. ", compute='_compute_duration', store=True)
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env['res.company']._company_default_get(), required=True)
     payment_deposits = fields.Float(
         string='Deposits', compute='_compute_payment_deposit')
-    client_type = fields.Selection([
-        ('is_corporate', 'Corporate'),
-        ('is_normal', 'Normal')], string='Guest Type', default='is_normal')
+    client_type = fields.Selection(
+        CLIENT_TYPE, string='Type', default='is_normal')
     total_amount = fields.Float(
         string='Total Bill', compute='_compute_total_amount')
     source = fields.Char(string='Source')
+
+
+    @api.depends('duration')
+    def _compute_room_price(self):
+        for record in self:
+            record.price = record.room_id.total_price * record.duration
+
+
+
     # corporate_client_child_ids = fields.Many2many(
     #     'res.partner', string='Guests')
 
@@ -207,11 +221,6 @@ class Folio(models.Model):
             [('folio_id', '=', self.id), ('state', '!=', 'draft')])
         self.payment_deposits = sum([payment.amount for payment in payments])
 
-    #
-    #
-    #
-    #
-    #
 
     @api.model
     def create(self, values):
@@ -240,7 +249,6 @@ class Folio(models.Model):
             return action
         action.update(res_id=self.id)
         return action
-
 
     def _sojourn(self, checkin, checkout):
         adjustment, one_day = 0, 86400.0  # 60 * 60 * 24

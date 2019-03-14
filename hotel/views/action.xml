@@ -30,6 +30,28 @@
 
         </record>
 
+        <record id="hotel_guest_checkin_list_action" model="ir.actions.act_window">
+            <field name="name">Checkin List</field>
+            <field name="res_model">hotel.folio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('state', '=', 'checkin')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first folio</p>
+            </field>
+        </record>
+
+         <record id="hotel_guest_checkout_list_action" model="ir.actions.act_window">
+            <field name="name">Checkout List</field>
+            <field name="res_model">hotel.folio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('state', '=', 'checkout')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first folio</p>
+            </field>
+        </record>
+
         <!-- Action for hotel folio -->
         <record id="hotel_folio_checkin_wizard_action" model="ir.actions.act_window">
             <field name="name">Check In</field>
