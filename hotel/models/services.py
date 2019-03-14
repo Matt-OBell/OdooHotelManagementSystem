@@ -12,4 +12,3 @@ class HotelServices(models.Model):
                                  delegate=True, required=True)
     service_manager = fields.Many2one('res.users', string='Manager')
 
-# Laundry Service, Business Center, Billable Internet, Phone Calls, Taxi Services.

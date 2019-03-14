@@ -80,7 +80,3 @@
         </record>
     </data>
 </odoo>
-
-<!--     <field name="residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                                <field name="reconciled" invisible="1"/>
-                                <field name="outstanding_credits_debits_widget" colspan="2" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/> -->
