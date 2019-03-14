@@ -17,11 +17,12 @@ class HotelCheckinCheckout(models.TransientModel):
         related='folio_id.partner_id',
         string='Partner'
     )
-    total_bill = fields.Float(string='Total Bill', 
-        related='folio_id.total_amount')
-    payment_deposits = fields.Float(string='Deposit', 
-        related='folio_id.payment_deposits')
-    amount_due = fields.Float(string='Amount Due', compute='_compute_amount_due')
+    total_bill = fields.Float(string='Total Bill',
+                              related='folio_id.total_amount')
+    payment_deposits = fields.Float(string='Deposit',
+                                    related='folio_id.payment_deposits')
+    amount_due = fields.Float(
+        string='Amount Due', compute='_compute_amount_due')
     number_of_days = fields.Integer(
         string='Number of Days', required=True, default=1)
 
@@ -83,13 +84,33 @@ class HotelCheckinCheckout(models.TransientModel):
         if self.amount_due <= 0:
             self._checkout(folio)
         else:
-            raise UserError('The customer needs to pay all due amount before checkout can be completed.')
-    
+            raise UserError(
+                'The customer needs to pay all due amount before checkout can be completed.')
+
     def _checkout(self, folio):
         room = folio.room_id
-        folio.write({'state':'checkout'})
+        folio.write({'state': 'checkout'})
         room.write({'status': 'on_change'})
 
     def pay_due_amount(self, context):
         """Generate due amount and match it up with the customer invoice."""
-        print(self, context, '**********************************')
+        payment = self.env['account.payment'].sudo(self.env.user.id)
+        action = {
+            'name': 'Deposits',
+            'type': 'ir.actions.act_window',
+            'res_model': payment._name,
+            'views': [[False, 'tree'], [False, 'form']],
+            'domain': [['folio_id', '=', self.folio_id.id]],
+            'context': {
+                'default_folio_id': self.folio_id.id,
+                'default_payment_type': 'inbound',
+                'default_partner_type': 'customer',
+                'default_partner_id': self.partner_id.id,
+                'default_amount': self.amount_due
+            }
+        }
+        if not payment.search([('folio_id', '=', self.folio_id.id)]):
+            # There is no payment made agaist this folio. we need to make new deposit.
+            return action
+        action.update(res_id=self.folio_id.id)
+        return action
