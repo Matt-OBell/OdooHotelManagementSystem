@@ -6,9 +6,9 @@
         <menuitem id="hotel_configuration_menu" name="Configuration"
             sequence="90" parent="hotel_management_menu" />
 
-        <menuitem id="hotel_report_menu" name="Pdf Reports" sequence="80"
+        <menuitem id="hotel_report_menu" name="Reports" sequence="80"
             parent="hotel_management_menu" />
-            <menuitem name="Hotel Folio Report" action="hotel_folio_wizard" id="wizard_hotel_menu_" parent="hotel_report_menu" sequence="31" />
+            <menuitem name="Folios" action="hotel_folio_wizard" id="wizard_hotel_menu_" parent="hotel_report_menu" sequence="31" />
 
 
         <menuitem id="hotel_folio_menu" name="Room Operations" 

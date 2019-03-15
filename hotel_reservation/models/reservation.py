@@ -9,22 +9,24 @@ import pytz
 
 STATES = [
     ('draft', 'Draft'),
-    ('confirm', 'Confirm'),
+    ('reserve', 'Reserve'),
     ('cancel', 'Cancel'),
     ('done', 'Done')
 ]
 
+
 def _string_to_datetime_tz(rec, timestamp):
     return fields.Datetime.context_timestamp(rec, timestamp)
 
-class HotelReservation(models.Model):
+
+class Reservation(models.Model):
 
     _name = 'hotel.reservation'
     _description = "Hotel Reservation"
     _inherit = ['mail.thread']
 
     name = fields.Char(string='Reservation')
-    partner_id = fields.Many2one('res.partner', 'Guest Name', readonly=True,
+    partner_id = fields.Many2one('res.partner', string='Guest', readonly=True,
                                  index=True,
                                  required=True,
                                  states={'draft': [('readonly', False)]})
@@ -38,39 +40,45 @@ class HotelReservation(models.Model):
                                                  [('readonly', False)]},
                                          help="Invoice address for "
                                          "current reservation.")
-    partner_order_id = fields.Many2one('res.partner', 'Ordering Contact',
-                                       readonly=True,
-                                       states={'draft':
-                                               [('readonly', False)]},
-                                       help="The name and address of the "
-                                       "contact that requested the order "
-                                       "or quotation.")
+    number_of_rooms = fields.Integer(string='Number of Rooms',
+                                     help="The name and address of the "
+                                     "contact that requested the order "
+                                     "or quotation.", required=True, default=1)
     partner_shipping_id = fields.Many2one('res.partner', 'Delivery Address',
                                           readonly=True,
                                           states={'draft':
                                                   [('readonly', False)]},
                                           help="Delivery address"
                                           "for current reservation. ")
-    arrival_date = fields.Datetime(string='Arrival Date', required=True)
-    departure_date = fields.Datetime(string='Departure Date', required=True)
+    arrival_date = fields.Date(string='Check-in', required=True)
+    departure_date = fields.Date(string='Check-out', required=True)
     adults = fields.Integer(string='Adults', default=1,
                             help='List of adults there in guest list. ')
     children = fields.Integer(
         string='Children', default=0, help='Number of children there in guest list.')
-    reservation_line_ids = fields.One2many('hotel.reservation.line', 'line_id', string='Reservation Line',
-                                           help='Hotel room reservation details.',
-                                           states={'draft': [('readonly', False)]})
+    reserved_room_ids = fields.Many2many('hotel.room', string='Reservation Line',
+                                         help='Hotel room reservation details.', store=True, compute='_compute_room_reservation')
+
     state = fields.Selection(selection=STATES, string='State', default='draft')
     folio_id = fields.Many2one('hotel.folio', string='Folio')
-    dummy = fields.Datetime('Dummy')
 
-    def reserved_rooms_ids(self):
-        ids = []
-        reservations = self.search([('state', '=', 'confirm')])
-        for reservation in reservations:
-            for room_id in reservation.reservation_line_ids:
-                ids.append(room_id.room_id.id)
-        return list(set(ids))
+    @api.depends('number_of_rooms')
+    def _compute_room_reservation(self):
+        rooms = self.env['hotel.room'].search([('status', '=', 'vacant')])
+        if len(rooms) < self.number_of_rooms:
+            raise ValidationError(
+                "Sorry, there are only {} vacant room(s) available at the moment".format(len(rooms)))
+        room_ids = [(4, room_id[1].id) for room_id in enumerate(
+            rooms) if room_id[0] <= (self.number_of_rooms - 1)]
+        self.reserved_room_ids = room_ids
+
+    # def reserved_rooms_ids(self):
+    #     ids = []
+    #     reservations = self.search([('state', '=', 'reserve')])
+    #     for reservation in reservations:
+    #         for room_id in reservation.reservation_line_ids:
+    #             ids.append(room_id.room_id.id)
+    #     return list(set(ids))
 
     @api.multi
     def unlink(self):
@@ -78,7 +86,7 @@ class HotelReservation(models.Model):
             if reserv_rec.state != 'draft':
                 raise ValidationError(_('You cannot delete Reservation in %s\
                 state.') % (reserv_rec.state))
-        return super(HotelReservation, self).unlink()
+        return super(Reservation, self).unlink()
 
     @api.constrains('arrival_date', 'departure_date')
     def _check_arrival_date_departure_date_dates(self):
@@ -87,11 +95,11 @@ class HotelReservation(models.Model):
         date should be greater than the arrival_date date.
         """
         if self.departure_date and self.arrival_date:
-            if fields.Datetime.from_string(self.arrival_date) < datetime.now():
+            if fields.Date.from_string(self.arrival_date) < fields.Date.from_string(fields.Date.today()):
                 # _string_to_datetime_tz(self, fields.Datetime.from_string(self.arrival_date)), _string_to_datetime_tz(self,datetime.now())
                 raise UserError(
                     'Arrival date date should be greater than the current date.')
-            if fields.Datetime.from_string(self.departure_date) < fields.Datetime.from_string(self.arrival_date):
+            if fields.Date.from_string(self.departure_date) < fields.Date.from_string(self.arrival_date):
                 raise UserError(
                     'Departure date date should be greater than arrival_date date.')
 
@@ -121,16 +129,8 @@ class HotelReservation(models.Model):
         return set([date1 + timedelta(days=i) for i in range(delta.days + 1)])
 
     @api.multi
-    def confirm(self):
-        """
-        This method confirm the resevation record
-        ------------------------------------------------------------------
-        @param self: The object pointer
-        @return: new record set for hotel room reservation line.
-        """
-        if not self.reservation_line_ids:
-            raise UserError('The reservation line is missing')
-        return self.write({'state': 'confirm'})
+    def reserve(self):
+        return self.write({'state': 'reserve'})
 
     @api.multi
     def cancel(self):
@@ -140,8 +140,8 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @return: cancel record set for hotel room reservation line.
         """
-        if self.state in ['draft', 'confirm']:
-            return self.write({'state': 'cancel', 'reservation_line_ids': [[6, False, []]]})
+        if self.state in ['draft', 'reserve']:
+            return self.write({'state': 'cancel'})
 
     @api.multi
     def set_to_draft_reservation(self):
@@ -155,7 +155,8 @@ class HotelReservation(models.Model):
         @param self: object pointer
         """
         ir_model_data = self.env['ir.model.data']
-        template_id = self.env.ref('hotel_reservation.email_template_hotel_reservation')
+        template_id = self.env.ref(
+            'hotel_reservation.email_template_hotel_reservation')
         try:
             compose_form_id = (ir_model_data.get_object_reference
                                ('mail',
@@ -220,7 +221,7 @@ class HotelReservation(models.Model):
         """
         vals.update(name=self.env['ir.sequence'].next_by_code(
             'hotel.reservation'))
-        return super(HotelReservation, self).create(vals)
+        return super(Reservation, self).create(vals)
 
 
 class ReservationSummary(models.Model):

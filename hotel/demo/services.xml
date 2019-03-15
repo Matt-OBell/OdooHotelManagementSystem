@@ -7,7 +7,7 @@
             <field name="type">service</field>
             <field name="categ_id" search="[('name', '=', 'Services')]" />
             <field name="list_price">2000.00</field>
-            <field name="available_in_pos">0</field>
+            
         </record>
 
         <record id="hotel_service_2" model="hotel.services">
@@ -15,7 +15,7 @@
             <field name="type">service</field>
             <field name="categ_id" search="[('name', '=', 'Services')]" />
             <field name="list_price">5000.00</field>
-            <field name="available_in_pos">0</field>
+            
         </record>
 
         <record id="hotel_service_3" model="hotel.services">
@@ -23,7 +23,7 @@
             <field name="type">service</field>
             <field name="categ_id" search="[('name', '=', 'Services')]" />
             <field name="list_price">1500.00</field>
-            <field name="available_in_pos">0</field>
+            
         </record>
 
         <record id="hotel_service_4" model="hotel.services">
@@ -31,7 +31,7 @@
             <field name="type">service</field>
             <field name="categ_id" search="[('name', '=', 'Services')]" />
             <field name="list_price">1500.00</field>
-            <field name="available_in_pos">0</field>
+            
         </record>
 
         <record id="hotel_service_5" model="hotel.services">
@@ -39,7 +39,7 @@
             <field name="type">service</field>
             <field name="categ_id" search="[('name', '=', 'Services')]" />
             <field name="list_price">1500.00</field>
-            <field name="available_in_pos">0</field>
+            
         </record>
     </data>
 </odoo>

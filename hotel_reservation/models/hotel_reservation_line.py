@@ -13,7 +13,7 @@ class HotelReservationLine(models.Model):
     _name = "hotel.reservation.line"
     _description = "Reservation Line"
 
-    name = fields.Char('Name', size=64)
+    name = fields.Char(string='Name')
     line_id = fields.Many2one('hotel.reservation', string='Hotel')
     room_id = fields.Many2one('hotel.room')
     categ_id = fields.Many2one(related='room_id.categ_id', string='Category')

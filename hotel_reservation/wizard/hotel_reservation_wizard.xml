@@ -29,7 +29,7 @@
 
     <!--Action for hotel reservation wizard -->
     <record id="action_hotel_reservation_wizard" model="ir.actions.act_window">
-        <field name="name">Hotel Reservation Report</field>
+        <field name="name">Reservation</field>
         <field name="res_model">hotel.reservation.wizard</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
@@ -59,7 +59,7 @@
         res_model="wizard.make.folio" src_model="hotel.reservation"
         view_mode="form" target="new" view_type="form" />
 
-    <menuitem id="wizard_res_menu" name="Hotel Reservation Report" action="action_hotel_reservation_wizard"
+    <menuitem id="wizard_res_menu" name="Reservation" action="action_hotel_reservation_wizard"
         parent="hotel.hotel_report_menu" sequence="28" />
 
 </odoo>
