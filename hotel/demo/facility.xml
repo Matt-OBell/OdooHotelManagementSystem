@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="hotel_facility_1" model="hotel.facility">
+            <field name="name">Hot Tub</field>
+        </record>
+
+        <record id="hotel_facility_2" model="hotel.facility">
+            <field name="name">Spa</field>
+        </record>
+
+        <record id="hotel_facility_3" model="hotel.facility">
+            <field name="name">Conference Facilities</field>
+        </record>
+
+        <record id="hotel_facility_4" model="hotel.facility">
+            <field name="name">Banqueting Rooms</field>
+        </record>
+    </data>
+</odoo>

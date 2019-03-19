@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Form view of hotel room -->
+        <record id="hotel_room_facility_form" model="ir.ui.view">
+            <field name="name">hotel.facility.form</field>
+            <field name="model">hotel.facility</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Name" />
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree -->
+        <record id="hotel_room_facility_tree" model="ir.ui.view">
+            <field name="name">hotel.facility.tree</field>
+            <field name="model">hotel.facility</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
+    

@@ -12,3 +12,13 @@ class HotelServices(models.Model):
                                  delegate=True, required=True)
     service_manager = fields.Many2one('res.users', string='Manager')
 
+
+class HotelFacility(models.Model):
+
+    _name = 'hotel.facility'
+    _description = 'Facility'
+
+    # name = fields.Char(string='Name', required=True)
+    product_id = fields.Many2one('product.product', ondelete='cascade',
+                                 delegate=True, required=True)
+    service_manager = fields.Many2one('res.users', string='Manager')

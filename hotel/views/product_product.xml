@@ -18,8 +18,8 @@
             <field name="model">hotel.room.amenity</field>
             <field name="arch" type="xml">
                 <tree string="Hotel Room Amenities">
-                    <field name="category_id"/>
                     <field name="name" string="Amenities Name"/>
+                    <field name="category_id"/>
                 </tree>
             </field>
         </record>

@@ -96,6 +96,13 @@
         <field name="view_id" ref="view_hotel_room_amenities_list" />
     </record>
 
+    <record id="action_hotel_room_facility_action" model="ir.actions.act_window">
+        <field name="name">Facility</field>
+        <field name="res_model">hotel.facility</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <record id="hotel_folio_wizard" model="ir.actions.act_window">
         <field name="name">Hotel Folio Report</field>
         <field name="res_model">folio.report.wizard</field>

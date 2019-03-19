@@ -52,14 +52,22 @@
         action="open_hotel_floor_form_tree" sequence="21"
         parent="hotel.menu_hotel_room" />
 
-    <menuitem id="hotel_facilities_menue" name="Facility Setup"
+    <menuitem id="hotel_amenities_menu" name="Amenities Setup"
         parent="hotel.hotel_configuration_menu" sequence="2" />
-    <menuitem name="Facility Types"
+    <menuitem name="Amenities Types"
         id="menu_action_hotel_room_amenities_type_view_form" action="action_hotel_room_amenities_type_view_form"
-        sequence="3" parent="hotel.hotel_facilities_menue" />
+        sequence="3" parent="hotel.hotel_amenities_menu" />
 
     <menuitem id="menu_action_hotel_room_amenities_view_form"
-        name="Facilities" action="action_hotel_room_amenities_view_form"
-        sequence="2" parent="hotel.hotel_facilities_menue" />
+        name="Amenities" action="action_hotel_room_amenities_view_form"
+        sequence="2" parent="hotel.hotel_amenities_menu" />
+
+    <menuitem 
+        sequence="3" 
+        name="Facility" 
+        id="menu_action_room_facility"
+        parent="hotel.hotel_amenities_menu" 
+        action="action_hotel_room_facility_action"
+        />
     </data>
 </odoo>
