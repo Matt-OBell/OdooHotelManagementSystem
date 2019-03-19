@@ -40,7 +40,7 @@
                             <group>
                                 <field name="pricelist_id"/>
                                 <field name="night" string="Night"/>
-                                <!-- <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" /> -->
+                                <field name="guest_company_id" domain="[('parent_id','=',partner_id)]" />
                             </group>
                             <group>
                                 <field name="number_of_rooms" required="1"/>
@@ -52,10 +52,14 @@
                             <field name="reserved_room_ids"  attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="name" string="Rooms"/>
+                                    <field name="total_price" string="Rate/Room"/>
                                     <!-- <field name="categ_id" string="Category" readonly="1"/>
                                     <field name="capacity" string="Capacity" readonly="1"/> -->
                                 </tree>
                             </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                            </group>
                         </page>
                         <page string='History'>
                             <field name='folio_id' readonly='1' />

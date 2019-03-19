@@ -2,3 +2,4 @@
 
 from . import hotel_folio
 from . import reservation
+from . import reservation_summary
