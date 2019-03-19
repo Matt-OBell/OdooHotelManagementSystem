@@ -8,13 +8,13 @@
             <form string="Reservation">
                 <header>
                     <button name="send_reservation_maill" type="object"
-                        string="Send Reservation Email" states="confirm" class="oe_highlight" />
-                    <button name="reserve" string="Reserve"
+                        string="Send Reservation Email" states="reserve" class="oe_highlight" />
+                    <button name="reservation" string="Reservation"
                         states="draft" class="oe_highlight" type="object" />
-                    <button name="folio" string="Create Folio" states="confirm"
+                    <button name="folio" string="Generate Folio" states="reserve"
                         class="oe_highlight" type="object" />
                     <button name="cancel" string="Cancel"
-                        states="draft,confirm" class="oe_highlight" type="object" />
+                        states="draft,reserve" class="oe_highlight" type="object" />
                     <button name="set_to_draft_reservation" string="Set to Draft"
                         states="cancel" class="oe_highlight" type="object" />
                     <field name="state" widget="statusbar" />
@@ -24,22 +24,28 @@
                         <field name="name" class="oe_inline" attrs="{'invisible': ['|', ('name', '=', False)]}" readonly="1"/>
                     </h1>
                     <group>
+                        <h1><label for="partner_id" string="Profile"/></h1>
+                        <field name="partner_id" domain="[('customer','=',True)]"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        
                         <group>
-                            <field name="partner_id" domain="[('customer','=',True)]"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="arrival_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="departure_date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="arrival" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="adults" required="1"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="departure"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="children"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
-                        <group>
-                            <field name="pricelist_id"/>
-                            <newline />
-                            <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
-                            <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]"
-                                invisible="True" />
-                            <field name="folio_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('state', '!=', 'done')]}"/>
-                            <field name="number_of_rooms" required="1"/>
-                        </group>
+                    </group>
+                    <group>
+                            <group>
+                                <field name="pricelist_id"/>
+                                <field name="night" string="Night"/>
+                                <!-- <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" /> -->
+                            </group>
+                            <group>
+                                <field name="number_of_rooms" required="1"/>
+                                <field name="folio_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('state', '!=', 'done')]}"/>
+                            </group>
                     </group>
                     <notebook>
                         <page string='Reservation Line'>
@@ -69,8 +75,8 @@
                 colors="blue:state == 'draft';gray:state == 'done';lightgray:state == 'cancel';">
                 <field name="name" />
                 <field name="partner_id" />
-                <field name="arrival_date" />
-                <field name="departure_date" />
+                <field name="arrival" />
+                <field name="departure" />
                 <field name="state" />
             </tree>
         </field>
@@ -83,7 +89,7 @@
         <field name="arch" type="xml">
             <search string="Reservation">
                 <filter string="Current Reservations"
-                    domain="[('departure_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('arrival_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
+                    domain="[('departure','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('arrival','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
                     help="Current Reservations" />
                 <filter domain="[('state','=','draft')]" string="Draft" />
                 <filter domain="[('state','=','confirm')]" string="Confirm" />
@@ -91,8 +97,8 @@
                 <filter domain="[('state','=','done')]" string="Done" />
                 <field name="partner_id" />
                 <field name="name" />
-                <field name="arrival_date" />
-                <field name="departure_date" />
+                <field name="arrival" />
+                <field name="departure" />
                 <field name="state" />
                 <newline />
                 <group expand="0" string="Group By">
@@ -115,28 +121,16 @@
         </field>
     </record>
 
-    <!-- Calendar view of hotel reservation -->
-<!--     <record id="hotel_calendar_view" model="ir.ui.view">
-        <field name="name">Room Reservation</field>
-        <field name="model">hotel.reservation</field>
-        <field name="priority" eval="2" />
-        <field name="arch" type="xml">
-            <calendar string="Current Reservation" date_start="arrival_date"
-                date_stop="dummy" color="partner_id">
-                <field name="partner_id" />
-            </calendar>
-        </field>
-    </record> -->
 
     <!-- Action of hotel reservation -->
     <record id="action_hotel_reservation_tree_all" model="ir.actions.act_window">
-        <field name="name">Hotel Reservation</field>
+        <field name="name">Reservation</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.reservation</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_hotel_reservation" name="Room Reservation"
+    <menuitem id="menu_hotel_reservation" name="Reservation"
         parent="hotel.hotel_management_menu" sequence="2" />
     <menuitem name="Reservations" id="menu_action_hotel_reservation_tree_all"
         action="action_hotel_reservation_tree_all" parent="menu_hotel_reservation"

@@ -110,6 +110,13 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
+
+    <record id="hotel_profile_action" model="ir.actions.act_window">
+        <field name="name">Profile</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
     
 </data>
 </odoo>

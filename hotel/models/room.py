@@ -23,6 +23,7 @@ ROOM_STATUS = [
     ('dnco', 'DNCO'),
     ('check-out', 'Check-Out'),
     ('late_check_out', 'Late Check out'),
+    ('reserved', 'Reserved')
 ]
 ROOM_STATUS_HELP = """
     During the guest stay, the housekeeping status of the guest room changes 

@@ -30,7 +30,7 @@ class Reservation(models.Model):
                                  index=True,
                                  required=True,
                                  states={'draft': [('readonly', False)]})
-    pricelist_id = fields.Many2one('product.pricelist', 'Scheme',
+    pricelist_id = fields.Many2one('product.pricelist', 'Price List',
                                    required=True, readonly=True,
                                    states={'draft': [('readonly', False)]},
                                    help="Pricelist for current reservation.")
@@ -44,14 +44,10 @@ class Reservation(models.Model):
                                      help="The name and address of the "
                                      "contact that requested the order "
                                      "or quotation.", required=True, default=1)
-    partner_shipping_id = fields.Many2one('res.partner', 'Delivery Address',
-                                          readonly=True,
-                                          states={'draft':
-                                                  [('readonly', False)]},
-                                          help="Delivery address"
-                                          "for current reservation. ")
-    arrival_date = fields.Date(string='Check-in', required=True)
-    departure_date = fields.Date(string='Check-out', required=True)
+    night = fields.Integer(string='Night', states={
+                           'draft': [('readonly', False)]}, default=1)
+    arrival = fields.Date(string='Arrival', required=True)
+    departure = fields.Date(string='Departure', required=True)
     adults = fields.Integer(string='Adults', default=1,
                             help='List of adults there in guest list. ')
     children = fields.Integer(
@@ -129,8 +125,11 @@ class Reservation(models.Model):
         return set([date1 + timedelta(days=i) for i in range(delta.days + 1)])
 
     @api.multi
-    def reserve(self):
-        return self.write({'state': 'reserve'})
+    def reservation(self):
+        for rec in self:
+            for room in rec.reserved_room_ids:
+                room.write({'status': 'reserved'})
+            rec.write({'state': 'reserve'})
 
     @api.multi
     def cancel(self):
@@ -271,7 +270,6 @@ class ReservationSummary(models.Model):
             date_froms = first_day.strftime(dt)
             date_ends = last_day.strftime(dt)
             res.update({'date_from': date_froms, 'date_to': date_ends})
-        print(res, '**********************************')
         return res
 
     @api.multi
@@ -299,7 +297,5 @@ class ReservationSummary(models.Model):
     @api.onchange('date_from', 'date_to')
     def get_room_summary(self):
         import random
-        a = random.randrange(1, 90)
-        print('***********************************',
-              self.date_to, self.date_from)
+        a = random.randrange(1, 20)
         self.summary_header = list(range(1, a))

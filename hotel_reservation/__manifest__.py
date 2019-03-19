@@ -5,7 +5,11 @@
     'author': 'Serpent Consulting Services Pvt. Ltd., Mattobell Nigeria Ltd, OpenERP SA',
     'category': 'Generic Modules/Hotel Reservation',
     'website': 'http://www.mattobell.com',
-    'depends': ['hotel', 'stock', 'mail'],
+    'depends': [
+        'hotel',
+        'stock',
+        'mail'
+    ],
     'license': 'AGPL-3',
     'demo': [
     ],

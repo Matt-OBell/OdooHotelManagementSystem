@@ -69,5 +69,21 @@
         parent="hotel.hotel_amenities_menu" 
         action="action_hotel_room_facility_action"
         />
+
+    <!-- Profile  -->
+    <menuitem
+        sequence="1" 
+        name="Profile" 
+        id="hotel_profile_main_menu"
+        parent="hotel.hotel_management_menu" 
+        />
+
+    <menuitem
+        sequence="10" 
+        name="Profile" 
+        id="hotel_profile_profile_menu"
+        action="hotel_profile_action"
+        parent="hotel.hotel_profile_main_menu" 
+        />
     </data>
 </odoo>
