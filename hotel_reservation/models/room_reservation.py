@@ -40,49 +40,61 @@ class Reservation(models.Model):
                                                  [('readonly', False)]},
                                          help="Invoice address for "
                                          "current reservation.")
-    number_of_rooms = fields.Integer(string='Number of Rooms',
-                                     help="The name and address of the "
-                                     "contact that requested the order "
-                                     "or quotation.", required=True, default=1)
+    number_of_rooms = fields.Integer(
+        string='Number of Rooms', required=True, compute='_compute_number_of_rooms')
     night = fields.Integer(string='Night', states={
                            'draft': [('readonly', False)]}, default=1)
-    arrival = fields.Date(string='Arrival', required=True)
-    departure = fields.Date(string='Departure', required=True)
-    adults = fields.Integer(string='Adults', default=1,
-                            help='List of adults there in guest list. ')
-    children = fields.Integer(
-        string='Children', default=0, help='Number of children there in guest list.')
-    reserved_room_ids = fields.Many2many('hotel.room', string='Reservation Line',
-                                         help='Hotel room reservation details.', store=True, compute='_compute_room_reservation')
+    reservation_line_ids = fields.One2many(
+        'hotel.reservation.line', 'reservation_id', string='Reservation Line')
+    payment_deposits = fields.Float(
+        string='Deposits', compute='_compute_payment_deposit')
 
     state = fields.Selection(selection=STATES, string='State', default='draft')
     folio_id = fields.Many2one('hotel.folio', string='Folio')
-    amount_total = fields.Float(string='Amount Total', compute='_compute_amount_total')
+    amount_total = fields.Float(
+        string='Amount Total', compute='_compute_amount_total')
     guest_company_id = fields.Many2one('res.partner', string='Company')
 
-    @api.depends('reserved_room_ids', 'night')
+    def _compute_payment_deposit(self):
+        payment = self.env['account.payment'].sudo(self.env.user.id)
+        payments = payment.search(
+            [('reservation_id', '=', self.id), ('state', '!=', 'draft')])
+        self.payment_deposits = sum([payment.amount for payment in payments])
+
+    @api.depends('reservation_line_ids')
+    def _compute_number_of_rooms(self):
+        """Compute the number of line items which is also the number of reserved rooms"""
+        for recordset in self:
+            self.number_of_rooms = len(recordset.reservation_line_ids)
+
+    @api.depends('reservation_line_ids', 'night')
     def _compute_amount_total(self):
         for record in self:
-            self.amount_total = abs(sum([room.total_price for room in record.reserved_room_ids]) * record.night)
+            self.amount_total = abs(sum(
+                [line.room_id.total_price for line in record.reservation_line_ids]) * record.night)
 
-
-    @api.depends('number_of_rooms')
-    def _compute_room_reservation(self):
-        rooms = self.env['hotel.room'].search([('status', '=', 'vacant')])
-        if len(rooms) < self.number_of_rooms:
-            raise ValidationError(
-                "Sorry, there are only {} vacant room(s) available at the moment".format(len(rooms)))
-        room_ids = [(4, room_id[1].id) for room_id in enumerate(
-            rooms) if room_id[0] <= (self.number_of_rooms - 1)]
-        self.reserved_room_ids = room_ids
-
-    # def reserved_rooms_ids(self):
-    #     ids = []
-    #     reservations = self.search([('state', '=', 'reserve')])
-    #     for reservation in reservations:
-    #         for room_id in reservation.reservation_line_ids:
-    #             ids.append(room_id.room_id.id)
-    #     return list(set(ids))
+    @api.multi
+    def make_payment_deposit(self):
+        payment = self.env['account.payment'].sudo(self.env.user.id)
+        action = {
+            'name': 'Deposits',
+            'type': 'ir.actions.act_window',
+            'res_model': payment._name,
+            'views': [[False, 'tree'], [False, 'form']],
+            'domain': [['reservation_id', '=', self.id]],
+            'context': {
+                'default_reservation_id': self.id,
+                'default_payment_type': 'inbound',
+                'default_partner_type': 'customer',
+                'default_partner_id': self.partner_id.id,
+                'default_amount': self.amount_total
+            }
+        }
+        if not payment.search([('reservation_id', '=', self.id)]):
+            # There is no payment made agaist this folio. we need to make new deposit.
+            return action
+        action.update(res_id=self.id)
+        return action
 
     @api.multi
     def unlink(self):
@@ -135,7 +147,7 @@ class Reservation(models.Model):
     @api.multi
     def reservation(self):
         for rec in self:
-            for room in rec.reserved_room_ids:
+            for room in rec.reservation_line_ids:
                 room.write({'status': 'reserved'})
             rec.write({'state': 'reserve'})
 

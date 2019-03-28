@@ -7,4 +7,4 @@ class AccountPayment(models.Model):
 
     _inherit = 'account.payment'
 
-    folio_id = fields.Many2one(comodel_name='hotel.folio', string='Folio')
+    reservation_id = fields.Many2one(comodel_name='hotel.reservation', string='Reservation')

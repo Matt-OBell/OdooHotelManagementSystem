@@ -1,16 +1,14 @@
 # See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Hotel Reservation Management',
-    'author': 'Serpent Consulting Services Pvt. Ltd., Mattobell Nigeria Ltd, OpenERP SA',
+    'name': 'Reservation',
+    'author': 'Mattobell Nigeria Ltd, OpenERP SA',
     'category': 'Generic Modules/Hotel Reservation',
     'website': 'http://www.mattobell.com',
     'depends': [
         'hotel',
-        'stock',
-        'mail'
     ],
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'demo': [
     ],
     'data': [

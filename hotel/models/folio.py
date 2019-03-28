@@ -177,7 +177,6 @@ class Folio(models.Model):
     def _compute_room_price(self):
         for record in self:
             record.price = record.room_id.total_price * record.duration
-            print(record.room_id.total_price * record.duration, '********************')
 
 
     @api.multi

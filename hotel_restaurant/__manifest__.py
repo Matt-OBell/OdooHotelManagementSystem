@@ -23,5 +23,5 @@
         'views/hotel_restaurant_view.xml',
     ],
     'images': ['static/description/HotelRestaurant.png'],
-    'installable': False
+    'installable': True
 }

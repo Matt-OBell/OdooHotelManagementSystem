@@ -9,10 +9,10 @@
                 <header>
                     <button name="send_reservation_maill" type="object"
                         string="Send Reservation Email" states="reserve" class="oe_highlight" />
-                    <button name="reservation" string="Reservation"
+                    <button name="reservation" string="Make Reservation"
                         states="draft" class="oe_highlight" type="object" />
-                    <button name="folio" string="Generate Folio" states="reserve"
-                        class="oe_highlight" type="object" />
+                    <!-- <button name="folio" string="Generate Folio" states="reserve"
+                        class="oe_highlight" type="object" /> -->
                     <button name="cancel" string="Cancel"
                         states="draft,reserve" class="oe_highlight" type="object" />
                     <button name="set_to_draft_reservation" string="Set to Draft"
@@ -20,49 +20,42 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <div class="oe_right oe_button_box">
+                            <button name="make_payment_deposit" icon="fa-hashtag" class="oe_stat_button" type="object">
+                                <field name="payment_deposits" widget="monetary"/>
+                            </button>
+                        </div>
                     <h1>
-                        <field name="name" class="oe_inline" attrs="{'invisible': ['|', ('name', '=', False)]}" readonly="1"/>
-                    </h1>
-                    <group>
                         <h1><label for="partner_id" string="Profile"/></h1>
                         <field name="partner_id" domain="[('customer','=',True)]"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        
-                        <group>
-                            <field name="arrival" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="adults" required="1"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        </group>
-                        <group>
-                            <field name="departure"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="children"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        </group>
-                    </group>
+                    </h1>
                     <group>
-                            <group>
-                                <field name="pricelist_id"/>
-                                <field name="night" string="Night"/>
-                                <field name="guest_company_id" domain="[('parent_id','=',partner_id)]" />
-                            </group>
-                            <group>
-                                <field name="number_of_rooms" required="1"/>
-                                <field name="folio_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('state', '!=', 'done')]}"/>
-                            </group>
+                        <field name="name" class="oe_inline" attrs="{'invisible': ['|', ('name', '=', False)]}" readonly="1"/>
+                        <field name="night" string="Night"/>
+                        <field name="number_of_rooms" required="1"/>
+                        <field name="folio_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('state', '!=', 'done')]}"/>
                     </group>
                     <notebook>
                         <page string='Reservation Line'>
-                            <field name="reserved_room_ids"  attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <field name="reservation_line_ids"  attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
-                                    <field name="name" string="Rooms"/>
-                                    <field name="total_price" string="Rate/Room"/>
-                                    <!-- <field name="categ_id" string="Category" readonly="1"/>
-                                    <field name="capacity" string="Capacity" readonly="1"/> -->
+                                    <field name="room_id" string="Room"/>
+                                    <field name="arrival" string="Arrival"/>
+                                    <field name="departure" string="Departure"/>
+                                    <field name="adults" string="Adults"/>
+                                    <field name="children" string="Children"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="amount_total" class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
-                        <page string='History'>
-                            <field name='folio_id' readonly='1' />
+                        <page string='Other Information'>
+                            <group>
+                                <field name='folio_id' readonly='1' />
+                                <field name="pricelist_id"/>
+                                <field name="guest_company_id" domain="[('parent_id','=',partner_id)]" />
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
@@ -79,39 +72,12 @@
                 colors="blue:state == 'draft';gray:state == 'done';lightgray:state == 'cancel';">
                 <field name="name" />
                 <field name="partner_id" />
-                <field name="arrival" />
-                <field name="departure" />
                 <field name="state" />
+                <field name="number_of_rooms"/>
             </tree>
         </field>
     </record>
 
-    <!-- Search view of hotel reservation -->
-    <record id="view_hotel_reservation_search" model="ir.ui.view">
-        <field name="name">hotel.reservation.search</field>
-        <field name="model">hotel.reservation</field>
-        <field name="arch" type="xml">
-            <search string="Reservation">
-                <filter string="Current Reservations"
-                    domain="[('departure','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('arrival','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
-                    help="Current Reservations" />
-                <filter domain="[('state','=','draft')]" string="Draft" />
-                <filter domain="[('state','=','confirm')]" string="Confirm" />
-                <filter domain="[('state','=','cancel')]" string="Cancel" />
-                <filter domain="[('state','=','done')]" string="Done" />
-                <field name="partner_id" />
-                <field name="name" />
-                <field name="arrival" />
-                <field name="departure" />
-                <field name="state" />
-                <newline />
-                <group expand="0" string="Group By">
-                    <filter name="partner_id" string="Guest Name" icon="terp-personal"
-                        domain="[]" context="{'group_by':'partner_id'}" />
-                </group>
-            </search>
-        </field>
-    </record>
 
     <!-- Graph view of hotel reservation -->
     <record id="view_hotel_reservation_graph" model="ir.ui.view">
